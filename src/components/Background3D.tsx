@@ -7,13 +7,60 @@ import Plane from "./Plane";
 import Sky from "./Sky";
 import Effects from "./Effects";
 import MouseControls from "./MouseControls";
-import { DoubleSide, Color } from "three";
+import {
+	Color,
+	DoubleSide,
+	LinearToneMapping,
+	WebGLRenderer,
+} from "three";
 import { useBoundStore, useMobileStore } from "../store";
 import { MobileContext } from "./OS";
 import { Throbber } from "./Throbber";
 
 const SEED = Math.round((Math.random() * 2 - 1) * 1000);
 const TRIANGLE_COLOR = new Color(Colors.blueAccent).multiplyScalar(20);
+
+function createBackgroundGl(
+	canvas: HTMLCanvasElement | OffscreenCanvas,
+): WebGLRenderer {
+	if (!("getContext" in canvas) || typeof canvas.getContext !== "function") {
+		const renderer = new WebGLRenderer({ canvas: canvas as never });
+		renderer.toneMapping = LinearToneMapping;
+		renderer.toneMappingExposure = 2.0;
+		return renderer;
+	}
+	const ctx = canvas.getContext("webgl2", {
+		alpha: false,
+		depth: false,
+		stencil: false,
+		antialias: true,
+		premultipliedAlpha: true,
+		preserveDrawingBuffer: false,
+		powerPreference: "high-performance",
+		failIfMajorPerformanceCaveat: false,
+	});
+	if (!ctx) {
+		const renderer = new WebGLRenderer({ canvas: canvas as HTMLCanvasElement });
+		renderer.toneMapping = LinearToneMapping;
+		renderer.toneMappingExposure = 2.0;
+		return renderer;
+	}
+	const renderer = new WebGLRenderer({
+		canvas: canvas as HTMLCanvasElement,
+		context: ctx,
+		alpha: false,
+		depth: false,
+		stencil: false,
+		antialias: false,
+		premultipliedAlpha: true,
+		preserveDrawingBuffer: false,
+		powerPreference: "high-performance",
+		failIfMajorPerformanceCaveat: false,
+	});
+	renderer.toneMapping = LinearToneMapping;
+	renderer.toneMappingExposure = 2.0;
+	return renderer;
+}
 const Background3D: React.FC = () => {
 	const isMobile = useContext(MobileContext);
 	const windowCovering =
@@ -33,17 +80,14 @@ const Background3D: React.FC = () => {
 				</p>
 			}
 			frameloop={windowCovering || windowMaximized ? "demand" : "always"}
-			gl={{
-				alpha: false,
-				depth: false,
-			}}
+			gl={createBackgroundGl}
 		>
 			<directionalLight
 				position={[0, 50, 50]}
 				color={Colors.whitePrimary}
-				intensity={0.3}
+				intensity={2.5}
 			/>
-			<ambientLight color="grey" intensity={0.4} />
+			<ambientLight color="grey" intensity={0.7} />
 			<PerspectiveCamera fov={50} position={[0, 0, 6]} near={1} makeDefault />
 			<MouseControls />
 			<Effects />

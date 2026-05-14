@@ -53,15 +53,7 @@ const Plane: React.FC<PlaneProps> = ({ seed }) => {
         fragmentShader={fragmentShader}
         vertexShader={vertexShader}
         uniforms={uniforms}
-        extensions={{
-          derivatives: true,
-          fragDepth: false,
-          drawBuffers: false,
-          shaderTextureLOD: false,
-          clipCullDistance: false,
-        }}
         transparent
-        toneMapped={false}
       />
     </mesh>
   );

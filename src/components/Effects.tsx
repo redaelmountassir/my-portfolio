@@ -4,15 +4,19 @@ import {
   ChromaticAberration,
   EffectComposer,
 } from "@react-three/postprocessing";
+import { AdditiveBlending } from "three";
 
 const Effects: React.FC = () => {
   return (
     <EffectComposer multisampling={0}>
       <Bloom
-        intensity={0.2}
+        intensity={.85}
         luminanceThreshold={0.2}
-        width={512}
-        height={512}
+        resolutionX={512}
+        resolutionY={512}
+        mipmapBlur
+        radius={0.5}
+        blendFunction={AdditiveBlending}
       />
       <ChromaticAberration radialModulation={false} modulationOffset={0} />
     </EffectComposer>

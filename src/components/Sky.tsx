@@ -11,7 +11,7 @@ interface SkyProps {
 }
 
 const SUN_COLOR = new Color(Colors.pinkAccent).multiplyScalar(2);
-const SUN_COLOR_2 = new Color(Colors.yellowAccent);
+const SUN_COLOR_2 = new Color(Colors.yellowAccent).multiplyScalar(.8);
 const SKY_COLOR = new Color(Colors.blueAccent).multiplyScalar(0.6);
 const NEBULA_COLOR = new Color(Colors.blueAccent);
 const GROUND_COLOR = new Color(Colors.blackPrimary);

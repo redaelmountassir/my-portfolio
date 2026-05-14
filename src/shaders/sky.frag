@@ -79,4 +79,6 @@ void main() {
     vec3 sky = mix(groundColor, mix(mix(skyColor, nebulaColor, 0.5 * (1.0 - nebulaMask)), vec3(1.0), starMask), h);
 
     gl_FragColor = vec4(mix(sky, mix(sunColor, sunColor2, h), sunMask), 1.0);
+    #include <tonemapping_fragment>
+    #include <colorspace_fragment>
 }

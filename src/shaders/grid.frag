@@ -30,4 +30,6 @@ void main() {
     light = min(light, 1.0);
 
     gl_FragColor = vec4(mix(color, mix(lineColor, lightColor, light), grid), falloff);
+    #include <tonemapping_fragment>
+    #include <colorspace_fragment>
 }

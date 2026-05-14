@@ -7,14 +7,15 @@ import { Window } from "../store/types";
 import { useFrame } from "@react-three/fiber";
 import { createGlitchMat } from "../shaders/glitchMat";
 import { randRange } from "../utils";
+import { Mesh } from "three";
 
 type GLTFResult = GLTF & {
   nodes: {
-    bust: THREE.Mesh;
-    phone: THREE.Mesh;
-    computer: THREE.Mesh;
-    logo: THREE.Mesh;
-    pen: THREE.Mesh;
+    bust: Mesh;
+    phone: Mesh;
+    computer: Mesh;
+    logo: Mesh;
+    pen: Mesh;
   };
 };
 

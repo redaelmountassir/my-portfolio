@@ -183,7 +183,7 @@ export const MediaViewer = () => {
 						innerClass="w-full content-center mb-8 font-bold uppercase tracking-[1em]"
 						className="relative !h-auto w-10 shrink-0 border-2 border-white-primary bg-white-primary text-black-primary"
 					>
-						{title} ♦️♣♠♥
+						{title} ♦♣♠♥
 					</ScrollMarquee>
 					<div className="relative flex flex-grow flex-wrap gap-4 overflow-hidden border-2 border-white-primary bg-black-primary p-24 px-6 text-white-primary md:p-32 md:px-6">
 						<GlitchText

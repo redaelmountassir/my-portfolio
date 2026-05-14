@@ -5,15 +5,15 @@ import { Colors } from "../utils";
 import { useFrame } from "@react-three/fiber";
 import { motion } from "framer-motion-3d";
 import introImg from "../images/intro.jpg";
-import { MeshStandardMaterial, NearestFilter } from "three";
+import { Mesh, MeshPhongMaterial, MeshStandardMaterial, NearestFilter, RectAreaLight, SRGBColorSpace, Texture } from "three";
 
 type GLTFResult = GLTF & {
   nodes: {
-    plant: THREE.Mesh;
-    vase: THREE.Mesh;
-    headphones: THREE.Mesh;
-    macintosh: THREE.Mesh;
-    screen: THREE.Mesh;
+    plant: Mesh;
+    vase: Mesh;
+    headphones: Mesh;
+    macintosh: Mesh;
+    screen: Mesh;
   };
 };
 
@@ -22,10 +22,11 @@ const mat = new MeshStandardMaterial({
 });
 export function Desk(props: JSX.IntrinsicElements["group"]) {
   const { nodes } = useGLTF("/models/desk.glb") as unknown as GLTFResult;
-  const light = useRef<THREE.RectAreaLight>(null);
-  const screen = useRef<THREE.MeshPhongMaterial>(null);
-  const screenTex = useTexture(introImg) as THREE.Texture;
+  const light = useRef<RectAreaLight>(null);
+  const screen = useRef<MeshPhongMaterial>(null);
+  const screenTex = useTexture(introImg) as Texture;
   screenTex.minFilter = NearestFilter;
+  screenTex.colorSpace = SRGBColorSpace;
 
   useFrame((state) => {
     if (!light.current || !screen.current) return;

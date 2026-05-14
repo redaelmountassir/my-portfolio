@@ -98,6 +98,9 @@ importers:
       three:
         specifier: ^0.184.0
         version: 0.184.0
+      three-stdlib:
+        specifier: ^2.36.1
+        version: 2.36.1(three@0.184.0)
       zustand:
         specifier: ^4.3.9
         version: 4.5.7(@types/react@18.3.28)(immer@9.0.21)(react@18.3.1)
@@ -114,6 +117,9 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.6
         version: 18.3.7(@types/react@18.3.28)
+      '@types/three':
+        specifier: 0.184.1
+        version: 0.184.1
       babel-preset-gatsby:
         specifier: ^3.13.2
         version: 3.16.0(@babel/core@7.29.0)(core-js@3.49.0)
