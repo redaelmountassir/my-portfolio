@@ -30,7 +30,7 @@ const Showcase: React.FC<{
 			alt={`Showcase for project`}
 			image={img}
 			className={classes}
-			imgClassName="!transition-none !relative"
+			imgClassName="!transition-none !relative group-hover:scale-150"
 			objectFit="cover"
 		/>
 	);

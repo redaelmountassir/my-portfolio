@@ -20,7 +20,7 @@
 		"@react-three/drei": "^9.80.3",
 		"@react-three/fiber": "^8.13.5",
 		"@react-three/postprocessing": "^2.15.0",
-		"autoprefixer": "^10.4.14",
+		"@tailwindcss/postcss": "^4.3.0",
 		"framer-motion": "^10.12.21",
 		"framer-motion-3d": "^10.16.0",
 		"gatsby": "^5.11.0",
@@ -31,7 +31,6 @@
 		"gatsby-plugin-minify": "^0.5.0",
 		"gatsby-plugin-offline": "^6.11.0",
 		"gatsby-plugin-postcss": "^6.11.0",
-		"gatsby-plugin-purgecss": "^6.2.1",
 		"gatsby-plugin-robots-txt": "^1.8.0",
 		"gatsby-plugin-sharp": "^5.11.0",
 		"gatsby-source-filesystem": "^5.11.0",
@@ -44,7 +43,7 @@
 		"react-dom": "^18.2.0",
 		"screenfull": "^6.0.2",
 		"simplex-noise": "^4.0.1",
-		"tailwindcss": "^3.3.2",
+		"tailwindcss": "^4.3.0",
 		"three": "^0.184.0",
 		"three-stdlib": "^2.36.1",
 		"zustand": "^4.3.9"
@@ -59,7 +58,7 @@
 		"gatsby-plugin-perf-budgets": "^0.0.18",
 		"gatsby-plugin-webpack-bundle-analyser-v2": "^1.1.32",
 		"prettier": "^3.2.5",
-		"prettier-plugin-tailwindcss": "^0.5.11",
+		"prettier-plugin-tailwindcss": "^0.8.0",
 		"typescript": "^5.1.6"
 	}
 }

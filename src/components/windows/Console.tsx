@@ -101,10 +101,10 @@ cat: prints out the contents of a text file
                 `;
 				break;
 			case "shutdown":
-				const delay = parseFloat(parts[1] ?? "") * 1000;
+				const delay = parseFloat(parts[1] ?? "");
 				isNaN(delay)
 					? settings.shutdown()
-					: setTimeout(settings.shutdown, delay);
+					: setTimeout(settings.shutdown, delay * 1000);
 				executed.text = `Shutting down ${
 					isNaN(delay) ? "now." : `in ${delay} seconds.`
 				}`;
@@ -285,7 +285,7 @@ In the interim, enjoy this cat!
 
 	return (
 		<p
-			className="flicker pointer-events-none relative flex-1 overflow-y-auto overflow-x-hidden whitespace-break-spaces break-all bg-black-primary p-2 pb-[10%] text-sm text-white-primary [text-shadow:_0_0_1rem_#f5f9ff9c] md:pointer-events-auto"
+			className="flicker pointer-events-none relative flex-1 overflow-y-auto overflow-x-hidden whitespace-break-spaces break-all bg-black-primary p-2 pb-[10%] text-sm text-white-primary [text-shadow:0_0_1rem_#f5f9ff9c] md:pointer-events-auto"
 			ref={consoleRef}
 			onPointerUp={(e) => {
 				e.preventDefault();
@@ -299,13 +299,13 @@ In the interim, enjoy this cat!
 						<span
 							className={`${noWrap && "whitespace-pre"} ${
 								mod === "Error" &&
-								`text-burgundy-accent [text-shadow:_0_0_1rem_#920075]`
+								`text-burgundy-accent [text-shadow:0_0_1rem_#920075]`
 							} ${
 								mod === "Warning" &&
-								`text-yellow-accent [text-shadow:_0_0_1rem_#f9c80e]`
+								`text-yellow-accent [text-shadow:0_0_1rem_#f9c80e]`
 							} ${
 								mod === "Success" &&
-								`text-blue-accent [text-shadow:_0_0_1rem_#023788]`
+								`text-blue-accent [text-shadow:0_0_1rem_#023788]`
 							}`}
 						>
 							{text}

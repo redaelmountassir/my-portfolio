@@ -36,7 +36,7 @@ const MobileTaskbar = memo(() => {
 				}}
 			>
 				<div
-					className={`relative flex from-black-primary/75 from-25% to-dark-primary/75 to-70% text-white outline-2 outline-white-primary ${(!windowOpen || menuOpen) && "bg-gradient-to-r outline"}`}
+					className={`relative flex from-black-primary/75 from-25% to-dark-primary/75 to-70% text-white outline-2 outline-white-primary ${(!windowOpen || menuOpen) && "bg-linear-to-r"}`}
 				>
 					<button
 						className="flex grow justify-center short:py-2"

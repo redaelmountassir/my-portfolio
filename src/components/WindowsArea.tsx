@@ -73,7 +73,7 @@ const WindowsArea = () => {
   return (
     <div
       ref={windowsAreaRef}
-      className={`pointer-events-none absolute z-0 h-full w-full ${isMobile ? "top-0" : "top-14 border-b-[56px]"}`}
+      className={`pointer-events-none absolute z-0 h-full w-full ${isMobile ? "top-0" : "top-14 border-b-56"}`}
     >
       <AnimatePresence>
         {isMobile && menuOpen && (

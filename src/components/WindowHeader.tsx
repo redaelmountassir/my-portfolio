@@ -28,7 +28,7 @@ const WindowHeader: React.FC<WindowHeaderProps> = ({
           !maximized && "cursor-grab"
         }`}
       >
-        <h3 className="grow select-none overflow-hidden overflow-ellipsis whitespace-nowrap px-1 text-center text-lg">
+        <h3 className="grow select-none overflow-hidden text-ellipsis whitespace-nowrap px-1 text-center text-lg">
           {title}
         </h3>
         <button

@@ -29,7 +29,7 @@ const Clock: React.FC<{ now?: Date }> = ({ now }) => {
           y="13.5"
           transform={`rotate(${(hrHand / 43200) * 360 + 180})`}
           transform-origin="16 15.5"
-          className="drop-shadow-[1px_1px_0_rgb(0_0_0_/_0.1)]"
+          className="drop-shadow-[1px_1px_0_rgb(0_0_0/0.1)]"
         />
         <rect
           fill={Colors.whitePrimary}
@@ -39,7 +39,7 @@ const Clock: React.FC<{ now?: Date }> = ({ now }) => {
           y="13.5"
           transform={`rotate(${minHand * 0.1 + 180})`}
           transform-origin="16 15.5"
-          className="drop-shadow-[1px_1px_0_rgb(0_0_0_/_0.1)]"
+          className="drop-shadow-[1px_1px_0_rgb(0_0_0/0.1)]"
         />
         <rect
           fill={Colors.pinkAccent}

@@ -110,7 +110,7 @@ const ContentEditable: React.FC<ContentEditableProps> = memo((props) => {
           onFocus={() => display.set("block")}
           onBlur={() => display.set("none")}
         >
-          <motion.div className="-translate-x-1/2 -translate-y-[300%] divide-x-2 divide-white-primary border-2 border-white-primary bg-black-primary">
+          <motion.div className="-translate-x-1/2 translate-y-[-300%] divide-x-2 divide-white-primary border-2 border-white-primary bg-black-primary">
             <button
               className="w-8 py-1 text-center font-bold transition ease-steps2 hover:bg-white-primary hover:text-black-primary"
               type="button"

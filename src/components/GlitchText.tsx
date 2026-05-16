@@ -70,7 +70,10 @@ const GlitchText: React.FC<GlitchTextProps> = memo(
           iterations.current = 0;
         }
 
-        return () => clearInterval(interval.current);
+        return () => {
+          clearInterval(interval.current);
+          interval.current = undefined;
+        };
       },
       onLoad || onScroll ? [text.current] : [animated, text.current],
     );

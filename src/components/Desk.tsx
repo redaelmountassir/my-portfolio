@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import { useGLTF, useTexture } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { Colors } from "../utils";
+import { disposeLoadedGltfTextures } from "../utils/disposeGltfSceneMaterials";
 import { useFrame } from "@react-three/fiber";
 import { motion } from "framer-motion-3d";
 import introImg from "../images/intro.jpg";
@@ -21,7 +22,11 @@ const mat = new MeshStandardMaterial({
   color: Colors.blackPrimary,
 });
 export function Desk(props: JSX.IntrinsicElements["group"]) {
-  const { nodes } = useGLTF("/models/desk.glb") as unknown as GLTFResult;
+  const gltf = useGLTF("/models/desk.glb") as unknown as GLTFResult;
+  const { nodes } = gltf;
+  useLayoutEffect(() => {
+    disposeLoadedGltfTextures("/models/desk.glb", gltf.scene);
+  }, [gltf.scene]);
   const light = useRef<RectAreaLight>(null);
   const screen = useRef<MeshPhongMaterial>(null);
   const screenTex = useTexture(introImg) as Texture;

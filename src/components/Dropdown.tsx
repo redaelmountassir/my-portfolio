@@ -108,7 +108,7 @@ export const Dropdown: React.FC<DropdownProps> = memo((props) => {
         {children}
       </button>
       <motion.div
-        className={`absolute -z-10 border-2 border-t-0 border-white-primary bg-gradient-to-r from-black-primary/75 from-25% to-dark-primary/75 to-70% backdrop-blur ${
+        className={`absolute -z-10 border-2 border-t-0 border-white-primary bg-linear-to-r from-black-primary/75 from-25% to-dark-primary/75 to-70% backdrop-blur-sm ${
           !open && "pointer-events-none"
         } ${!noPadding && "p-4"} ${dClassName}`}
         style={alignmentStyle}

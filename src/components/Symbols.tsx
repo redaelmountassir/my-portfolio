@@ -1,8 +1,14 @@
-import React, { startTransition } from "react";
+import React, {
+  startTransition,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { Float, useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { useBoundStore } from "../store";
-import { useEffect, useRef, useState } from "react";
+import { disposeLoadedGltfTextures } from "../utils/disposeGltfSceneMaterials";
 import { Window } from "../store/types";
 import { useFrame } from "@react-three/fiber";
 import { createGlitchMat } from "../shaders/glitchMat";
@@ -43,7 +49,11 @@ const symbolMat = createGlitchMat();
 export const Symbols: React.FC<React.JSX.IntrinsicElements["group"]> = (
   props,
 ) => {
-  const { nodes } = useGLTF("/models/symbols.glb") as unknown as GLTFResult;
+  const gltf = useGLTF("/models/symbols.glb") as unknown as GLTFResult;
+  const { nodes } = gltf;
+  useLayoutEffect(() => {
+    disposeLoadedGltfTextures("/models/symbols.glb", gltf.scene);
+  }, [gltf.scene]);
 
   const data = useRef<{ timeout?: NodeJS.Timeout; glitching: boolean }>({
     glitching: false,

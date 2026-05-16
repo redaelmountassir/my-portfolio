@@ -1,7 +1,12 @@
 import infoImg from "../images/info.png";
 import shapeGif from "../images/icohedron.gif";
-import { AnimationScope, motion, Transition } from "framer-motion";
-import { useContext, useMemo, useRef } from "react";
+import {
+	animate,
+	DynamicAnimationOptions,
+	motion,
+	type AnimationScope,
+} from "framer-motion";
+import { useContext, useEffect, useMemo, useRef } from "react";
 import { File } from "../store/types";
 import React from "react";
 import { MobileContext } from "./OS";
@@ -13,21 +18,24 @@ import throbberGif from "../images/throbber.gif";
 
 interface MainShowcaseProps {
 	file: File;
-	scrollContainer: AnimationScope<any>;
+	scrollContainer: AnimationScope<HTMLDivElement>;
 	inTop: boolean;
 	skipSection?: React.MouseEventHandler<HTMLDivElement>;
 }
 
-const transition: Transition = {
+const TOTAL_DURATION = 0.75;
+const HALF_DURATION = TOTAL_DURATION / 2;
+
+const desktopHalf: DynamicAnimationOptions  = {
+	duration: HALF_DURATION,
 	ease: ease25Steps,
-	duration: 0.75,
-	type: "tween",
+	type: "tween" as const,
 };
 
-const mobileTransition: Transition = {
+const mobileHalf: DynamicAnimationOptions = {
+	duration: HALF_DURATION,
 	ease: ease5Steps,
-	duration: 0.75,
-	type: "tween",
+	type: "tween" as const,
 };
 
 const MainShowcase: React.FC<MainShowcaseProps> = ({
@@ -41,7 +49,6 @@ const MainShowcase: React.FC<MainShowcaseProps> = ({
 
 	const isMobile = useContext(MobileContext);
 
-	// Title anim
 	const titleAnimated = useMemo<React.JSX.Element[]>(
 		() =>
 			file.name.split("_").map((str, i) => (
@@ -65,7 +72,7 @@ const MainShowcase: React.FC<MainShowcaseProps> = ({
 					</motion.span>
 				</span>
 			)),
-		[file.name],
+		[file.name, scrollContainer],
 	);
 
 	const maskUnsupported = useMemo(
@@ -78,84 +85,106 @@ const MainShowcase: React.FC<MainShowcaseProps> = ({
 	);
 
 	const mainShowcaseRef = useRef<HTMLDivElement>(null);
+	const playbackRef = useRef<ReturnType<typeof animate> | null>(null);
+	const prevInTopRef = useRef(inTop);
+
+	useEffect(() => {
+		const el = mainShowcaseRef.current;
+		if (!el) return;
+
+		const prevInTop = prevInTopRef.current;
+		prevInTopRef.current = inTop;
+		if (prevInTop === inTop) return;
+
+		let cancelled = false;
+		const useClip = isMobile || maskUnsupported;
+
+		const clearInlineMask = () => {
+			el.style.maskImage = "";
+			el.style.webkitMaskImage = "";
+		};
+
+		const applyMidLayout = () => {
+			el.style.position = inTop ? "absolute" : "relative";
+			if (!useClip) {
+				const size = inTop ? "100% 2600%" : "200% 2600%";
+				el.style.maskSize = size;
+				el.style.webkitMaskSize = size;
+			}
+		};
+
+		const finishDesktopMask = () => {
+			if (useClip) return;
+			el.style.maskImage = "none";
+			el.style.webkitMaskImage = "none";
+		};
+
+		const run = async () => {
+			clearInlineMask();
+			
+			const out = useClip ? animate(
+				el,
+				{ clipPath: ["inset(0 0% 0 0)", "inset(0 100% 0 0)"] },
+				mobileHalf,
+			) : animate(
+				el,
+				{
+					maskPosition: ["0 0%", "0 100%"],
+					webkitMaskPosition: ["0 0%", "0 100%"],
+				},
+				desktopHalf,
+			);
+			playbackRef.current = out;
+			await out;
+
+			if (cancelled) return;
+			applyMidLayout();
+
+			const inn = useClip ? animate(
+				el,
+				{ clipPath: ["inset(0 100% 0 0)", "inset(0 0% 0 0)"] },
+				mobileHalf,
+			) : animate(
+				el,
+				{
+					maskPosition: ["0 100%", "0 0%"],
+					webkitMaskPosition: ["0 100%", "0 0%"],
+				},
+				desktopHalf,
+			);
+			playbackRef.current = inn;
+			await inn;
+			
+			if (cancelled || useClip) return;
+			finishDesktopMask();
+		};
+
+		run();
+
+		return () => {
+			cancelled = true;
+			playbackRef.current?.stop();
+			playbackRef.current = null;
+		};
+	}, [inTop, isMobile, maskUnsupported]);
 
 	return (
 		<div className="sticky top-0 mb-14 flex gap-4 md:top-12">
 			<div className="z-10 min-w-0 basis-0 md:flex-1">
 				<motion.div
 					ref={mainShowcaseRef}
-					initial={`${isMobile || maskUnsupported ? "mobile" : ""}Top`}
-					animate={`${isMobile || maskUnsupported ? "mobile" : ""}${inTop ? "Top" : "Bottom"}`}
-					variants={{
-						Top: {
-							maskPosition: ["0 0%", "0 100%", "0 0%"],
-							WebkitMaskPosition: ["0 0%", "0 100%", "0 0%"],
-							z: [0, 1],
-							transition,
-						},
-						Bottom: {
-							maskPosition: ["0 0%", "0 100%", "0 0%"],
-							WebkitMaskPosition: ["0 0%", "0 100%", "0 0%"],
-							z: [0, 1],
-							transition,
-						},
-						mobileTop: {
-							clipPath: [
-								"inset(0 0% 0 0)",
-								"inset(0 100% 0 0)",
-								"inset(0 0% 0 0)",
-							],
-							z: [0, 1],
-							transition: mobileTransition,
-						},
-						mobileBottom: {
-							clipPath: [
-								"inset(0 0% 0 0)",
-								"inset(0 100% 0 0)",
-								"inset(0 0% 0 0)",
-							],
-							z: [0, 1],
-							transition: mobileTransition,
-						},
-					}}
-					onUpdate={({ z }) => {
-						if (!mainShowcaseRef.current) return;
-
-						// Z is not actually being animated
-						// just a value I'm using to hackily get the progress of an animation
-						const time = z as number;
-						if (time >= 0.5) {
-							const newPos = inTop ? "absolute" : "relative";
-							if (mainShowcaseRef.current.style.position === newPos) return;
-							mainShowcaseRef.current.style.position = newPos;
-							const newSize = inTop ? "100% 2500%" : "200% 2500%";
-							mainShowcaseRef.current.style.maskSize = newSize;
-							mainShowcaseRef.current.style.webkitMaskSize = newSize;
-						}
-						if (mainShowcaseRef.current.style.maskImage !== "") {
-							mainShowcaseRef.current.style.maskImage = "";
-							mainShowcaseRef.current.style.webkitMaskImage = "";
-						}
-					}}
-					onAnimationComplete={() => {
-						if (!mainShowcaseRef.current || isMobile || maskUnsupported) return;
-
-						// If you leave the mask, even on an all-white mask-image, it will still make it slightly see-through
-						mainShowcaseRef.current.style.maskImage = "none";
-						mainShowcaseRef.current.style.webkitMaskImage = "none";
-					}}
 					className="pixel-mask darken-bottom absolute h-full w-full cursor-none border-2 border-white-primary"
 				>
 					<img
 						src={throbberGif}
 						alt="Throbber"
-						className="absolute left-1/2 top-1/2 z-[1] w-16 -translate-x-1/2 -translate-y-1/2"
+						className="absolute left-1/2 top-1/2 z-1 w-16 -translate-x-1/2 -translate-y-1/2"
 					/>
 					<div className="absolute top-0 h-full w-full bg-black-primary" />
 					<Showcase src={projectData.showcases[0]} />
 					{!isMobile && <Follow />}
 					<div
-						className={`absolute right-6 top-6 z-20 animate-bounce cursor-pointer transition delay-1000 md:bottom-3 md:right-3 md:top-auto ${!inTop && "pointer-events-none opacity-0 !delay-0"}`}
+						className={`absolute right-6 top-6 z-20 animate-bounce cursor-pointer transition delay-1000 md:bottom-3 md:right-3 md:top-auto ${!inTop && "pointer-events-none opacity-0 delay-0!"}`}
 						onClick={skipSection}
 					>
 						<StaticImage
@@ -167,7 +196,7 @@ const MainShowcase: React.FC<MainShowcaseProps> = ({
 						/>
 					</div>
 				</motion.div>
-				<h3 className="dlig ss02 pointer-events-none absolute -bottom-12 left-7 hidden overflow-visible whitespace-nowrap font-display text-7xl uppercase leading-[0.95] shadow-black-primary/25 [text-shadow:_-5px_5px_5px_var(--tw-shadow-color)] md:inline">
+				<h3 className="dlig ss02 z-10 pointer-events-none absolute -bottom-12 left-7 hidden overflow-visible whitespace-nowrap font-display text-7xl uppercase leading-[0.95] shadow-black-primary/25 [text-shadow:-5px_5px_5px_var(--tw-shadow-color)] md:inline">
 					{titleAnimated}
 				</h3>
 			</div>

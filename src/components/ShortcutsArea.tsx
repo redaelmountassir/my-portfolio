@@ -105,7 +105,7 @@ const ShortcutsArea = memo(() => {
 
   return (
     <motion.ul
-      className="pointer-events-none absolute top-0 grid h-full w-full grid-cols-3 grid-rows-2 justify-items-center p-4 pb-24 pt-20 sm:!grid-cols-6 md:flex md:items-start md:pb-4 xs:grid-cols-5 short:grid-rows-3 average:grid-rows-4 tall:grid-rows-5"
+      className="pointer-events-none absolute top-0 grid h-full w-full grid-cols-3 grid-rows-2 justify-items-center p-4 pb-24 pt-20 sm:grid-cols-6! md:flex md:items-start md:pb-4 xs:grid-cols-5 short:grid-rows-3 average:grid-rows-4 tall:grid-rows-5"
       style={{ gridAutoRows: 0 }}
       variants={listVariants}
     >

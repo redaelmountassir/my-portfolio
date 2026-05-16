@@ -40,9 +40,9 @@ export const FileExplorer = () => {
 	);
 
 	return (
-		<div className="relative flex-1 grid-cols-3 overflow-y-auto overflow-x-hidden md:grid md:short:mt-[34px]">
+		<div className="relative flex-1 grid-cols-3 overflow-y-auto overflow-x-hidden md:grid short:md:mt-[34px]">
 			<Marquee
-				className="!sticky z-20 hidden overflow-hidden border-b-2 border-white-primary bg-yellow-accent md:!fixed md:top-10 short:block"
+				className="sticky! z-20 hidden overflow-hidden border-b-2 border-white-primary bg-yellow-accent md:fixed! md:top-10 short:block"
 				innerClass="text-black-primary text-md py-1 px-20 text-center whitespace-pre"
 				panTime={getWidth() / 15}
 				steps={250}
@@ -63,7 +63,7 @@ export const FileExplorer = () => {
 									&gt;
 								</span>
 								<GlitchText
-									className="block whitespace-nowrap transition-transform ease-steps2 group-hover:underline md:!no-underline md:group-hover:translate-x-4"
+									className="block whitespace-nowrap transition-transform ease-steps2 group-hover:underline md:no-underline! md:group-hover:translate-x-4"
 									animated={i === selected}
 									onComplete={() => i === selected && setSelected(-1)}
 								>
@@ -104,7 +104,7 @@ export const FileExplorer = () => {
 				</p>
 			) : (
 				<ul
-					className={`relative z-10 col-span-2 p-4 pb-12 md:pt-4 xs:px-6 short:pb-20 md:short:pb-4 ${tileMode ? "grid grid-cols-[repeat(auto-fill,minmax(min-content,100px))] grid-rows-[max-content] justify-around gap-2" : ""}`}
+					className={`relative z-10 col-span-2 p-4 pb-12 md:pt-4 xs:px-6 short:pb-20 short:md:pb-4 ${tileMode ? "grid grid-cols-[repeat(auto-fill,minmax(min-content,100px))] grid-rows-[max-content] justify-around gap-2" : ""}`}
 				>
 					{children.map((child) => (
 						<li key={child.name} className={tileMode ? "w-24" : "w-full"}>
@@ -142,7 +142,7 @@ const TrashBtn: React.FC<{ onClick: Function }> = ({ onClick }) => {
 	return (
 		<button
 			type="button"
-			className="ease-step fixed bottom-20 right-10 z-10 m-4 bg-gradient-to-r from-blue-accent to-pink-accent bg-double bg-left px-4 py-2 text-white-primary outline outline-2 outline-white-primary transition-all hover:bg-right active:scale-95 md:bottom-0"
+			className="ease-steps2 fixed bottom-20 right-10 z-10 m-4 bg-linear-to-r from-blue-accent to-pink-accent bg-double bg-left px-4 py-2 text-white-primary outline-2 outline-white-primary transition-all hover:bg-right active:scale-95 md:bottom-0"
 			onClick={() => {
 				playTrash();
 				onClick();

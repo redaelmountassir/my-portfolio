@@ -32,7 +32,7 @@ const Modifiers = () => {
       )}
       {scanlines && (
         <motion.div
-          className="pointer-events-none fixed bottom-0 z-50 box-content h-full w-full bg-gradient-to-b from-transparent via-black bg-[length:100%_10px] bg-repeat-y pt-3 opacity-5"
+          className="pointer-events-none fixed bottom-0 z-50 box-content h-full w-full bg-linear-to-b from-transparent via-black bg-size-[100%_10px] bg-repeat-y pt-3 opacity-5"
           initial={{ y: 0 }}
           animate={{ y: 10 }}
           transition={{
@@ -43,7 +43,7 @@ const Modifiers = () => {
         />
       )}
       {useFlicker && (
-        <div className="full-flicker pointer-events-none fixed top-0 z-50 h-full w-full bg-black bg-opacity-20" />
+        <div className="full-flicker pointer-events-none fixed top-0 z-50 h-full w-full bg-black/20" />
       )}
     </>
   );

@@ -131,7 +131,6 @@ const TextEditor = () => {
 	const [currentImg, setCurrentImg] = useState(randInt(0, imgs.length - 1));
 	const updateImg = () => setCurrentImg((old) => (old + 1) % imgs.length);
 	useInterval(updateImg, 20000);
-	console.log(getWidth());
 
 	return (
 		<>
@@ -214,14 +213,14 @@ const TextEditor = () => {
 							className="absolute bottom-0 right-0 hidden w-24 translate-x-1/3 -rotate-45 animate-blink sm:right-40 sm:block md:right-0"
 						/>
 					</div>
-					<h3 className="static top-16 z-10 mb-7 w-full origin-bottom-left whitespace-nowrap font-display text-7xl uppercase leading-[0.95] sm:!static sm:!rotate-0 sm:shadow-none xs:absolute xs:rotate-90 xs:shadow-black-primary">
+					<h3 className="static top-16 z-10 mb-7 w-full origin-bottom-left whitespace-nowrap font-display text-7xl uppercase leading-[0.95] sm:static! sm:rotate-0! sm:shadow-none xs:absolute xs:rotate-90 xs:shadow-black-primary">
 						<span className="hidden xs:inline">† </span>
 						<GlitchText onScroll scrollRoot={scrollContainer} decayRate={0.5}>
 							ABOUT
 						</GlitchText>
 					</h3>
 					<ContentEditable
-						className="min-h-96 resize-none border-y-0 border-r-0 border-white-primary bg-transparent leading-8 outline-none md:ml-5 md:border-l-2 md:pl-7"
+						className="min-h-96 resize-none border-y-0 border-r-0 border-white-primary bg-transparent leading-8 outline-hidden md:ml-5 md:border-l-2 md:pl-7"
 						value={text}
 						onUpdate={setText}
 					/>

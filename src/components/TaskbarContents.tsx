@@ -220,7 +220,7 @@ const TaskbarContents = () => {
 										key={path}
 										className={`origin-center scale-0 stroke-transparent transition ${
 											brightness >= ((arr.length - i) / arr.length) * 100 &&
-											"!scale-100 !stroke-white-primary"
+											"scale-100! stroke-white-primary!"
 										}`}
 										d={path}
 									/>
@@ -286,25 +286,25 @@ const TaskbarContents = () => {
 							/>
 							<path
 								className={`-translate-x-1 stroke-transparent transition ${
-									volume > 0 && "!translate-x-0 !stroke-white-primary"
+									volume > 0 && "translate-x-0! stroke-white-primary!"
 								}`}
 								d="M9 6h1M10 7h1M10 8h1M9 9h1"
 							/>
 							<path
 								className={`-translate-x-1 stroke-transparent transition ${
-									volume > 33.3 && "!translate-x-0 !stroke-white-primary"
+									volume > 33.3 && "translate-x-0! stroke-white-primary!"
 								}`}
 								d="M10 4h1M11 5h1M12 6h1M12 7h1M12 8h1M12 9h1M11 10h1M10 11h1"
 							/>
 							<path
 								className={`-translate-x-1 stroke-transparent transition ${
-									volume > 66.6 && "!translate-x-0 !stroke-white-primary"
+									volume > 66.6 && "translate-x-0! stroke-white-primary!"
 								}`}
 								d="M11 2h1M12 3h1M13 4h1M14 5h1M14 6h1M14 7h1M14 8h1M14 9h1M14 10h1M13 11h1M12 12h1M11 13h1"
 							/>
 							<path
 								className={`stroke-transparent transition ${
-									volume == 0 && "!stroke-white-primary"
+									volume == 0 && "stroke-white-primary!"
 								}`}
 								d="M11 6h1M15 6h1M12 7h1M14 7h1M13 8h1M12 9h1M14 9h1M11 10h1M15 10h1"
 							/>

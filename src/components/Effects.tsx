@@ -14,7 +14,6 @@ const Effects: React.FC = () => {
         luminanceThreshold={0.2}
         resolutionX={512}
         resolutionY={512}
-        mipmapBlur
         radius={0.5}
         blendFunction={AdditiveBlending}
       />

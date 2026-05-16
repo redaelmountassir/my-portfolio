@@ -22,9 +22,31 @@ const OS: React.FC = () => {
 	const tall = useBreakpointShort();
 	const isMobile = !wide || !tall;
 	const mainRef = React.useRef<HTMLDivElement>(null);
+	let ran = false;
 
 	//Updates global css properties
 	useEffect(() => {
+		if (ran) return;
+		ran = true;
+
+		console.log(`
+-------------------------------------------------------
+
+  ▄▄▄▄▄▄                        ▄▄▄▄▄▄▄▄    ▄▄▄▄▄   
+ █▀██▀▀▀█▄           █▄       ▄██▀▀▀▀▀▀██▄ ██▀▀▀▀█▄ 
+   ██▄▄▄█▀           ██       ██        ██ ▀██▄   
+   ██▀▀█▄   ▄█▀█▄ ▄████ ▄▀▀█▄ ██   ▀▀   ██   ▀██▄▄  
+ ▄ ██  ██   ██▄█▀ ██ ██ ▄█▀██ ██▄      ▄██ ▄   ▀██▄ 
+ ▀██▀  ▀██▀▄▀█▄▄▄▄█▀███▄▀█▄██  ▀████████▀  ▀██████▀ 
+
+-------------------------------------------------------
+
+Thank you for checking out my project in futher detail :).
+If the logo looks goofy ts, try resizing the window. Also,
+there may be some secrets hidden throughout the portfolio,
+though u didn't hear that from me... 
+		`)
+
 		const documentStyle = document.documentElement.style;
 		const updateVH = () =>
 			documentStyle.setProperty("--vh-full", `${window.innerHeight}px`);
@@ -65,6 +87,7 @@ const OS: React.FC = () => {
 				className={`relative h-screen w-screen overflow-hidden bg-black ${isMobile && "use-scrollbar"}`}
 				style={{ height: "var(--vh-full, 100vh)" }}
 				ref={mainRef}
+				id="invert-layer"
 			>
 				{ready &&
 					(introDone ? (
@@ -77,8 +100,8 @@ const OS: React.FC = () => {
 					) : (
 						<Intro onFinish={() => setIntroDone(true)} />
 					))}
-				<Modifiers />
 			</main>
+			<Modifiers />
 		</MobileContext.Provider>
 	);
 };

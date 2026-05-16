@@ -25,7 +25,7 @@ const Mail = () => {
 		<div className="flex flex-1 flex-col overflow-hidden border-white-primary pb-16 text-white-primary md:flex-row md:pb-0">
 			<ul
 				className={`flex shrink-0 overflow-hidden border-white-primary transition-all ease-steps2 md:block md:max-w-14 md:border-r-2 md:hover:max-w-60 md:hover:bg-black-primary ${
-					width > 1200 && "md:!max-w-60 md:!bg-black-primary"
+					width > 1200 && "md:max-w-60! md:bg-black-primary!"
 				} ${width < 400 && "md:hidden"}`}
 			>
 				<li className="grow">
@@ -76,7 +76,7 @@ const Mail = () => {
 					<h3 className="min-h-[59px] border-b-2 border-white-primary p-4 text-center font-bold">
 						Inbox
 					</h3>
-					<ul className="flex-grow overflow-y-auto">
+					<ul className="grow overflow-y-auto">
 						{"Let's Build Something Together".split(" ").map((val, i) => (
 							<li
 								key={val}
@@ -93,7 +93,7 @@ const Mail = () => {
 										inbox[i] && "bg-burgundy-accent"
 									}`}
 								/>
-								<span className="flex-1 overflow-hidden overflow-ellipsis">
+								<span className="flex-1 overflow-hidden text-ellipsis">
 									{val}
 								</span>
 								<span className="text-burgundy-accent">Feb {i + 27}</span>
@@ -114,7 +114,7 @@ const Mail = () => {
 			)}
 			<form
 				ref={scope}
-				className={`relative flex w-full flex-[3] flex-col gap-2 overflow-y-auto overflow-x-hidden bg-black-primary p-4 md:overflow-y-hidden ${
+				className={`relative flex w-full flex-3 flex-col gap-2 overflow-y-auto overflow-x-hidden bg-black-primary p-4 md:overflow-y-hidden ${
 					width < 600 && "text-sm"
 				}`}
 				onSubmit={(e) => {
@@ -183,7 +183,7 @@ const Mail = () => {
 				</div>
 				<div
 					id="email-container"
-					className="flex items-center whitespace-nowrap bg-gradient-to-r from-blue-accent/20 to-burgundy-accent/20 to-[65px] p-2  outline outline-2 outline-offset-8 outline-transparent transition-[outline] ease-steps2 hover:outline-offset-0 hover:outline-white-primary focus:outline-offset-0 focus:outline-white-primary"
+					className="flex items-center whitespace-nowrap bg-linear-to-r from-blue-accent/20 to-burgundy-accent/20 to-[65px] p-2  outline-2 outline-offset-8 outline-transparent transition-[outline] ease-steps2 hover:outline-offset-0 hover:outline-white-primary focus:outline-offset-0 focus:outline-white-primary"
 				>
 					<label className="inline-block" htmlFor="email">
 						From:
@@ -194,7 +194,7 @@ const Mail = () => {
 						type="email"
 						required
 						autoComplete="off"
-						className="flex-grow overflow-hidden overflow-ellipsis bg-transparent pl-4 outline-none"
+						className="grow overflow-hidden text-ellipsis bg-transparent pl-4 outline-hidden"
 					/>
 				</div>
 				<button
@@ -202,10 +202,10 @@ const Mail = () => {
 					onClick={() =>
 						navigator.clipboard.writeText("redaelmountassir0@gmail.com")
 					}
-					className="group relative flex items-center whitespace-nowrap bg-gradient-to-r from-blue-accent/20 to-burgundy-accent/20 to-[50px] p-2 outline outline-2 outline-offset-8 outline-transparent transition-[outline] ease-steps2 hover:outline-offset-0 hover:outline-white-primary focus:outline-offset-0 focus:outline-white-primary"
+					className="group relative flex items-center whitespace-nowrap bg-linear-to-r from-blue-accent/20 to-burgundy-accent/20 to-[50px] p-2 outline-2 outline-offset-8 outline-transparent transition-[outline] ease-steps2 hover:outline-offset-0 hover:outline-white-primary focus:outline-offset-0 focus:outline-white-primary"
 				>
 					<p className="inline-block">To:</p>
-					<span className="flex-grow overflow-hidden overflow-ellipsis pl-4 text-left">
+					<span className="grow overflow-hidden text-ellipsis pl-4 text-left">
 						redaelmountassir0@gmail.com
 						<span
 							className={`absolute pl-2 opacity-0 transition-opacity ease-steps2 group-hover:opacity-100 group-focus:opacity-0 ${
@@ -227,7 +227,7 @@ const Mail = () => {
 				</button>
 				<div
 					id="subject-container"
-					className="flex items-center whitespace-nowrap bg-gradient-to-r from-blue-accent/20 to-burgundy-accent/20 to-[65px] p-2  outline outline-2 outline-offset-8 outline-transparent transition-[outline] ease-steps2 hover:outline-offset-0 hover:outline-white-primary focus:outline-offset-0 focus:outline-white-primary"
+					className="flex items-center whitespace-nowrap bg-linear-to-r from-blue-accent/20 to-burgundy-accent/20 to-[65px] p-2  outline-2 outline-offset-8 outline-transparent transition-[outline] ease-steps2 hover:outline-offset-0 hover:outline-white-primary focus:outline-offset-0 focus:outline-white-primary"
 				>
 					<label className="inline-block" htmlFor="subject">
 						Subject:
@@ -237,14 +237,14 @@ const Mail = () => {
 						name="subject"
 						type="text"
 						required
-						className="flex-grow overflow-hidden overflow-ellipsis bg-transparent pl-4 outline-none"
+						className="grow overflow-hidden text-ellipsis bg-transparent pl-4 outline-hidden"
 					/>
 				</div>
 				<textarea
 					id="message-container"
 					name="message"
 					required
-					className="min-h-96 flex-grow resize-none overflow-hidden bg-transparent bg-gradient-to-r from-blue-accent/20 to-burgundy-accent/20 to-50% p-2 outline-none outline outline-2 outline-offset-8 outline-transparent transition-[outline] ease-steps2 hover:outline-offset-0 hover:outline-white-primary focus:overflow-y-auto focus:outline-offset-0 focus:outline-white-primary md:min-h-0"
+					className="min-h-96 grow resize-none overflow-hidden bg-transparent bg-linear-to-r from-blue-accent/20 to-burgundy-accent/20 to-50% p-2 outline-hidden outline-2 outline-offset-8 outline-transparent transition-[outline] ease-steps2 hover:outline-offset-0 hover:outline-white-primary focus:overflow-y-auto focus:outline-offset-0 focus:outline-white-primary md:min-h-0"
 				/>
 				{/* Honeypot */}
 				<input

@@ -18,7 +18,7 @@ const Tag: React.FC<TagProps> = ({ children, bg, className }) => {
   );
   return (
     <span
-      className={`whitespace-nowrap p-2 py-1 outline outline-2 outline-white-primary transition ease-steps2 hover:scale-125 hover:!bg-white-primary hover:text-black-primary ${className} ${
+      className={`whitespace-nowrap p-2 py-1 outline-2 outline-white-primary transition ease-steps2 hover:scale-125 hover:bg-white-primary! hover:text-black-primary ${className} ${
         bg && (bg == "random" ? randBg : "bg-white-primary text-black-primary")
       }`}
     >

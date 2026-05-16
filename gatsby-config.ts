@@ -107,24 +107,6 @@ const config: GatsbyConfig = {
 				policy: [{ userAgent: "*", allow: "/" }],
 			},
 		},
-		{
-			resolve: `gatsby-plugin-purgecss`,
-			options: {
-				printRejected: true, // Print removed selectors and processed file names
-				develop: true, // Enable while using `gatsby develop`
-				tailwind: true, // Enable tailwindcss support
-				purgeCSSOptions: {
-					safelist: [
-						"safelist",
-						"bg-[url('/bg_imgs/rainbow.png')]",
-						"bg-[url('/bg_imgs/stars.gif')]",
-						"bg-[url('/bg_imgs/tile.png')]",
-						/gatsby-image-wrapper$/,
-						/gatsby-image-wrapper-constrained$/,
-					],
-				},
-			},
-		},
 		"gatsby-plugin-minify",
 		"gatsby-plugin-offline",
 		`gatsby-plugin-perf-budgets`,

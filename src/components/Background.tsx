@@ -64,7 +64,7 @@ const Background: React.FC = () => {
 						src={triangleImg}
 						alt=""
 						draggable={false}
-						className="absolute left-1/2 top-1/2 w-96 -translate-x-1/2 -translate-y-[62%]  drop-shadow-[0_0_35px_#b1d7ef] filter"
+						className="absolute left-1/2 top-1/2 w-96 -translate-x-1/2 translate-y-[-62%] drop-shadow-[0_0_35px_#b1d7ef] filter"
 					/>
 					<StaticImage
 						src="../images/palm.png"
@@ -92,7 +92,7 @@ const Background: React.FC = () => {
 						placeholder="none"
 						style={{ clipPath: PALM_PATH }}
 						imgClassName="!transition-none"
-						className="invisible absolute -bottom-24 -right-10 origin-[35%_bottom] -rotate-12 scale-75 -scale-x-100  transition-transform duration-1000 ease-in-out hover:-rotate-6 md:visible"
+						className="invisible absolute -bottom-24 -right-10 origin-[35%_bottom] -rotate-12 scale-75 -scale-x-100 transition-transform duration-1000 ease-in-out hover:-rotate-6 md:visible"
 					/>
 					<StaticImage
 						src="../images/palm.png"
@@ -103,7 +103,7 @@ const Background: React.FC = () => {
 						placeholder="none"
 						style={{ clipPath: PALM_PATH }}
 						imgClassName="!transition-none"
-						className="absolute -bottom-10 -right-36 origin-[35%_bottom] rotate-12 -scale-x-100  transition-transform duration-1000 ease-in-out hover:rotate-6"
+						className="absolute -bottom-10 -right-36 origin-[35%_bottom] rotate-12 -scale-x-100 transition-transform duration-1000 ease-in-out hover:rotate-6"
 					/>
 				</>
 			)}

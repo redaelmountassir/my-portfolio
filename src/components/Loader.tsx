@@ -16,7 +16,7 @@ const Loader: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 			if (!logo.current) return;
 
 			// TODO: Maybe add an actual load sequence sometime in the future
-			logo.current.classList.add("transform-none");
+			logo.current.classList.remove("translate-x-12");
 			const logoImg = logo.current.firstElementChild as HTMLElement;
 			logoImg.style.transform = `translateX(-${FRAMES * FRAME_WIDTH}px)`;
 

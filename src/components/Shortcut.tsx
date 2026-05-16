@@ -21,7 +21,7 @@ const Shortcut: React.FC<ShortcutPros> = ({
 
   return (
     <button
-      className={`group flex h-auto max-h-full w-24 items-center p-2 outline-2 outline-offset-8 outline-transparent transition-all ease-steps2 hover:outline-offset-0 hover:outline-white-primary md:p-4 md:outline md:active:shadow-[inset_0_0_70px] md:active:outline-offset-0 md:active:outline-white-primary ${tile ? "flex-col gap-2" : "w-full gap-6 md:gap-4 md:py-2"}`}
+      className={`group flex h-auto max-h-full w-24 items-center p-2 outline-2 outline-offset-8 outline-transparent transition-all ease-steps2 hover:outline-offset-0 hover:outline-white-primary md:p-4 md:active:shadow-[inset_0_0_70px] md:active:outline-offset-0 md:active:outline-white-primary ${tile ? "flex-col gap-2" : "w-full gap-6 md:gap-4 md:py-2"}`}
       type="button"
       onDoubleClick={
         overrideClick
@@ -51,7 +51,7 @@ const Shortcut: React.FC<ShortcutPros> = ({
         sysObj={sysObj}
       />
       <p
-        className={`max-w-[175%] select-none break-words p-2 leading-none text-white-primary transition-all ease-steps2 ${tile ? "text-center text-sm shadow-[inset_0_0_40px] shadow-black-primary md:group-active:shadow-none" : "flex-1 overflow-hidden text-ellipsis text-nowrap text-left text-sm md:text-sm xs:text-base"}`}
+        className={`max-w-[175%] select-none wrap-break-word p-2 leading-none text-white-primary transition-all ease-steps2 ${tile ? "text-center text-sm shadow-[inset_0_0_40px] shadow-black-primary md:group-active:shadow-none" : "flex-1 overflow-hidden text-ellipsis text-nowrap text-left text-sm md:text-sm xs:text-base"}`}
       >
         {sysObj.name}
         {"ext" in sysObj && sysObj.ext !== "exe" ? `.${sysObj.ext}` : ""}

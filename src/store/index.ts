@@ -9,7 +9,6 @@ import {
 } from './types';
 import { clamp } from 'framer-motion';
 import { persist } from 'zustand/middleware';
-import defaultTheme from 'tailwindcss/defaultTheme';
 import screenfull from 'screenfull';
 
 export const useBoundStore = create<WindowSlice & DirectorySlice>()((...a) => ({
@@ -99,7 +98,9 @@ export const useSettingsStore = create<
 							nextText === 'LET THERE BE LIGHT') &&
 						val,
 				});
-				document.documentElement.style.filter = get().lightMode
+				const invertLayer = document.getElementById("invert-layer")
+				if (invertLayer)
+					invertLayer.style.filter = get().lightMode
 					? 'invert(1)'
 					: '';
 			},
@@ -110,7 +111,7 @@ export const useSettingsStore = create<
 			setFancyText: val => {
 				document.documentElement.style.fontFamily = val
 					? ''
-					: defaultTheme.fontFamily.sans.join(',');
+					: 'ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
 				set({ fancyText: val });
 			},
 			setFlicker: val => set({ useFlicker: val }),

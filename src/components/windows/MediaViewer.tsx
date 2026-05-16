@@ -8,7 +8,7 @@ import {
 	useTransform,
 } from "framer-motion";
 import { MobileContext } from "../OS";
-import { ease5Steps } from "../../utils";
+import { ease25Steps, ease5Steps, map } from "../../utils";
 import { useBoundStore } from "../../store";
 import ScrollMarquee from "../ScrollMarquee";
 import GlitchText from "../GlitchText";
@@ -59,13 +59,12 @@ export const MediaViewer = () => {
 		target: scrollTarget2,
 		container: scrollContainer,
 	});
-	const clipPath = useTransform(
-		scrollYProgress2,
-		[0, 1],
-		isMobile
-			? ["inset(5rem 5rem)", "inset(0rem 0rem)"]
-			: ["inset(5rem 12rem)", "inset(0rem 0rem)"],
-	);
+	const clipPath = useTransform(scrollYProgress2, (latest) => {
+		const t = ease25Steps(latest);
+		const insetV = map(t, 0, 1, 5, 0);
+		const insetH = map(t, 0, 1, isMobile ? 5 : 12, 0);
+		return `inset(${insetV}rem ${insetH}rem)`;
+	});
 
 	// Seperates showcases into the two sections (or less depending on quantity)
 	const [intialShowcases, restShowcases] = useMemo(
@@ -181,11 +180,11 @@ export const MediaViewer = () => {
 						flexMode
 						scrollStrength={0.0025}
 						innerClass="w-full content-center mb-8 font-bold uppercase tracking-[1em]"
-						className="relative !h-auto w-10 shrink-0 border-2 border-white-primary bg-white-primary text-black-primary"
+						className="relative h-auto! w-10 shrink-0 border-2 border-white-primary bg-white-primary text-black-primary"
 					>
 						{title} ♦♣♠♥
 					</ScrollMarquee>
-					<div className="relative flex flex-grow flex-wrap gap-4 overflow-hidden border-2 border-white-primary bg-black-primary p-24 px-6 text-white-primary md:p-32 md:px-6">
+					<div className="relative flex grow flex-wrap gap-4 overflow-hidden border-2 border-white-primary bg-black-primary p-24 px-6 text-white-primary md:p-32 md:px-6">
 						<GlitchText
 							onScroll
 							scrollRoot={scrollContainer}
@@ -203,7 +202,7 @@ export const MediaViewer = () => {
 					</div>
 				</div>
 				{intialShowcases.length && (
-					<div className="mx-4 mb-4 grid h-[900px] grid-cols-1 grid-rows-[1fr_0_auto_2fr] gap-4 overflow-hidden md:grid-cols-2 md:!grid-rows-[50%_1fr_auto] average:h-[150%] average:grid-rows-[1fr_150px_auto_2fr]">
+					<div className="mx-4 mb-4 grid h-[900px] grid-cols-1 grid-rows-[1fr_0_auto_2fr] gap-4 overflow-hidden md:grid-cols-2 md:grid-rows-[50%_1fr_auto]! average:h-[150%] average:grid-rows-[1fr_150px_auto_2fr]">
 						<div className="relative min-h-0 border-2 border-white-primary bg-black-primary">
 							<img
 								src={throbberGif}
@@ -287,7 +286,7 @@ export const MediaViewer = () => {
 				))}
 				<div className="mt-12 h-[300%]" ref={scrollTarget2}>
 					<div
-						className="sticky top-0 h-1/3 cursor-pointer bg-black-primary text-white-primary outline outline-2 outline-white-primary"
+						className="sticky top-0 h-1/3 cursor-pointer bg-black-primary text-white-primary outline-2 outline-white-primary"
 						onClick={gotoNext}
 					>
 						<motion.div className="h-full w-full" style={{ clipPath }}>
