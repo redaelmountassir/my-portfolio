@@ -4,6 +4,7 @@
 	"private": true,
 	"description": "reda-os",
 	"author": "Reda Elmountassir",
+	"type": "module",
 	"keywords": [
 		"gatsby"
 	],

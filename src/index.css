@@ -91,9 +91,9 @@
 	font-style: normal;
 	font-named-instance: "Regular";
 	src:
-		url(/fonts/retro_font.woff2) format("woff2"),
-		url(/fonts/retro_font.woff) format("woff"),
-		url(/fonts/retro_font.ttf) format("truetype");
+		url(assets/fonts/retro_font.woff2) format("woff2"),
+		url(assets/fonts/retro_font.woff) format("woff"),
+		url(assets/fonts/retro_font.ttf) format("truetype");
 }
 
 @font-face {
@@ -103,9 +103,9 @@
 	font-style: normal;
 	font-named-instance: "Regular";
 	src:
-		url(/fonts/retro_font_bold.woff2) format("woff2"),
-		url(/fonts/retro_font_bold.woff) format("woff"),
-		url(/fonts/retro_font_bold.ttf) format("truetype");
+		url(assets/fonts/retro_font_bold.woff2) format("woff2"),
+		url(assets/fonts/retro_font_bold.woff) format("woff"),
+		url(assets/fonts/retro_font_bold.ttf) format("truetype");
 }
 
 @font-face {
@@ -115,9 +115,9 @@
 	font-style: normal;
 	font-named-instance: "Regular";
 	src:
-		url(/fonts/retro_font_fancy.woff2) format("woff2"),
-		url(/fonts/retro_font_fancy.woff) format("woff"),
-		url(/fonts/retro_font_fancy.otf) format("opentype");
+		url(assets/fonts/retro_font_fancy.woff2) format("woff2"),
+		url(assets/fonts/retro_font_fancy.woff) format("woff"),
+		url(assets/fonts/retro_font_fancy.otf) format("opentype");
 }
 
 @layer base {
@@ -271,9 +271,9 @@
 
 @utility pixel-mask {
 	@media (min-width: 768px) {
-		mask: luminance url(../../static/bg_imgs/fade_away_sheet.png);
+		mask: luminance url(assets/bg_imgs/fade_away_sheet.png);
 		mask-size: 100% 2600%;
-		-webkit-mask: luminance url(../../static/bg_imgs/fade_away_sheet.png);
+		-webkit-mask: luminance url(assets/bg_imgs/fade_away_sheet.png);
 		-webkit-mask-size: 100% 2600%;
 	}
 }
