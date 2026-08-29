@@ -1,5 +1,11 @@
+import { Head } from "./components/Head";
+
 function App() {
-	return <></>;
+	return (
+		<>
+			<Head />
+		</>
+	);
 }
 
 export default App;

@@ -1,5 +1,5 @@
 import { MeshLambertMaterial } from "three";
-import { Colors } from "../../../temp/src/utils";
+import { Colors } from "../../utils";
 
 export const createGlitchMat = () => {
 	const mat = new MeshLambertMaterial({

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://redaos.netlify.app/sitemap.xml

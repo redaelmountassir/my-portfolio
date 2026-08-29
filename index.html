@@ -2,12 +2,91 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<link rel="icon" type="image/png" href="/favicon.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>RedaOS</title>
+		<title>Reda OS</title>
+		<meta
+			name="description"
+			content="An OS-like experience meant to provide a glimpse into my mind, Reda Elmountassir. I can't wait to get started on any technological project that comes my way."
+		/>
+		<link rel="canonical" href="https://redaos.netlify.app/" />
+		<link rel="icon" type="image/png" href="/favicon.png" />
+		<link rel="manifest" href="/manifest.webmanifest" />
+		<link rel="apple-touch-icon" href="/logo/logo_192x192.png" />
+		<meta name="theme-color" content="#f9c80e" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-title" content="RedaOS" />
+		<meta name="image" content="https://redaos.netlify.app/og_card.png" />
+
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="Reda OS" />
+		<meta property="og:locale" content="en_US" />
+		<meta property="og:url" content="https://redaos.netlify.app/" />
+		<meta property="og:title" content="Reda OS" />
+		<meta
+			property="og:description"
+			content="An OS-like experience meant to provide a glimpse into my mind, Reda Elmountassir. I can't wait to get started on any technological project that comes my way."
+		/>
+		<meta
+			property="og:image"
+			content="https://redaos.netlify.app/og_card.png"
+		/>
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta
+			property="og:image:alt"
+			content="Reda OS — an OS-like portfolio by Reda Elmountassir"
+		/>
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:site" content="@RedaElmo" />
+		<meta name="twitter:creator" content="@RedaElmo" />
+		<meta name="twitter:title" content="Reda OS" />
+		<meta name="twitter:url" content="https://redaos.netlify.app/" />
+		<meta
+			name="twitter:description"
+			content="An OS-like experience meant to provide a glimpse into my mind, Reda Elmountassir. I can't wait to get started on any technological project that comes my way."
+		/>
+		<meta
+			name="twitter:image"
+			content="https://redaos.netlify.app/og_card.png"
+		/>
+		<meta
+			name="twitter:image:alt"
+			content="Reda OS — an OS-like portfolio by Reda Elmountassir"
+		/>
+
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@graph": [
+					{
+						"@type": "WebSite",
+						"@id": "https://redaos.netlify.app/#website",
+						"url": "https://redaos.netlify.app/",
+						"name": "Reda OS",
+						"description": "An OS-like experience meant to provide a glimpse into my mind, Reda Elmountassir. I can't wait to get started on any technological project that comes my way.",
+						"publisher": {
+							"@id": "https://redaos.netlify.app/#person"
+						}
+					},
+					{
+						"@type": "Person",
+						"@id": "https://redaos.netlify.app/#person",
+						"name": "Reda Elmountassir",
+						"url": "https://redaos.netlify.app/",
+						"jobTitle": "Full-stack developer and engineer",
+						"sameAs": [
+							"https://github.com/redaelmountassir",
+							"https://www.linkedin.com/in/reda-elmountassir",
+							"https://twitter.com/RedaElmo"
+						]
+					}
+				]
+			}
+		</script>
 	</head>
 	<body>
 		<div id="root"></div>
-		<script type="module" src="/src/main.tsx"></script>
+		<script type="module" src="/src/index.tsx"></script>
 	</body>
 </html>
