@@ -1,9 +1,9 @@
-import { Head } from "./components/Head";
+import OS from "./components/OS";
 
 function App() {
 	return (
 		<>
-			<Head />
+			<OS />
 		</>
 	);
 }

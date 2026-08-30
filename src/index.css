@@ -308,24 +308,24 @@
 
 	::-webkit-scrollbar-button:decrement {
 		@apply h-10 border-b-2 border-l-2 border-white-primary transition-colors ease-steps2;
-		background: no-repeat center / 70% var(--arrow-up);
+		background: no-repeat center / 70% url(images/arrow_up.png);
 	}
 
 	::-webkit-scrollbar-button:decrement:active {
 		@apply bg-white-primary;
 		background:
-			no-repeat center / 70% var(--arrow-up-active),
+			no-repeat center / 70% url(images/arrow_up_active.png),
 			rgb(245 249 255);
 	}
 
 	::-webkit-scrollbar-button:increment {
 		@apply h-10 border-l-2 border-t-2 border-white-primary transition-colors ease-steps2;
-		background: no-repeat center / 70% var(--arrow-down);
+		background: no-repeat center / 70% url(images/arrow_down.png);
 	}
 
 	::-webkit-scrollbar-button:increment:active {
 		background:
-			no-repeat center / 70% var(--arrow-down-active),
+			no-repeat center / 70% url(images/arrow_down_active.png),
 			rgb(245 249 255);
 	}
 

@@ -1,0 +1,22 @@
+---
+loc:
+  text: Not Yet Available
+  link: "#"
+roles:
+  - Sole Developer
+date: "2024-08-01"
+tags:
+  - Go
+  - Rust
+  - Tauri
+categories:
+  - Desktop App
+description:
+  A fast and efficient file system organizer and manager, with the goal of
+  saving the end user significant time. Built to be highly customizable and
+  powerful.
+showcases:
+  - "../../images/filefly/showcase_1.jpg"
+  - "../../images/filefly/showcase_2.jpg"
+  - "../../images/filefly/showcase_3.jpg"
+logo: "../../images/filefly/logo.png"

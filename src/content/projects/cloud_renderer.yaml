@@ -1,0 +1,27 @@
+---
+loc:
+    text: github.com/redaelmountassir/cloud-renderer
+    link: 'https://github.com/redaelmountassir/cloud-renderer'
+roles:
+    - Sole Developer
+date: '2020'
+tags:
+    - Unity
+    - HLSL
+    - C#
+    - Raymarching
+    - Voxels
+    - Noise Generation
+categories:
+    - Graphics Development
+description:
+    Based on the industry-famous paper on "The Real time Volumetric Cloudscapes of Horizon Zero Dawn",
+    I've attempted to re-create this realistic approximation of light's interaction with clouds
+    in Unity with custom HLSL shader code. Additionally, the Perlin and Worley 3D noise textures used
+    in rendering the clouds were generated with compute shaders and a wrapper of C# UI to make setting
+    parameters and generation easier.
+showcases:
+    - '../../images/cloud_renderer/cloud_sim.mp4'
+    - '../../images/cloud_renderer/noise_gen.mp4'
+    - '../../images/cloud_renderer/ui.jpg'
+logo: '../../images/cloud_renderer/logo.png'

@@ -1,0 +1,23 @@
+---
+org: Philadelphia Academies Inc
+loc:
+    text: academiesinc.org
+    link: 'https://www.academiesinc.org/'
+roles:
+    - Developer Intern
+date: 'August 2023'
+tags:
+    - DecapCMS
+    - HTML
+    - CSS
+categories:
+    - Frotend Development
+description: As a part of the Draft Studios team, I was tasked with adding CMS support to the existing UI and well as fixing some of the components of the site for our client.
+showcases:
+    - '../../images/pai/showcase_1.jpg'
+    - '../../images/pai/showcase_2.jpg'
+    - '../../images/pai/showcase_3.jpg'
+    - '../../images/pai/showcase_4.jpg'
+    - '../../images/pai/showcase_5.jpg'
+    - '../../images/pai/showcase_6.jpg'
+logo: '../../images/pai/logo.png'

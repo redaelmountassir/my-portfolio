@@ -1,16 +1,14 @@
-import { IGatsbyImageData } from 'gatsby-plugin-image';
-
 export type SystemObject = Directory | File;
-export type FileExtension = 'pdf' | 'txt' | 'png' | 'mp4' | 'exe' | 'mys';
+export type FileExtension = "pdf" | "txt" | "png" | "mp4" | "exe" | "mys";
 export type WindowType =
-	| 'FileExplorer'
-	| 'Console'
-	| 'Contact'
-	| 'PDFReader'
-	| 'TextEditor'
-	| 'MediaViewer'
-	| 'Virus'
-	| 'Blank';
+	| "FileExplorer"
+	| "Console"
+	| "Contact"
+	| "PDFReader"
+	| "TextEditor"
+	| "MediaViewer"
+	| "Virus"
+	| "Blank";
 export type Path = string[];
 
 export interface MediaFile {
@@ -24,8 +22,8 @@ export interface MediaFile {
 	categories: string[];
 	tags: string[];
 	description: string;
-	showcases: (string | IGatsbyImageData)[];
-	logo: IGatsbyImageData;
+	showcases: string[];
+	logo: string;
 	parent?: {
 		name?: string;
 	};
@@ -63,7 +61,7 @@ export interface WindowSlice {
 	addWindow(
 		sysObj: SystemObject,
 		customID?: number,
-		blockSound?: boolean
+		blockSound?: boolean,
 	): void;
 	deleteWindow(ref: number | Window): void;
 	replaceWindow(oldWindow: number | Window, newObj: SystemObject): void;
@@ -75,14 +73,11 @@ export interface DirectorySlice {
 	toPath(path: Path | string): Path;
 	navigateFrom(
 		startDir: Directory,
-		path: Path | string
+		path: Path | string,
 	): SystemObject | undefined;
 	navigate(path: Path | string): SystemObject | undefined;
 	traverse(target: SystemObject, startDir?: Directory): Directory[] | null;
-	modifySystem(
-		target: Path | string,
-		mod: (dir: Directory) => Directory
-	): void;
+	modifySystem(target: Path | string, mod: (dir: Directory) => Directory): void;
 	emptyDir(target: Path | string): void;
 	fillDir(target: Path | string, children?: SystemObject[]): void;
 }

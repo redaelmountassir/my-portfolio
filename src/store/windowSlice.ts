@@ -1,33 +1,33 @@
-import { StateCreator } from 'zustand';
+import type { StateCreator } from "zustand";
 import type {
 	WindowSlice,
 	DirectorySlice,
 	SystemObject,
 	Window,
 	WindowType,
-} from './types';
-import { useMobileStore, useSettingsStore } from '.';
-import windowOpenAudio from '../audio/open_window.mp3';
-import { randRange } from '../utils';
+} from "./types";
+import { useMobileStore, useSettingsStore } from ".";
+import windowOpenAudio from "../assets/audio/open_window.mp3";
+import { randRange } from "../utils";
 
 const pickWindowType = (sysObj: SystemObject): WindowType => {
-	if (!('ext' in sysObj)) return 'FileExplorer';
+	if (!("ext" in sysObj)) return "FileExplorer";
 	switch (sysObj.ext) {
-		case 'exe':
-			if (sysObj.name === 'Console') return 'Console';
-			if (sysObj.name === 'Contact') return 'Contact';
-		case 'png':
-		case 'mp4':
-			return 'MediaViewer';
-		case 'pdf':
-			return 'PDFReader';
-		case 'txt':
-			return 'TextEditor';
-		case 'mys':
-			return 'Virus';
-		default:
-			return 'Blank';
+		case "exe":
+			if (sysObj.name === "Console") return "Console";
+			if (sysObj.name === "Contact") return "Contact";
+			break;
+		case "png":
+		case "mp4":
+			return "MediaViewer";
+		case "pdf":
+			return "PDFReader";
+		case "txt":
+			return "TextEditor";
+		case "mys":
+			return "Virus";
 	}
+	return "Blank";
 };
 
 export const createWindowSlice: StateCreator<
@@ -58,10 +58,10 @@ export const createWindowSlice: StateCreator<
 			// set({ windowAudio: audioElement });
 		}
 		if (audioElement.readyState >= 3) return audioElement.play();
-		audioElement.addEventListener('canplay', audioElement.play);
+		audioElement.addEventListener("canplay", audioElement.play);
 	},
 	findWindow: (windows, ref) =>
-		typeof ref === 'number'
+		typeof ref === "number"
 			? windows.findIndex(window => window.id === ref)
 			: windows.indexOf(ref),
 	addWindow(sysObj, customID = -1, blockSound = false) {
@@ -84,7 +84,7 @@ export const createWindowSlice: StateCreator<
 		set(state => {
 			const windows = [...state.windows];
 			if (
-				(typeof ref === 'number' ? ref : ref.id) ===
+				(typeof ref === "number" ? ref : ref.id) ===
 				useMobileStore.getState().windowOpen?.id
 			)
 				useMobileStore.setState({ windowOpen: undefined });
@@ -94,8 +94,7 @@ export const createWindowSlice: StateCreator<
 	},
 	replaceWindow(oldWindow, newObj) {
 		get().deleteWindow(oldWindow);
-		const idToReuse =
-			typeof oldWindow === 'number' ? oldWindow : oldWindow.id;
+		const idToReuse = typeof oldWindow === "number" ? oldWindow : oldWindow.id;
 		get().addWindow(newObj, idToReuse, true);
 	},
 	deleteWindows() {

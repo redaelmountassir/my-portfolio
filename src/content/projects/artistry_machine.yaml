@@ -1,0 +1,32 @@
+---
+loc:
+    text: redaelmountassir.github.io/ArtistryMachine
+    link: https://redaelmountassir.github.io/ArtistryMachine
+org: CodedByKids
+roles:
+    - Sole Developer
+date: '2022-03-01'
+tags:
+    - Raymarching
+    - Vanilla JS
+    - HTML
+    - CSS
+    - ThreeJS
+    - GitHub
+    - GSAP
+    - GLSL
+categories:
+    - Web Development
+description:
+    'Created for the Coded By: Kids Ctrl+Shift Competition, this site was
+    awarded first place for its use of 3D and its goal in educating those about art.
+    While coding-wise the site is relatively simple (it is a static frontend), the complexity
+    comes from the 3D used throughout such as raymarching, and shader algorithm that
+    is an alternative to rasterized rendering.'
+showcases:
+    - '../../images/artistry_machine/showcase_1.jpg'
+    - '../../images/artistry_machine/showcase_2.jpg'
+    - '../../images/artistry_machine/showcase_3.jpg'
+    - '../../images/artistry_machine/showcase_4.jpg'
+    - '../../images/artistry_machine/showcase_5.jpg'
+logo: '../../images/artistry_machine/logo.png'

@@ -1,15 +1,15 @@
-import { create } from 'zustand';
-import { createWindowSlice } from './windowSlice';
-import { createDirectorySlice } from './directorySlice';
-import {
+import { create } from "zustand";
+import { createWindowSlice } from "./windowSlice";
+import { createDirectorySlice } from "./directorySlice";
+import type {
 	DirectorySlice,
 	MobileStore,
 	SettingsStore,
 	WindowSlice,
-} from './types';
-import { clamp } from 'framer-motion';
-import { persist } from 'zustand/middleware';
-import screenfull from 'screenfull';
+} from "./types";
+import { clamp } from "motion";
+import { persist } from "zustand/middleware";
+import screenfull from "screenfull";
 
 export const useBoundStore = create<WindowSlice & DirectorySlice>()((...a) => ({
 	...createWindowSlice(...a),
@@ -24,54 +24,54 @@ export const useMobileStore = create<MobileStore>(set => ({
 	showWindow: toShow => set({ windowOpen: toShow }),
 	back: () =>
 		set(state =>
-			state.menuOpen ? { menuOpen: false } : { windowOpen: undefined }
+			state.menuOpen ? { menuOpen: false } : { windowOpen: undefined },
 		),
 }));
 
 const LIGHT_MODE_TEXT = [
-	'Light Mode?',
-	'Why?',
-	'Srsly? ¿Por qué?',
-	'Stop',
-	'No point',
-	'Nice try',
-	'Next ones the real one',
-	'Ha!',
-	'Give up',
-	'Actually',
+	"Light Mode?",
+	"Why?",
+	"Srsly? ¿Por qué?",
+	"Stop",
+	"No point",
+	"Nice try",
+	"Next ones the real one",
+	"Ha!",
+	"Give up",
+	"Actually",
 	"It's not going to work",
 	"There's literally no point",
-	'Please',
-	'Pleassssse',
-	'UWU',
+	"Please",
+	"Pleassssse",
+	"UWU",
 	"SORRY BUT IT JUST CAN'T HAPPEN",
 	"I CAN'T DO THIS FOREVER",
-	'YOU LEAVE ME NO CHOICE',
-	'10',
-	'9',
-	'8',
-	'7',
-	'6',
-	'5',
-	'4',
-	'3',
-	'2',
-	'2.',
-	'2..',
-	'2...',
-	'2....',
-	'2.....',
-	'1',
-	'LET THERE BE LIGHT',
-	'Exactly what where you expecting',
-	'Now ur gonna try again???',
-	'Fine',
-	'Light Mode',
+	"YOU LEAVE ME NO CHOICE",
+	"10",
+	"9",
+	"8",
+	"7",
+	"6",
+	"5",
+	"4",
+	"3",
+	"2",
+	"2.",
+	"2..",
+	"2...",
+	"2....",
+	"2.....",
+	"1",
+	"LET THERE BE LIGHT",
+	"Exactly what where you expecting",
+	"Now ur gonna try again???",
+	"Fine",
+	"Light Mode",
 ];
 
 export const useSettingsStore = create<
 	SettingsStore,
-	[['zustand/persist', SettingsStore]]
+	[["zustand/persist", SettingsStore]]
 >(
 	persist(
 		(set, get) => ({
@@ -88,21 +88,19 @@ export const useSettingsStore = create<
 			setLightMode(val) {
 				const nextIndex = Math.min(
 					LIGHT_MODE_TEXT.indexOf(get().lightModeText) + 1,
-					LIGHT_MODE_TEXT.length - 1
+					LIGHT_MODE_TEXT.length - 1,
 				);
 				const nextText = LIGHT_MODE_TEXT[nextIndex];
 				set({
 					lightModeText: nextText,
 					lightMode:
 						(nextIndex === LIGHT_MODE_TEXT.length - 1 ||
-							nextText === 'LET THERE BE LIGHT') &&
+							nextText === "LET THERE BE LIGHT") &&
 						val,
 				});
-				const invertLayer = document.getElementById("invert-layer")
+				const invertLayer = document.getElementById("invert-layer");
 				if (invertLayer)
-					invertLayer.style.filter = get().lightMode
-					? 'invert(1)'
-					: '';
+					invertLayer.style.filter = get().lightMode ? "invert(1)" : "";
 			},
 			setBrightness: val => set({ brightness: clamp(0, 100, val) }),
 			set3D: val => set({ use3D: val }),
@@ -110,7 +108,7 @@ export const useSettingsStore = create<
 			setScanlines: val => set({ scanlines: val }),
 			setFancyText: val => {
 				document.documentElement.style.fontFamily = val
-					? ''
+					? ""
 					: 'ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
 				set({ fancyText: val });
 			},
@@ -123,13 +121,13 @@ export const useSettingsStore = create<
 			initFullscreen() {
 				if (!screenfull.isEnabled) return;
 				set({ fullscreen: screenfull.isFullscreen });
-				screenfull.on('change', () =>
-					set({ fullscreen: screenfull.isFullscreen })
+				screenfull.on("change", () =>
+					set({ fullscreen: screenfull.isFullscreen }),
 				);
 
-				document.addEventListener('keydown', e => {
+				document.addEventListener("keydown", e => {
 					// Throws an error but works god knows y
-					if (e.key !== 'F11') return;
+					if (e.key !== "F11") return;
 					screenfull.toggle();
 					e.preventDefault();
 				});
@@ -137,11 +135,11 @@ export const useSettingsStore = create<
 			restart: () => location.reload(),
 			shutdown() {
 				document.documentElement.style.animation =
-					'shutdown 0.5s forwards ease-in-out';
-				document.documentElement.style.overflow = 'hidden';
-				localStorage.setItem('introDone', 'false');
+					"shutdown 0.5s forwards ease-in-out";
+				document.documentElement.style.overflow = "hidden";
+				localStorage.setItem("introDone", "false");
 			},
 		}),
-		{ name: 'settings' }
-	)
+		{ name: "settings" },
+	),
 );

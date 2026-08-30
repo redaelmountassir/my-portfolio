@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useSettingsStore } from "../store";
+import { twMerge } from "tailwind-merge";
+import clsx, { type ClassValue } from "clsx";
 
 export const mod = (x: number, y: number) => ((x % y) + y) % y;
 
@@ -39,6 +41,10 @@ export function pickRand<T>(arr: Array<T>): T | undefined {
 	if (arr.length === 0) return undefined;
 	const randIndex = Math.floor(Math.random() * arr.length);
 	return arr[randIndex];
+}
+
+export function cn(...inputs: ClassValue[]) {
+	return twMerge(clsx(inputs));
 }
 
 export const useMediaQuery = (query: string) => {
