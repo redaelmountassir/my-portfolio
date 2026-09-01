@@ -1,17 +1,15 @@
-// import ShortcutsArea from "./ShortcutsArea";
-// import Background from "./Background";
-// import Taskbar from "./Taskbar";
-// import MobileTaskbar from "./MobileTaskbar";
-// import WindowsArea from "./WindowsArea";
-// import Modifiers from "./Modifiers";
-import Loader from "./Loader";
-import Intro from "./Intro";
-import Head from "./Head";
-import React from "react";
-import { createContext, useEffect } from "react";
-import { cn, useBreakpointMD, useBreakpointShort } from "../utils";
-import { usePersistent } from "../utils";
 import { useReducedMotion } from "motion/react";
+import React, { createContext, useEffect } from "react";
+import {
+	cn,
+	useBreakpointMD,
+	useBreakpointShort,
+	usePersistent,
+} from "../utils";
+import Background from "./Background";
+import Head from "./Head";
+import Intro from "./Intro";
+import Loader from "./Loader";
 
 export const MobileContext = createContext(true);
 
@@ -85,15 +83,14 @@ though you didn't hear that from me...
 					(introDone ? (
 						<>
 							<Loader />
-							{/* <Background />
-							{isMobile ? <MobileTaskbar /> : <Taskbar />}
+							<Background />
+							{/* {isMobile ? <MobileTaskbar /> : <Taskbar />}
 							<ShortcutsArea />
 							<WindowsArea /> */}
 						</>
 					) : (
 						<Intro onFinish={() => setIntroDone(true)} />
 					))}
-				{/* <Intro onFinish={() => setIntroDone(true)} /> */}
 			</main>
 			{/* <Modifiers /> */}
 		</MobileContext.Provider>

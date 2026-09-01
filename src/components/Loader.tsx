@@ -1,12 +1,13 @@
-import GlitchWall from "./GlitchWall";
-import { useEffect, useRef, useState } from "react";
 import { motion, useAnimate } from "motion/react";
-import SmartImage from "./SmartImage";
+import { useEffect, useRef, useState } from "react";
 import logo_animated_img from "../assets/images/logo/logo_lg_animated.png";
+import GlitchWall from "./GlitchWall";
+import SmartImage from "./SmartImage";
 
 const FRAMES = 36;
 const FRAME_WIDTH = 256;
 const ANIMATION_TIME = 3;
+
 const Loader = () => {
 	const [loaded, setLoaded] = useState(false);
 	const logo = useRef<HTMLDivElement>(null);

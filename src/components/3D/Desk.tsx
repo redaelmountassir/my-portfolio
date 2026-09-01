@@ -1,11 +1,7 @@
-import { useLayoutEffect, useRef, type JSX } from "react";
 import { useGLTF, useTexture } from "@react-three/drei";
-import { type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { Colors } from "../utils";
-import { disposeLoadedGltfTextures } from "../utils/disposeGltfSceneMaterials";
 import { useFrame } from "@react-three/fiber";
 import { animate } from "motion";
-import introImg from "../assets/images/intro.jpg";
+import { useLayoutEffect, useRef, type JSX } from "react";
 import {
 	Color,
 	Mesh,
@@ -16,6 +12,10 @@ import {
 	SRGBColorSpace,
 	Texture,
 } from "three";
+import { type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
+import introImg from "../../assets/images/intro.jpg";
+import { Colors } from "../../utils";
+import { disposeLoadedGltfTextures } from "../../utils/3D";
 
 type GLTFResult = GLTF & {
 	nodes: {

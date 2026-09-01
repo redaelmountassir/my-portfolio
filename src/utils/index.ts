@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef, useMemo } from "react";
-import { useSettingsStore } from "../store";
-import { twMerge } from "tailwind-merge";
 import clsx, { type ClassValue } from "clsx";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { twMerge } from "tailwind-merge";
+import { useSettingsStore } from "../store";
 
 export const mod = (x: number, y: number) => ((x % y) + y) % y;
 

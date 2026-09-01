@@ -1,13 +1,8 @@
 import type { ImgHTMLAttributes } from "react";
 
-type ImageData = {
-	src: string;
-	width: number;
-	height: number;
-};
-
-type ImageProps = Omit<ImgHTMLAttributes<HTMLImageElement>, "src"> & {
-	src: ImageData;
+type ImageProps = Omit<ImgHTMLAttributes<HTMLImageElement>, "src" | "alt"> & {
+	src: ImportedImage;
+	alt: string;
 };
 
 const SmartImage = ({ src, ...props }: ImageProps) => {

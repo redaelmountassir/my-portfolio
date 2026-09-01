@@ -1,5 +1,7 @@
+import { clamp } from "motion";
+import screenfull from "screenfull";
 import { create } from "zustand";
-import { createWindowSlice } from "./windowSlice";
+import { persist } from "zustand/middleware";
 import { createDirectorySlice } from "./directorySlice";
 import type {
 	DirectorySlice,
@@ -7,9 +9,7 @@ import type {
 	SettingsStore,
 	WindowSlice,
 } from "./types";
-import { clamp } from "motion";
-import { persist } from "zustand/middleware";
-import screenfull from "screenfull";
+import { createWindowSlice } from "./windowSlice";
 
 export const useBoundStore = create<WindowSlice & DirectorySlice>()((...a) => ({
 	...createWindowSlice(...a),

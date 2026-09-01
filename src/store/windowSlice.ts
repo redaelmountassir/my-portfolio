@@ -1,14 +1,14 @@
 import type { StateCreator } from "zustand";
-import type {
-	WindowSlice,
-	DirectorySlice,
-	SystemObject,
-	Window,
-	WindowType,
-} from "./types";
 import { useMobileStore, useSettingsStore } from ".";
 import windowOpenAudio from "../assets/audio/open_window.mp3";
 import { randRange } from "../utils";
+import type {
+	DirectorySlice,
+	SystemObject,
+	Window,
+	WindowSlice,
+	WindowType,
+} from "./types";
 
 const pickWindowType = (sysObj: SystemObject): WindowType => {
 	if (!("ext" in sysObj)) return "FileExplorer";
