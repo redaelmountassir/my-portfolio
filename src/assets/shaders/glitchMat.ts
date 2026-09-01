@@ -3,7 +3,7 @@ import { Colors } from "../../utils";
 
 export const createGlitchMat = () => {
 	const mat = new MeshLambertMaterial({
-		color: Colors.whitePrimary,
+		color: Colors.WhitePrimary,
 		reflectivity: 0,
 	});
 

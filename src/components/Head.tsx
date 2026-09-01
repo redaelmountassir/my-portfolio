@@ -5,7 +5,7 @@ interface HeadProps {
 	children?: React.ReactNode;
 }
 
-export const Head = memo(({ description, children }: HeadProps) => {
+const Head = memo(({ description, children }: HeadProps) => {
 	const title = "RedaOS";
 
 	return (
@@ -16,3 +16,5 @@ export const Head = memo(({ description, children }: HeadProps) => {
 		</>
 	);
 });
+
+export default Head;

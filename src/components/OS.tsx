@@ -1,16 +1,16 @@
+// import ShortcutsArea from "./ShortcutsArea";
+// import Background from "./Background";
+// import Taskbar from "./Taskbar";
+// import MobileTaskbar from "./MobileTaskbar";
+// import WindowsArea from "./WindowsArea";
+// import Modifiers from "./Modifiers";
+import Loader from "./Loader";
+import Intro from "./Intro";
+import Head from "./Head";
 import React from "react";
 import { createContext, useEffect } from "react";
 import { cn, useBreakpointMD, useBreakpointShort } from "../utils";
-// import ShortcutsArea from "../../temp/src/components/ShortcutsArea";
-// import Background from "../../temp/src/components/Background";
-// import Taskbar from "../../temp/src/components/Taskbar";
-// import MobileTaskbar from "../../temp/src/components/MobileTaskbar";
-// import Intro from "../../temp/src/components/Intro";
 import { usePersistent } from "../utils";
-import Loader from "./Loader";
-import { Head } from "./Head";
-// import WindowsArea from "../../temp/src/components/WindowsArea";
-// import Modifiers from "../../temp/src/components/Modifiers";
 import { useReducedMotion } from "motion/react";
 
 export const MobileContext = createContext(true);
@@ -21,13 +21,9 @@ const OS = () => {
 	const isMobile = !wide || !tall;
 	const reducedMotion = useReducedMotion();
 	const mainRef = React.useRef<HTMLDivElement>(null);
-	let ran = false;
 
 	//Updates global css properties
 	useEffect(() => {
-		if (ran) return;
-		ran = true;
-
 		console.log(`
 -------------------------------------------------------
 
@@ -44,11 +40,13 @@ Thank you for checking out my project in futher detail :).
 If the logo looks goofy, try resizing the window. Also,
 there may be some secrets hidden throughout the portfolio,
 though you didn't hear that from me... 
-		`);
+		`); // Only double prints in dev mode!
 
-		const documentStyle = document.documentElement.style;
 		const updateVH = () =>
-			documentStyle.setProperty("--vh-full", `${window.innerHeight}px`);
+			document.documentElement.style.setProperty(
+				"--vh-full",
+				`${window.innerHeight}px`,
+			);
 		window.addEventListener("resize", updateVH);
 		window.addEventListener("orientationchange", updateVH);
 		updateVH();
@@ -62,7 +60,7 @@ though you didn't hear that from me...
 		return () => {
 			window.removeEventListener("resize", updateVH);
 			window.removeEventListener("orientationchange", updateVH);
-			documentStyle.removeProperty("--vh-full");
+			document.documentElement.style.removeProperty("--vh-full");
 		};
 	}, []);
 
@@ -77,26 +75,25 @@ though you didn't hear that from me...
 			<Head />
 			<main
 				className={cn(
-					"relative h-screen w-screen overflow-hidden bg-black",
-					"h-(--vh-full)",
+					"relative w-screen overflow-hidden bg-black h-(--vh-full,100vh)",
 					isMobile && "use-scrollbar",
 				)}
 				ref={mainRef}
 				id="invert-layer"
 			>
-				{/* {ready &&
+				{ready &&
 					(introDone ? (
 						<>
 							<Loader />
-							<Background />
+							{/* <Background />
 							{isMobile ? <MobileTaskbar /> : <Taskbar />}
 							<ShortcutsArea />
-							<WindowsArea />
+							<WindowsArea /> */}
 						</>
 					) : (
 						<Intro onFinish={() => setIntroDone(true)} />
-					))} */}
-				<Loader />
+					))}
+				{/* <Intro onFinish={() => setIntroDone(true)} /> */}
 			</main>
 			{/* <Modifiers /> */}
 		</MobileContext.Provider>
