@@ -1,6 +1,6 @@
 import { useGLTF, useTexture } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { animate } from "motion";
+import { animate } from "motion/react";
 import { useLayoutEffect, useRef, type JSX } from "react";
 import {
 	Color,

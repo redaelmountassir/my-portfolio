@@ -1,4 +1,3 @@
-import { PerspectiveCamera } from "@react-three/drei";
 import {
 	Bloom,
 	ChromaticAberration,
@@ -7,12 +6,11 @@ import {
 import { AdditiveBlending } from "three";
 import { useMouseControls } from "../../utils/3D";
 
-const FancyCamera = () => {
+const CameraEffects = () => {
 	useMouseControls(); // Has to be here inside camera
 
 	return (
 		<>
-			<PerspectiveCamera fov={50} position={[0, 0, 6]} near={1} makeDefault />
 			<EffectComposer multisampling={0}>
 				<Bloom
 					intensity={0.85}
@@ -28,4 +26,4 @@ const FancyCamera = () => {
 	);
 };
 
-export default FancyCamera;
+export default CameraEffects;

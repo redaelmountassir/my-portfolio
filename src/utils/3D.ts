@@ -1,5 +1,5 @@
 import { useFrame } from "@react-three/fiber";
-import { useEffect, useMemo } from "react";
+import { useEffect, useRef } from "react";
 import {
 	MathUtils,
 	Mesh,
@@ -46,8 +46,8 @@ export function disposeLoadedGltfTextures(url: string, root: Object3D) {
 const MIN = new Vector2(-1, -1);
 const MAX = new Vector2(1, 1);
 
-export const useMouseControls = () => {
-	const targetPos = useMemo(() => new Vector2(0, 0), []);
+export const useMouseControls = (degX = 0.075, degY = 0.05) => {
+	const targetPos = useRef(new Vector2(0, 0));
 
 	useEffect(() => {
 		const updateTarget = (e: PointerEvent) => {
@@ -57,8 +57,8 @@ export const useMouseControls = () => {
 			if (window.innerWidth < window.innerHeight)
 				x *= window.innerWidth / window.innerHeight;
 			else y *= window.innerHeight / window.innerWidth;
-			targetPos.set(x, y);
-			targetPos.clamp(MIN, MAX);
+			targetPos.current.set(x, y);
+			targetPos.current.clamp(MIN, MAX);
 		};
 
 		window.addEventListener("pointermove", updateTarget);
@@ -69,13 +69,13 @@ export const useMouseControls = () => {
 	useFrame(({ camera }, delta) => {
 		camera.rotation.x = MathUtils.damp(
 			camera.rotation.x,
-			targetPos.y * Math.PI * 0.05,
+			targetPos.current.y * Math.PI * degY,
 			6,
 			delta,
 		);
 		camera.rotation.y = MathUtils.damp(
 			camera.rotation.y,
-			targetPos.x * Math.PI * 0.075,
+			targetPos.current.x * Math.PI * degX,
 			2,
 			delta,
 		);

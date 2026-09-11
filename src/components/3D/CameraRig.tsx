@@ -1,7 +1,7 @@
-import { useLayoutEffect, useRef } from "react";
 import { PerspectiveCamera } from "@react-three/drei";
+import { animate } from "motion/react";
+import { useLayoutEffect, useRef } from "react";
 import { Group } from "three";
-import { animate } from "motion";
 import { useMouseControls } from "../../utils/3D";
 
 const CAMERA_TIMES = [0, 0.2, 0.7, 1];

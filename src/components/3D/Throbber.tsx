@@ -2,7 +2,7 @@ import { Sphere } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import { Color, type MeshBasicMaterial } from "three";
-import { Colors } from "../../utils";
+import { circOut, Colors } from "../../utils";
 
 const DOTS = 10;
 const RADIUS = 0.75;
@@ -10,8 +10,6 @@ const CYCLE = 1.5;
 const DURATION = ((DOTS - 1) / DOTS) * CYCLE;
 const FROM = new Color(Colors.WhitePrimary);
 const TO = new Color(Colors.BlackPrimary);
-
-const circOut = (t: number) => Math.sqrt(1 - (t - 1) ** 2);
 
 const Throbber = () => {
 	const materials = useRef<(MeshBasicMaterial | null)[]>([]);

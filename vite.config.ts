@@ -15,6 +15,7 @@ export default defineConfig({
 				kernel: "nearest",
 				as: "metadata:src;width;height",
 			}),
+			exclude: /\.gif(\?|$)/i,
 		}),
 	],
 });

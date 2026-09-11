@@ -54,7 +54,8 @@ const Symbols = (props: React.JSX.IntrinsicElements["group"]) => {
 		disposeLoadedGltfTextures("/models/symbols.glb", gltf.scene);
 	}, [gltf.scene]);
 
-	const data = useRef<{ timeout?: number; glitching: boolean }>({
+	const data = useRef<{ timeout: number; glitching: boolean }>({
+		timeout: -1,
 		glitching: false,
 	});
 
@@ -86,12 +87,12 @@ const Symbols = (props: React.JSX.IntrinsicElements["group"]) => {
 		const shouldBeVisible = checkVisibility(currentWindow);
 		// If symbol is returned to the current one
 		if (currentNode === shouldBeVisible) {
-			if (data.current.timeout) {
+			if (data.current.timeout !== -1) {
 				clearTimeout(data.current.timeout);
 				data.current.timeout = setTimeout(
 					() => {
 						data.current.glitching = false;
-						data.current.timeout = undefined;
+						data.current.timeout = -1;
 					},
 					randRange(500, 1000),
 				);
@@ -102,11 +103,11 @@ const Symbols = (props: React.JSX.IntrinsicElements["group"]) => {
 		// New symbol! Start animating.
 		data.current.glitching = true;
 		// If existing switch exists, extend animation and change the change
-		if (data.current.timeout) clearTimeout(data.current.timeout);
+		if (data.current.timeout !== -1) clearTimeout(data.current.timeout);
 		data.current.timeout = setTimeout(
 			() => {
 				data.current.glitching = false;
-				data.current.timeout = undefined;
+				data.current.timeout = -1;
 				startTransition(() => setCurrentNode(shouldBeVisible));
 			},
 			randRange(500, 1250),

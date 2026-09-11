@@ -1,9 +1,15 @@
-import { Canvas } from "@react-three/fiber";
+import { Canvas, type RootState } from "@react-three/fiber";
 import { Suspense, useContext } from "react";
-import { Color, DoubleSide, LinearToneMapping } from "three";
+import {
+	Color,
+	DoubleSide,
+	LinearToneMapping,
+	WebGLRenderer,
+	type WebGLRendererParameters,
+} from "three";
 import { useBoundStore, useMobileStore } from "../store";
 import { Colors } from "../utils";
-import FancyCamera from "./3D/FancyCamera";
+import CameraEffects from "./3D/CameraEffects";
 import Plane from "./3D/Plane";
 import Sky from "./3D/Sky";
 import Symbols from "./3D/Symbols";
@@ -12,6 +18,64 @@ import { MobileContext } from "./OS";
 
 const SEED = Math.round((Math.random() * 2 - 1) * 1000);
 const TRIANGLE_COLOR = new Color(Colors.BlueAccent).multiplyScalar(20);
+
+const GL_CONTEXT_ATTRIBUTES = {
+	alpha: false,
+	depth: false,
+	stencil: false,
+	antialias: true,
+	premultipliedAlpha: true,
+	preserveDrawingBuffer: false,
+	powerPreference: "high-performance",
+	failIfMajorPerformanceCaveat: false,
+} as const satisfies WebGLContextAttributes &
+	Pick<
+		WebGLRendererParameters,
+		| "alpha"
+		| "depth"
+		| "stencil"
+		| "antialias"
+		| "premultipliedAlpha"
+		| "preserveDrawingBuffer"
+		| "powerPreference"
+		| "failIfMajorPerformanceCaveat"
+	>;
+
+const applyRendererProps = (gl: WebGLRenderer) => {
+	gl.toneMapping = LinearToneMapping;
+	gl.toneMappingExposure = 2;
+};
+
+const createRenderer = ({
+	canvas,
+	context,
+	...defaultProps
+}: WebGLRendererParameters) => {
+	if (!canvas) {
+		throw new Error("R3F did not provide a canvas for the WebGL renderer.");
+	}
+
+	const glContext =
+		context ??
+		(canvas as HTMLCanvasElement).getContext("webgl2", GL_CONTEXT_ATTRIBUTES);
+
+	if (!(glContext instanceof WebGL2RenderingContext)) {
+		throw new Error("WebGL2 is not available.");
+	}
+
+	const renderer = new WebGLRenderer({
+		...defaultProps,
+		...GL_CONTEXT_ATTRIBUTES,
+		canvas,
+		context: glContext,
+	});
+	applyRendererProps(renderer);
+	return renderer;
+};
+
+const onCreated = ({ gl }: RootState) => {
+	applyRendererProps(gl);
+};
 
 const Background3D = () => {
 	const isMobile = useContext(MobileContext);
@@ -31,18 +95,9 @@ const Background3D = () => {
 				</p>
 			}
 			frameloop={windowCovering || windowMaximized ? "demand" : "always"}
-			gl={{
-				alpha: false,
-				depth: false,
-				stencil: false,
-				antialias: true,
-				premultipliedAlpha: true,
-				preserveDrawingBuffer: false,
-				powerPreference: "high-performance",
-				failIfMajorPerformanceCaveat: false,
-				toneMapping: LinearToneMapping,
-				toneMappingExposure: 2,
-			}}
+			gl={createRenderer}
+			onCreated={onCreated}
+			camera={{ fov: 50, position: [0, 0, 6], near: 1, far: 2000 }}
 		>
 			<directionalLight
 				position={[0, 50, 50]}
@@ -50,7 +105,7 @@ const Background3D = () => {
 				intensity={2.5}
 			/>
 			<ambientLight color="grey" intensity={0.7} />
-			<FancyCamera />
+			<CameraEffects />
 			<Sky seed={SEED} />
 			<Plane seed={SEED} />
 			<Suspense fallback={<Throbber />}>

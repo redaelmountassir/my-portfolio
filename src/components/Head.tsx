@@ -1,11 +1,11 @@
-import React, { memo } from "react";
+import type { ReactNode } from "react";
 
 interface HeadProps {
 	description?: "string";
-	children?: React.ReactNode;
+	children?: ReactNode;
 }
 
-const Head = memo(({ description, children }: HeadProps) => {
+const Head = ({ description, children }: HeadProps) => {
 	const title = "RedaOS";
 
 	return (
@@ -15,6 +15,6 @@ const Head = memo(({ description, children }: HeadProps) => {
 			{children}
 		</>
 	);
-});
+};
 
 export default Head;

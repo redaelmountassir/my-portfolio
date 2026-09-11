@@ -47,32 +47,29 @@ const Loader = () => {
 		<motion.div
 			animate={loaded ? "loaded" : "unloaded"}
 			ref={scope}
-			className="fixed z-50 flex h-full w-full flex-col items-center justify-center bg-black-primary"
+			className="fixed z-50 flex size-full items-center justify-center bg-black-primary"
 		>
-			<motion.div
-				className="w-64 translate-x-12 overflow-hidden transition-transform delay-1000 duration-1000 ease-out"
-				ref={logo}
-				initial={{ filter: "drop-shadow(0px 0px 0px #f6019d)" }}
-				animate={{ filter: "drop-shadow(0px 0px 16px #f6019d)" }}
-				transition={{
-					delay: 4,
-					repeat: 10,
-					repeatType: "mirror",
-					ease: "linear",
-					duration: 2,
-				}}
+			<div
+				className="flex size-128 flex-col items-center justify-center bg-radial-[circle] from-black-primary from-[128px] to-transparent to-[256px]"
 			>
-				<SmartImage
-					src={logo_animated_img}
-					alt="Animated logo"
-					className="transition-transform max-w-none h-32 delay-1000"
-					style={{
-						transitionTimingFunction: `steps(${FRAMES})`,
-						transitionDuration: `${ANIMATION_TIME}s`,
-					}}
-				/>
-			</motion.div>
-			<p className="text-light-primary">Definitely Loading...</p>
+				<motion.div
+					className="w-64 translate-x-12 overflow-hidden transition-transform delay-1000 duration-1000 ease-out"
+					ref={logo}
+					initial={{ filter: "drop-shadow(0px 0px 0px #f6019d)" }}
+					animate={{ filter: "drop-shadow(0px 0px 16px #f6019d)" }}
+				>
+					<SmartImage
+						src={logo_animated_img}
+						alt="Animated logo"
+						className="h-32 max-w-none transition-transform delay-1000"
+						style={{
+							transitionTimingFunction: `steps(${FRAMES})`,
+							transitionDuration: `${ANIMATION_TIME}s`,
+						}}
+					/>
+				</motion.div>
+				<p className="text-light-primary">Definitely Loading...</p>
+			</div>
 			<GlitchWall />
 		</motion.div>
 	);

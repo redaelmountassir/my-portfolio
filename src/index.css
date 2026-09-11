@@ -188,21 +188,21 @@
 @utility backdrop-blur-parent {
 	&::before {
 		content: "";
-		@apply absolute -z-10 h-full w-full backdrop-blur-sm;
+		@apply absolute -z-10 size-full backdrop-blur-sm;
 	}
 }
 
 @utility darken-bottom {
 	&::after {
 		content: "";
-		@apply absolute top-0 h-full w-full bg-linear-to-t from-black-primary/90 to-50%;
+		@apply absolute top-0 size-full bg-linear-to-t from-black-primary/90 to-50%;
 	}
 }
 
 @utility darken-left {
 	&::after {
 		content: "";
-		@apply pointer-events-none absolute left-0 top-0 h-full w-full from-black-primary/75 to-25% sm:bg-none! xs:bg-linear-to-r;
+		@apply pointer-events-none absolute top-0 left-0 size-full from-black-primary/75 to-25% xs:bg-linear-to-r sm:bg-none!;
 	}
 }
 
@@ -226,7 +226,7 @@
 
 	&::after {
 		content: "";
-		@apply absolute h-full w-full;
+		@apply absolute size-full;
 	}
 }
 
@@ -319,7 +319,7 @@
 	}
 
 	::-webkit-scrollbar-button:increment {
-		@apply h-10 border-l-2 border-t-2 border-white-primary transition-colors ease-steps2;
+		@apply h-10 border-t-2 border-l-2 border-white-primary transition-colors ease-steps2;
 		background: no-repeat center / 70% url(images/arrow_down.png);
 	}
 

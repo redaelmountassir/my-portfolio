@@ -1,11 +1,7 @@
 import OS from "./components/OS";
 
 function App() {
-	return (
-		<>
-			<OS />
-		</>
-	);
+	return <OS />;
 }
 
 export default App;

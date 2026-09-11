@@ -10,6 +10,8 @@ import Background from "./Background";
 import Head from "./Head";
 import Intro from "./Intro";
 import Loader from "./Loader";
+import MobileTaskbar from "./MobileTaskbarPanel";
+import Taskbar from "./Taskbar";
 
 export const MobileContext = createContext(true);
 
@@ -73,7 +75,7 @@ though you didn't hear that from me...
 			<Head />
 			<main
 				className={cn(
-					"relative w-screen overflow-hidden bg-black h-(--vh-full,100vh)",
+					"relative h-(--vh-full,100vh) w-screen overflow-hidden bg-black",
 					isMobile && "use-scrollbar",
 				)}
 				ref={mainRef}
@@ -84,8 +86,8 @@ though you didn't hear that from me...
 						<>
 							<Loader />
 							<Background />
-							{/* {isMobile ? <MobileTaskbar /> : <Taskbar />}
-							<ShortcutsArea />
+							{isMobile ? <MobileTaskbar /> : <Taskbar />}
+							{/* <ShortcutsArea />
 							<WindowsArea /> */}
 						</>
 					) : (

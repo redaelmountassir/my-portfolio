@@ -1,5 +1,5 @@
 import { useFrame, useThree } from "@react-three/fiber";
-import { useContext, useMemo, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import { Color, ShaderMaterial } from "three";
 import fragmentShader from "../../assets/shaders/grid.frag";
 import vertexShader from "../../assets/shaders/grid.vert";
@@ -26,18 +26,15 @@ const Plane = ({ seed }: PlaneProps) => {
 		mat.current.uniforms.time.value = clock.getElapsedTime();
 	});
 
-	const uniforms = useMemo(
-		() => ({
-			gridDepth: { value: camera.far },
-			gridSquare: { value: camera.far / DIVISIONS },
-			color: { value: COLOR },
-			lineColor: { value: LINE_COLOR },
-			lightColor: { value: LIGHT_COLOR },
-			seed: { value: seed },
-			time: { value: 0 },
-		}),
-		[camera],
-	);
+	const [uniforms] = useState(() => ({
+		gridDepth: { value: camera.far },
+		gridSquare: { value: camera.far / DIVISIONS },
+		color: { value: COLOR },
+		lineColor: { value: LINE_COLOR },
+		lightColor: { value: LIGHT_COLOR },
+		seed: { value: seed },
+		time: { value: 0 },
+	}));
 
 	return (
 		<mesh

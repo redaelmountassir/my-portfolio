@@ -5,7 +5,6 @@ const APPROX_CHAR_W = 15;
 const APPROX_CHAR_H = 35;
 
 const GlitchWall = ({ duration = 6000 }) => {
-	const mask = "radial-gradient(circle, transparent 128px, white 256px)";
 	const textRef = useRef<HTMLParagraphElement>(null);
 
 	//Doesn't create a new array every frame now
@@ -36,8 +35,7 @@ const GlitchWall = ({ duration = 6000 }) => {
 
 	return (
 		<p
-			className="pointer-events-none absolute top-1/2 -z-10 h-full w-full -translate-y-1/2 break-all text-center text-3xl text-purple-watermark opacity-40"
-			style={{ mask, WebkitMask: mask }}
+			className="pointer-events-none absolute top-1/2 -z-10 size-full -translate-y-1/2 text-center text-3xl break-all text-purple-watermark opacity-40"
 			ref={textRef}
 		/>
 	);

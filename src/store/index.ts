@@ -1,4 +1,4 @@
-import { clamp } from "motion";
+import { clamp } from "motion/react";
 import screenfull from "screenfull";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";

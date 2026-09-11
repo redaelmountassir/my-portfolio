@@ -1,5 +1,5 @@
 import { useFrame, useThree } from "@react-three/fiber";
-import { useContext, useEffect, useMemo, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { BackSide, Color, ShaderMaterial, Vector3 } from "three";
 import fragmentShader from "../../assets/shaders/sky.frag";
 import vertexShader from "../../assets/shaders/sky.vert";
@@ -31,26 +31,23 @@ const Sky = ({ seed }: SkyProps) => {
 		mat.current.uniforms.sunSize.value = isMobile ? 300 : 600;
 	}, [isMobile]);
 
-	const uniforms = useMemo(
-		() => ({
-			sunColor: { value: SUN_COLOR },
-			sunColor2: { value: SUN_COLOR_2 },
-			sunPos: {
-				value: new Vector3().setFromSphericalCoords(
-					camera.far,
-					Math.PI * 0.5 - 0.2,
-					Math.PI,
-				),
-			},
-			groundColor: { value: GROUND_COLOR },
-			skyColor: { value: SKY_COLOR },
-			nebulaColor: { value: NEBULA_COLOR },
-			sunSize: { value: isMobile ? 300 : 600 },
-			seed: { value: seed ?? 0 },
-			time: { value: 0 },
-		}),
-		[camera],
-	);
+	const [uniforms] = useState(() => ({
+		sunColor: { value: SUN_COLOR },
+		sunColor2: { value: SUN_COLOR_2 },
+		sunPos: {
+			value: new Vector3().setFromSphericalCoords(
+				camera.far,
+				Math.PI * 0.5 - 0.2,
+				Math.PI,
+			),
+		},
+		groundColor: { value: GROUND_COLOR },
+		skyColor: { value: SKY_COLOR },
+		nebulaColor: { value: NEBULA_COLOR },
+		sunSize: { value: isMobile ? 300 : 600 },
+		seed: { value: seed ?? 0 },
+		time: { value: 0 },
+	}));
 
 	return (
 		<group position={camera.position}>

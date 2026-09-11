@@ -1,5 +1,5 @@
 import clsx, { type ClassValue } from "clsx";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { useSettingsStore } from "../store";
 
@@ -30,6 +30,8 @@ export const gcd = (x: number, y: number) => {
 export const easeSteps = (steps: number) => (progress: number) =>
 	Math.floor(progress * steps) / steps;
 
+export const circOut = (t: number) => Math.sqrt(1 - (t - 1) ** 2);
+
 export const ease5Steps = easeSteps(5);
 export const ease25Steps = easeSteps(25);
 
@@ -48,23 +50,17 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const useMediaQuery = (query: string) => {
-	const media = useMemo(
-		() =>
-			typeof window === "undefined" ? undefined : window.matchMedia(query),
-		[query],
+	const [matches, setMatches] = useState(() =>
+		typeof window === "undefined" ? false : window.matchMedia(query).matches,
 	);
-	const [matches, setMatches] = useState(media ? media.matches : false);
 
 	useEffect(() => {
-		if (!media) return;
-
-		if (media.matches !== matches) setMatches(media.matches);
+		const media = window.matchMedia(query);
 		const listener = () => setMatches(media.matches);
 		listener();
 		media.addEventListener("change", listener);
-
 		return () => media.removeEventListener("change", listener);
-	}, [media]);
+	}, [query]);
 
 	return matches;
 };
@@ -104,7 +100,7 @@ export function useDebounce<type>(
 	delay = 3000,
 ): [type, React.Dispatch<React.SetStateAction<type>>] {
 	const [state, dispatch] = useState(initialState);
-	const timeout = useRef(0);
+	const timeout = useRef(-1);
 	const debouncedDispatch: React.Dispatch<React.SetStateAction<type>> = (
 		...props
 	) => {
@@ -130,26 +126,26 @@ export function useTimeout(callback: Function, delay: number) {
 }
 
 export const useAudio = (src: string, vol = 1, loop = false) => {
-	const audio = useMemo(() => new Audio(), []);
+	const audio = useRef(new Audio());
 	const srcUsed = useRef("");
 	const globalVol = useSettingsStore(store => store.volume * 0.01);
 	useEffect(() => {
-		audio.volume = vol * globalVol;
+		audio.current.volume = vol * globalVol;
 	}, [vol, globalVol]);
 
 	const tryPlay = () => {
-		audio.loop = loop;
+		audio.current.loop = loop;
 		if (srcUsed.current !== src) {
 			srcUsed.current = src;
-			audio.src = src;
+			audio.current.src = src;
 		}
-		if (!audio.paused) return;
-		if (audio.readyState >= 3) return audio.play();
+		if (!audio.current.paused) return;
+		if (audio.current.readyState >= 3) return audio.current.play();
 
-		audio.addEventListener("canplay", audio.play);
+		audio.current.addEventListener("canplay", audio.current.play);
 	};
 
-	return [tryPlay, audio.pause.bind(audio)];
+	return [tryPlay, audio.current.pause.bind(audio)];
 };
 
 export const Colors = {
