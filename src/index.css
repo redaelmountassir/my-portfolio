@@ -177,7 +177,7 @@
 	@apply my-2 ml-4 grow cursor-pointer appearance-none bg-transparent bg-linear-to-r from-pink-accent via-blue-accent via-50% to-50% bg-double p-1 outline-2 outline-white-primary;
 
 	&::-webkit-slider-thumb {
-		@apply relative z-40 h-4 w-6 appearance-none bg-white-primary shadow-[-2px_-2px_inset] shadow-light-primary;
+		@apply relative h-4 w-6 appearance-none bg-white-primary shadow-[-2px_-2px_inset] shadow-light-primary;
 	}
 
 	&::-moz-range-thumb {
@@ -188,7 +188,7 @@
 @utility backdrop-blur-parent {
 	&::before {
 		content: "";
-		@apply absolute -z-10 size-full backdrop-blur-sm;
+		@apply absolute -z-1 size-full backdrop-blur-sm;
 	}
 }
 

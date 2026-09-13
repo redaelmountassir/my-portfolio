@@ -23,7 +23,7 @@ const MobileTaskbar = () => {
 		<>
 			<MobileTaskbarPanel />
 			<motion.nav
-				className="fixed bottom-0 z-30 w-full p-0 font-bold short:px-4 short:py-2"
+				className="fixed bottom-0 w-full p-0 font-bold short:px-4 short:py-2"
 				variants={{
 					unloaded: { opacity: 0, y: "100%" },
 					loaded: {

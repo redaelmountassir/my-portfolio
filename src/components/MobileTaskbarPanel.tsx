@@ -76,7 +76,7 @@ const MobileTaskbar = () => {
 						val == 0 ? "none" : "auto",
 					),
 				}}
-				className="fixed top-0 z-40 size-full touch-none bg-black-primary/75 p-4 pt-12 text-white-primary backdrop-blur-lg short:pt-16 short:pb-12"
+				className="fixed top-0 size-full touch-none bg-black-primary/75 p-4 pt-12 text-white-primary backdrop-blur-lg short:pt-16 short:pb-12"
 				drag
 				dragConstraints={{ top: 0, left: 0, right: 0, bottom: 0 }}
 				dragElastic={0}
@@ -272,7 +272,7 @@ const MobileTaskbar = () => {
 						val == 1 ? "none" : "auto",
 					),
 				}}
-				className="fixed top-0 z-40 flex w-full cursor-grab touch-none items-center gap-2 p-2 px-4 text-white-primary short:p-4"
+				className="fixed top-0 flex w-full cursor-grab touch-none items-center gap-2 p-2 px-4 text-white-primary short:p-4"
 				drag
 				dragConstraints={{ top: 0, left: 0, right: 0, bottom: 0 }}
 				dragElastic={0}

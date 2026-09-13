@@ -2,10 +2,7 @@ import { type MotionStyle, type Variants, motion } from "motion/react";
 import React, { useEffect, useRef, useState } from "react";
 import { cn, ease5Steps } from "../utils";
 
-interface DropdownProps extends React.DetailedHTMLProps<
-	React.ButtonHTMLAttributes<HTMLButtonElement>,
-	HTMLButtonElement
-> {
+interface DropdownProps extends React.ComponentPropsWithoutRef<"button"> {
 	pClassName?: string;
 	dClassName?: string;
 	children: React.ReactElement;
@@ -105,7 +102,7 @@ const Dropdown = (props: DropdownProps) => {
 			</button>
 			<motion.div
 				className={cn(
-					"absolute -z-10 border-2 border-t-0 border-white-primary bg-linear-to-r from-black-primary/75 to-dark-primary/75 bg-fixed backdrop-blur-sm",
+					"absolute -z-1 border-2 border-t-0 border-white-primary bg-linear-to-r from-black-primary/75 to-dark-primary/75 bg-fixed backdrop-blur-sm",
 					!open && "pointer-events-none",
 					!noPadding && "p-4",
 					dClassName,

@@ -73,26 +73,22 @@ though you didn't hear that from me...
 	return (
 		<MobileContext.Provider value={isMobile}>
 			<Head />
-			<main
+			<Loader
+				enable={introDone}
 				className={cn(
-					"relative h-(--vh-full,100vh) w-screen overflow-hidden bg-black",
+					"relative h-(--vh-full,100vh) w-screen overflow-hidden bg-black-primary",
 					isMobile && "use-scrollbar",
 				)}
 				ref={mainRef}
 				id="invert-layer"
 			>
-				{introDone ? (
-					<Loader>
-						<Background />
-						<Taskbar />
-						<Desktop />
-						{/* <WindowsArea /> */}
-					</Loader>
-				) : (
-					<Intro onFinish={() => setIntroDone(true)} />
-				)}
-			</main>
+				<Background />
+				<Desktop />
+				{/* <WindowsArea /> */}
+				<Taskbar />
+			</Loader>
 			<Modifiers />
+			{!introDone && <Intro onComplete={() => setIntroDone(true)} />}
 		</MobileContext.Provider>
 	);
 };

@@ -1,23 +1,22 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { randomChar } from "../utils";
 
 const APPROX_CHAR_W = 15;
 const APPROX_CHAR_H = 35;
 
-const GlitchWall = ({ duration = 6000 }) => {
+const GlitchWall = ({ duration = 6000, enable = false }) => {
 	const textRef = useRef<HTMLParagraphElement>(null);
 
 	//Doesn't create a new array every frame now
-	const array = useMemo(() => {
-		const charCount = Math.ceil(
-			(window.innerWidth / APPROX_CHAR_W) *
-				(window.innerHeight / APPROX_CHAR_H) +
-				100,
-		);
-		return Array.from(Array(charCount));
-	}, []);
+	const charCount = Math.ceil(
+		(window.innerWidth / APPROX_CHAR_W) * (window.innerHeight / APPROX_CHAR_H) +
+			100,
+	);
+	const array = Array.from(Array(charCount));
 
 	useEffect(() => {
+		if (!enable) return;
+
 		const interval = setInterval(() => {
 			if (!textRef.current) return;
 			textRef.current.textContent = array.map(randomChar).join("");
@@ -31,11 +30,11 @@ const GlitchWall = ({ duration = 6000 }) => {
 			clearInterval(interval);
 			clearTimeout(timeout);
 		};
-	}, []);
+	}, [enable, duration]);
 
 	return (
 		<p
-			className="pointer-events-none absolute top-1/2 -z-10 size-full -translate-y-1/2 text-center text-3xl break-all text-purple-watermark opacity-40"
+			className="pointer-events-none absolute top-1/2 -z-1 size-full -translate-y-1/2 text-center text-3xl break-all text-purple-watermark opacity-40"
 			ref={textRef}
 		/>
 	);

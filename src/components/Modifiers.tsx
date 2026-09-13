@@ -16,12 +16,12 @@ const Modifiers = () => {
 	return (
 		<>
 			<div
-				className="pointer-events-none fixed top-0 z-50 h-full w-full bg-black"
+				className="pointer-events-none fixed top-0 h-full w-full bg-black"
 				style={{ opacity: map(brightness, 0, 100, 0.8, 0) }}
 			/>
 			{useStatic && (
 				<video
-					className="pointer-events-none fixed top-0 z-50 h-full w-full object-cover mix-blend-color-dodge"
+					className="pointer-events-none fixed top-0 h-full w-full object-cover mix-blend-color-dodge"
 					muted
 					autoPlay
 					loop
@@ -32,7 +32,7 @@ const Modifiers = () => {
 			)}
 			{scanlines && (
 				<motion.div
-					className="pointer-events-none fixed bottom-0 z-50 box-content h-full w-full bg-linear-to-b from-transparent via-black bg-size-[100%_10px] bg-repeat-y pt-3 opacity-5"
+					className="pointer-events-none fixed bottom-0 box-content h-full w-full bg-linear-to-b from-transparent via-black bg-size-[100%_10px] bg-repeat-y pt-3 opacity-5"
 					initial={{ y: 0 }}
 					animate={{ y: 10 }}
 					transition={{
@@ -43,7 +43,7 @@ const Modifiers = () => {
 				/>
 			)}
 			{useFlicker && (
-				<div className="pointer-events-none fixed top-0 z-50 h-full w-full full-flicker bg-black/20" />
+				<div className="pointer-events-none fixed top-0 h-full w-full full-flicker bg-black/20" />
 			)}
 		</>
 	);

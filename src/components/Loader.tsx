@@ -1,6 +1,12 @@
-import { motion, useAnimate } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import {
+	animate,
+	motion,
+	type HTMLMotionProps,
+	type Variants,
+} from "motion/react";
+import { forwardRef, useEffect, useState } from "react";
 import logo_animated_img from "../assets/images/logo/logo_lg_animated.png";
+import { cn, ease5Steps, easeSteps } from "../utils";
 import GlitchWall from "./GlitchWall";
 import SmartImage from "./SmartImage";
 
@@ -8,77 +14,132 @@ const FRAMES = 36;
 const FRAME_WIDTH = 256;
 const ANIMATION_TIME = 3;
 
-const Loader = ({ children }: { children: React.ReactNode }) => {
-	const logo = useRef<HTMLDivElement>(null);
-	const [loaded, setLoaded] = useState(false);
-	const [scope, animate] = useAnimate();
-
-	useEffect(() => {
-		const playAnim = async () => {
-			if (!logo.current) return;
-
-			// TODO: Maybe add an actual load sequence sometime in the future
-			logo.current.classList.remove("translate-x-12");
-			const logoImg = logo.current.firstElementChild as HTMLElement;
-			logoImg.style.transform = `translateX(-${FRAMES * FRAME_WIDTH}px)`;
-
-			await animate(0, 3.99, {
-				repeat: 5,
-				duration: 1,
-				type: "tween",
-				ease: "linear",
-				onUpdate: latest =>
-					(document.title = `Booting${".".repeat(Math.floor(latest))}`),
-			});
-			document.title = "RedaOS";
-
-			await animate(scope.current, {
-				opacity: 0,
-				transitionEnd: { visibility: "hidden" },
-			});
-
-			setLoaded(true);
-		};
-
-		playAnim();
-	}, []);
-
-	return (
-		<>
-			<div
-				ref={scope}
-				className="fixed z-50 flex size-full items-center justify-center bg-black-primary"
-			>
-				<div className="flex size-128 flex-col items-center justify-center bg-radial-[circle] from-black-primary from-[128px] to-transparent to-[256px]">
-					<motion.div
-						className="w-64 translate-x-12 overflow-hidden transition-transform delay-1000 duration-1000 ease-out"
-						ref={logo}
-						initial={{ filter: "drop-shadow(0px 0px 0px #f6019d)" }}
-						animate={{ filter: "drop-shadow(0px 0px 16px #f6019d)" }}
-					>
-						<SmartImage
-							src={logo_animated_img}
-							alt="Animated logo"
-							className="h-32 max-w-none transition-transform delay-1000"
-							style={{
-								transitionTimingFunction: `steps(${FRAMES})`,
-								transitionDuration: `${ANIMATION_TIME}s`,
-							}}
-						/>
-					</motion.div>
-					<p className="text-light-primary">Definitely Loading...</p>
-				</div>
-				<GlitchWall />
-			</div>
-			<motion.div
-				animate={loaded ? "loaded" : "unloaded"}
-				initial="unloaded"
-				className="contents"
-			>
-				{children}
-			</motion.div>
-		</>
-	);
+const coverVariants: Variants = {
+	idle: { opacity: 0, transition: { duration: 0 } },
+	boot: { opacity: 1, transition: { duration: 0 } },
+	exit: {
+		opacity: 0,
+		transitionEnd: { visibility: "hidden" },
+		transition: { type: "tween", duration: 0.4, ease: ease5Steps },
+	},
 };
+
+const logoVariants: Variants = {
+	idle: {
+		x: 48,
+		filter: "drop-shadow(0px 0px 0px #f6019d)",
+	},
+	boot: {
+		x: 0,
+		filter: "drop-shadow(0px 0px 16px #f6019d)",
+		transition: {
+			x: { type: "tween", delay: 1, duration: 1, ease: "easeOut" },
+			filter: { type: "tween" },
+		},
+	},
+	exit: {
+		x: 0,
+		filter: "drop-shadow(0px 0px 16px #f6019d)",
+		transition: { duration: 0 },
+	},
+};
+
+const spriteVariants: Variants = {
+	idle: { x: 0 },
+	boot: {
+		x: -(FRAMES * FRAME_WIDTH),
+		transition: {
+			type: "tween",
+			delay: 1,
+			duration: ANIMATION_TIME,
+			ease: easeSteps(FRAMES),
+		},
+	},
+	exit: {
+		x: -(FRAMES * FRAME_WIDTH),
+		transition: { duration: 0 },
+	},
+};
+
+interface LoaderProps extends HTMLMotionProps<"main"> {
+	children: React.ReactNode;
+	enable: boolean;
+}
+
+const Loader = forwardRef<HTMLElement, LoaderProps>(
+	({ children, enable, ...props }: LoaderProps, ref) => {
+		const [loaded, setLoaded] = useState(false);
+
+		useEffect(() => {
+			if (!enable) {
+				setLoaded(false);
+				return;
+			}
+
+			let cancelled = false;
+
+			(async () => {
+				await animate(0, 3.99, {
+					repeat: 5,
+					duration: 1,
+					type: "tween",
+					ease: "linear",
+					onUpdate: latest =>
+						(document.title = `Booting${".".repeat(Math.floor(latest))}`),
+				});
+				document.title = "RedaOS";
+
+				if (!cancelled) setLoaded(true);
+			})();
+
+			return () => {
+				cancelled = true;
+			};
+		}, [enable]);
+
+		return (
+			<>
+				<motion.main
+					animate={loaded ? "loaded" : "unloaded"}
+					initial="unloaded"
+					{...props}
+					className={cn(
+						props.className,
+						"transition delay-75",
+						!loaded && "invisible",
+					)}
+					ref={ref}
+				>
+					{children}
+				</motion.main>
+				<motion.div
+					className={cn(
+						"fixed inset-0 z-50 flex items-center justify-center bg-black-primary",
+					)}
+					initial={false}
+					animate={loaded ? "exit" : enable ? "boot" : "idle"}
+					variants={coverVariants}
+				>
+					<div className="flex size-128 flex-col items-center justify-center bg-radial-[circle] from-black-primary from-[128px] to-transparent to-[256px]">
+						<motion.div
+							className="w-64 overflow-hidden"
+							variants={logoVariants}
+						>
+							<motion.div variants={spriteVariants}>
+								<SmartImage
+									src={logo_animated_img}
+									alt="Animated logo"
+									className="h-32 max-w-none"
+								/>
+							</motion.div>
+						</motion.div>
+						<p className="text-light-primary">Definitely Loading...</p>
+					</div>
+					<GlitchWall enable={enable && !loaded} />
+				</motion.div>
+			</>
+		);
+	},
+);
 
 export default Loader;

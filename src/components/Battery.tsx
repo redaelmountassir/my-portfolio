@@ -1,10 +1,7 @@
 import React from "react";
 import { cn } from "../utils";
 
-interface BatteryProps extends React.DetailedHTMLProps<
-	React.SVGAttributes<SVGSVGElement>,
-	SVGSVGElement
-> {
+interface BatteryProps extends React.ComponentPropsWithoutRef<"svg"> {
 	level: number;
 }
 

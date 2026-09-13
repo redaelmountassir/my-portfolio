@@ -3,10 +3,7 @@ import { resolveProjectAsset } from "../content/projectsLoader";
 import type { SystemObject } from "../store/types";
 import SmartImage from "./SmartImage";
 
-interface IconProps extends React.DetailedHTMLProps<
-	React.ImgHTMLAttributes<HTMLImageElement>,
-	HTMLImageElement
-> {
+interface IconProps extends React.ComponentPropsWithoutRef<"img"> {
 	sysObj: SystemObject;
 }
 

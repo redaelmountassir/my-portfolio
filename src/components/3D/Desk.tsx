@@ -1,7 +1,7 @@
 import { useGLTF, useTexture } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, type ThreeElements } from "@react-three/fiber";
 import { animate } from "motion/react";
-import { useLayoutEffect, useRef, type JSX } from "react";
+import { useLayoutEffect, useRef } from "react";
 import {
 	Color,
 	Mesh,
@@ -27,11 +27,20 @@ type GLTFResult = GLTF & {
 	};
 };
 
+type DeskProps = ThreeElements["group"] & {
+	brighteningDelay?: number;
+	flickeringDelay?: number;
+};
+
 const mat = new MeshStandardMaterial({
 	color: Colors.BlackPrimary,
 });
 
-const Desk = (props: JSX.IntrinsicElements["group"]) => {
+const Desk = ({
+	brighteningDelay = 0,
+	flickeringDelay,
+	...props
+}: DeskProps) => {
 	const gltf = useGLTF("/models/desk.glb") as unknown as GLTFResult;
 	const { nodes } = gltf;
 	useLayoutEffect(() => {
@@ -52,7 +61,7 @@ const Desk = (props: JSX.IntrinsicElements["group"]) => {
 			mat.color,
 			{ r: target.r, g: target.g, b: target.b },
 			{
-				delay: 4.5,
+				delay: flickeringDelay,
 				type: "spring",
 				bounce: 1,
 				duration: 3,
@@ -67,7 +76,8 @@ const Desk = (props: JSX.IntrinsicElements["group"]) => {
 		light.current.color = screen.current.color;
 		screen.current.emissive = screen.current.color;
 		const emission = Math.random();
-		const addedBrightness = Math.max(0, state.clock.elapsedTime - 9.75) * 2;
+		const addedBrightness =
+			Math.max(0, state.clock.elapsedTime - brighteningDelay) * 2;
 		screen.current.emissiveIntensity = emission * 0.05 + 0.1 + addedBrightness;
 		light.current.intensity = emission * 100 + 100;
 	});
