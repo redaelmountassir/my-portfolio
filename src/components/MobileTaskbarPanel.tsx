@@ -36,6 +36,8 @@ const MobileTaskbar = () => {
 		setLightMode,
 		fullscreen,
 		setFullscreen,
+		skipLoader,
+		setSkipLoader,
 		initFullscreen,
 		restart,
 		shutdown,
@@ -176,6 +178,9 @@ const MobileTaskbar = () => {
 					</ToggleBtn>
 					<ToggleBtn setter={setFullscreen} state={fullscreen}>
 						Fullscreen
+					</ToggleBtn>
+					<ToggleBtn setter={setSkipLoader} state={skipLoader}>
+						Skip Load
 					</ToggleBtn>
 					<Slider
 						noMargin

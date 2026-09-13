@@ -6,6 +6,7 @@ import {
 } from "motion/react";
 import { forwardRef, useEffect, useState } from "react";
 import logo_animated_img from "../assets/images/logo/logo_lg_animated.png";
+import { useSettingsStore } from "../store";
 import { cn, ease5Steps, easeSteps } from "../utils";
 import GlitchWall from "./GlitchWall";
 import SmartImage from "./SmartImage";
@@ -68,11 +69,18 @@ interface LoaderProps extends HTMLMotionProps<"main"> {
 
 const Loader = forwardRef<HTMLElement, LoaderProps>(
 	({ children, enable, ...props }: LoaderProps, ref) => {
-		const [loaded, setLoaded] = useState(false);
+		const skipLoader = useSettingsStore(state => state.skipLoader);
+		const [loaded, setLoaded] = useState(skipLoader && enable);
 
 		useEffect(() => {
 			if (!enable) {
 				setLoaded(false);
+				return;
+			}
+
+			if (skipLoader) {
+				document.title = "RedaOS";
+				setLoaded(true);
 				return;
 			}
 
@@ -95,7 +103,7 @@ const Loader = forwardRef<HTMLElement, LoaderProps>(
 			return () => {
 				cancelled = true;
 			};
-		}, [enable]);
+		}, [enable, skipLoader]);
 
 		return (
 			<>

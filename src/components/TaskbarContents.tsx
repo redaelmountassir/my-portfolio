@@ -37,6 +37,8 @@ const TaskbarContents = () => {
 		setLightMode,
 		fullscreen,
 		setFullscreen,
+		skipLoader,
+		setSkipLoader,
 		initFullscreen,
 		restart,
 		shutdown,
@@ -218,6 +220,9 @@ const TaskbarContents = () => {
 						</Toggle>
 						<Toggle state={fullscreen} setter={setFullscreen}>
 							Fullscreen
+						</Toggle>
+						<Toggle state={skipLoader} setter={setSkipLoader}>
+							Skip Load
 						</Toggle>
 						<Toggle state={hardmode} setter={setHardmode}>
 							Hard Mode?

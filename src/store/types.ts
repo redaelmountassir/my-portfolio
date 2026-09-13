@@ -105,6 +105,7 @@ export interface SettingsStore {
 	lightModeText: string;
 	lightMode: boolean;
 	fullscreen: boolean;
+	skipLoader: boolean;
 	setBrightness(val: number): void;
 	set3D(val: boolean): void;
 	setStatic(val: boolean): void;
@@ -114,6 +115,7 @@ export interface SettingsStore {
 	setVolume(val: number): void;
 	setLightMode(val: boolean): void;
 	setFullscreen(val: boolean): void;
+	setSkipLoader(val: boolean): void;
 	initFullscreen: Function;
 	restart: Function;
 	shutdown: Function;

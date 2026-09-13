@@ -85,6 +85,7 @@ export const useSettingsStore = create<
 			lightModeText: LIGHT_MODE_TEXT[0],
 			lightMode: false,
 			fullscreen: false,
+			skipLoader: false,
 			setLightMode(val) {
 				const nextIndex = Math.min(
 					LIGHT_MODE_TEXT.indexOf(get().lightModeText) + 1,
@@ -114,6 +115,7 @@ export const useSettingsStore = create<
 			},
 			setFlicker: val => set({ useFlicker: val }),
 			setVolume: val => set({ volume: clamp(0, 100, val) }),
+			setSkipLoader: val => set({ skipLoader: val }),
 			setFullscreen: val => {
 				if (!screenfull.isEnabled) return;
 				val ? screenfull.request() : screenfull.exit();
