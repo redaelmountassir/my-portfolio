@@ -12,6 +12,7 @@ import Head from "./Head";
 import Intro from "./Intro";
 import Loader from "./Loader";
 import MobileTaskbar from "./MobileTaskbarPanel";
+import Modifiers from "./Modifiers";
 import Taskbar from "./Taskbar";
 
 export const MobileContext = createContext(true);
@@ -95,7 +96,7 @@ though you didn't hear that from me...
 						<Intro onFinish={() => setIntroDone(true)} />
 					))}
 			</main>
-			{/* <Modifiers /> */}
+			<Modifiers />
 		</MobileContext.Provider>
 	);
 };
