@@ -1,4 +1,5 @@
 import type { Directory } from "../store/types";
+import { projectFiles } from "./projectsLoader";
 
 const InitialSystem: Directory = {
 	name: "users",
@@ -9,7 +10,7 @@ const InitialSystem: Directory = {
 				{
 					name: "Desktop",
 					children: [
-						{ name: "Projects", children: [] },
+						{ name: "Projects", children: projectFiles },
 						{
 							name: "about_me",
 							ext: "txt",

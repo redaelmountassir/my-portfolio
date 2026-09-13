@@ -16,7 +16,6 @@ description:
   saving the end user significant time. Built to be highly customizable and
   powerful.
 showcases:
-  - "../../images/filefly/showcase_1.jpg"
-  - "../../images/filefly/showcase_2.jpg"
-  - "../../images/filefly/showcase_3.jpg"
-logo: "../../images/filefly/logo.png"
+  - showcase_1.jpg
+  - showcase_2.jpg
+  - showcase_3.jpg

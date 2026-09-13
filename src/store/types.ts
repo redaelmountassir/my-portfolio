@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export type SystemObject = Directory | File;
 export type FileExtension = "pdf" | "txt" | "png" | "mp4" | "exe" | "mys";
 export type WindowType =
@@ -11,23 +13,24 @@ export type WindowType =
 	| "Blank";
 export type Path = string[];
 
-export interface MediaFile {
-	loc?: {
-		text: string;
-		link: string;
-	};
-	org?: string;
-	roles: string[];
-	date: Date;
-	categories: string[];
-	tags: string[];
-	description: string;
-	showcases: string[];
-	logo: string;
-	parent?: {
-		name?: string;
-	};
-}
+// Essentially media === projects
+export const mediaSchema = z.object({
+	loc: z
+		.object({
+			text: z.string(),
+			link: z.string(),
+		})
+		.optional(),
+	org: z.string().optional(),
+	roles: z.array(z.string()),
+	date: z.coerce.date(),
+	categories: z.array(z.string()),
+	tags: z.array(z.string()),
+	description: z.string(),
+	showcases: z.array(z.string()),
+});
+
+export type Media = z.infer<typeof mediaSchema>;
 
 export interface Directory {
 	name: string;
@@ -40,7 +43,7 @@ export interface File {
 	name: string;
 	hidden?: boolean;
 	ext: FileExtension;
-	value?: MediaFile | string;
+	value?: Media | string;
 	htmlElement?: HTMLElement;
 }
 

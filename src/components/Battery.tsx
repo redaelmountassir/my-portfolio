@@ -33,8 +33,8 @@ const Battery = (props: BatteryProps) => {
 			{PATHS.map((path, i, _) => (
 				<path
 					className={cn(
-						levelScaled > i &&
-							`stroke-current ${levelScaled < i + 0.5 && "animate-pulse"}`,
+						levelScaled > i && "stroke-current",
+						levelScaled < i + 0.5 && "animate-pulse",
 					)}
 					key={path}
 					d={path}

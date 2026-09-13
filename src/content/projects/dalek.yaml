@@ -17,8 +17,7 @@ description:
   recreation built with my team at the Franklin Institute is driven by a universal
   custom remote that also controls a WIP R2D2. Together, we also built other various robotics.
 showcases:
-  - "../../images/dalek/dalek.mp4"
-  - "../../images/dalek/on_dalek.jpeg"
-  - "../../images/dalek/christmas_dalek.jpg"
-  - "../../images/dalek/misc.jpg"
-logo: "../../images/dalek/logo.png"
+  - dalek.mp4
+  - on_dalek.jpeg
+  - christmas_dalek.jpg
+  - misc.jpg

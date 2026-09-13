@@ -23,9 +23,8 @@ description:
     an early operating system. Originally built on a Flask backend (which still can
     be found on my github!), but upgraded to Gatsby in order to allow for reactivity.
 showcases:
-    - '../../images/my_portfolio/showcase_1.jpg'
-    - '../../images/my_portfolio/showcase_2.jpg'
-    - '../../images/my_portfolio/showcase_3.jpg'
-    - '../../images/my_portfolio/showcase_4.jpg'
-    - '../../images/my_portfolio/showcase_5.jpg'
-logo: '../../images/logo/logo_32x32.png'
+    - showcase_1.jpg
+    - showcase_2.jpg
+    - showcase_3.jpg
+    - showcase_4.jpg
+    - showcase_5.jpg

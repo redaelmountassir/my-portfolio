@@ -21,7 +21,6 @@ description:
     in rendering the clouds were generated with compute shaders and a wrapper of C# UI to make setting
     parameters and generation easier.
 showcases:
-    - '../../images/cloud_renderer/cloud_sim.mp4'
-    - '../../images/cloud_renderer/noise_gen.mp4'
-    - '../../images/cloud_renderer/ui.jpg'
-logo: '../../images/cloud_renderer/logo.png'
+    - cloud_sim.mp4
+    - noise_gen.mp4
+    - ui.jpg

@@ -7,6 +7,7 @@ import {
 	usePersistent,
 } from "../utils";
 import Background from "./Background";
+import Desktop from "./Desktop";
 import Head from "./Head";
 import Intro from "./Intro";
 import Loader from "./Loader";
@@ -87,8 +88,8 @@ though you didn't hear that from me...
 							<Loader />
 							<Background />
 							{isMobile ? <MobileTaskbar /> : <Taskbar />}
-							{/* <ShortcutsArea />
-							<WindowsArea /> */}
+							<Desktop />
+							{/* <WindowsArea /> */}
 						</>
 					) : (
 						<Intro onFinish={() => setIntroDone(true)} />
