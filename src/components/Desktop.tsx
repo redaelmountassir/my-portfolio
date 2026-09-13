@@ -32,8 +32,6 @@ const Desktop = () => {
 		<motion.ul
 			className="pointer-events-none absolute top-0 grid h-full w-full grid-cols-3 grid-rows-2 justify-items-center p-4 pt-20 pb-24 xs:grid-cols-5 sm:grid-cols-6! md:flex md:items-start md:pb-4 short:grid-rows-3 average:grid-rows-4 tall:grid-rows-5"
 			style={{ gridAutoRows: 0 }}
-			initial="unloaded"
-			animate="loaded"
 			variants={listVariants}
 		>
 			{shortcuts.map((shortcut, i) => (

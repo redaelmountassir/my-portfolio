@@ -8,13 +8,13 @@ import {
 	type WebGLRendererParameters,
 } from "three";
 import { useBoundStore, useMobileStore } from "../store";
+import { MobileContext } from "../store/MobileContext";
 import { Colors } from "../utils";
 import CameraEffects from "./3D/CameraEffects";
 import Plane from "./3D/Plane";
 import Sky from "./3D/Sky";
 import Symbols from "./3D/Symbols";
 import Throbber from "./3D/Throbber";
-import { MobileContext } from "./OS";
 
 const SEED = Math.round((Math.random() * 2 - 1) * 1000);
 const TRIANGLE_COLOR = new Color(Colors.BlueAccent).multiplyScalar(20);

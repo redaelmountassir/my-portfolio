@@ -72,27 +72,24 @@ export const useBreakpointShort = () => useMediaQuery("(min-height: 500px)");
 // export const useBreakpointXL = () => useMediaQuery('(min-width: 1280px)');
 // export const useBreakpoint2XL = () => useMediaQuery('(min-width: 1536px)');
 
-export function usePersistent<type extends Object>(
+export function usePersistent<T>(
 	key: string,
-	initialState: type,
-	conversion: (str: string) => type,
-): [boolean, type, (value: type) => void, Function] {
-	const [ready, setReady] = useState(false);
-	const [value, setValue] = useState(initialState);
-	const setVal = (value: type) => {
-		setValue(value);
-		localStorage.setItem(key, value.toString());
-	};
+	initialState: T,
+	conversion: (str: string) => T,
+): [T, (value: T) => void, () => void] {
+	const [value, setValue] = useState(() => {
+		const stored = localStorage.getItem(key);
+		return stored != null ? conversion(stored) : initialState;
+	});
 
-	useEffect(() => {
-		const actualInitial = localStorage.getItem(key);
-		if (actualInitial) setVal(conversion(actualInitial));
-		setReady(true);
-	}, []);
+	const setVal = (next: T) => {
+		setValue(next);
+		localStorage.setItem(key, String(next));
+	};
 
 	const clear = () => localStorage.removeItem(key);
 
-	return [ready, value, setVal, clear];
+	return [value, setVal, clear];
 }
 
 export function useDebounce<type>(

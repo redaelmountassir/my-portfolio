@@ -3,8 +3,8 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { BackSide, Color, ShaderMaterial, Vector3 } from "three";
 import fragmentShader from "../../assets/shaders/sky.frag";
 import vertexShader from "../../assets/shaders/sky.vert";
+import { MobileContext } from "../../store/MobileContext";
 import { Colors } from "../../utils";
-import { MobileContext } from "../OS";
 
 interface SkyProps {
 	seed: number;

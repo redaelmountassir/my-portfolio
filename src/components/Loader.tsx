@@ -8,9 +8,9 @@ const FRAMES = 36;
 const FRAME_WIDTH = 256;
 const ANIMATION_TIME = 3;
 
-const Loader = () => {
-	const [loaded, setLoaded] = useState(false);
+const Loader = ({ children }: { children: React.ReactNode }) => {
 	const logo = useRef<HTMLDivElement>(null);
+	const [loaded, setLoaded] = useState(false);
 	const [scope, animate] = useAnimate();
 
 	useEffect(() => {
@@ -32,7 +32,7 @@ const Loader = () => {
 			});
 			document.title = "RedaOS";
 
-			animate(scope.current, {
+			await animate(scope.current, {
 				opacity: 0,
 				transitionEnd: { visibility: "hidden" },
 			});
@@ -44,34 +44,40 @@ const Loader = () => {
 	}, []);
 
 	return (
-		<motion.div
-			animate={loaded ? "loaded" : "unloaded"}
-			ref={scope}
-			className="fixed z-50 flex size-full items-center justify-center bg-black-primary"
-		>
+		<>
 			<div
-				className="flex size-128 flex-col items-center justify-center bg-radial-[circle] from-black-primary from-[128px] to-transparent to-[256px]"
+				ref={scope}
+				className="fixed z-50 flex size-full items-center justify-center bg-black-primary"
 			>
-				<motion.div
-					className="w-64 translate-x-12 overflow-hidden transition-transform delay-1000 duration-1000 ease-out"
-					ref={logo}
-					initial={{ filter: "drop-shadow(0px 0px 0px #f6019d)" }}
-					animate={{ filter: "drop-shadow(0px 0px 16px #f6019d)" }}
-				>
-					<SmartImage
-						src={logo_animated_img}
-						alt="Animated logo"
-						className="h-32 max-w-none transition-transform delay-1000"
-						style={{
-							transitionTimingFunction: `steps(${FRAMES})`,
-							transitionDuration: `${ANIMATION_TIME}s`,
-						}}
-					/>
-				</motion.div>
-				<p className="text-light-primary">Definitely Loading...</p>
+				<div className="flex size-128 flex-col items-center justify-center bg-radial-[circle] from-black-primary from-[128px] to-transparent to-[256px]">
+					<motion.div
+						className="w-64 translate-x-12 overflow-hidden transition-transform delay-1000 duration-1000 ease-out"
+						ref={logo}
+						initial={{ filter: "drop-shadow(0px 0px 0px #f6019d)" }}
+						animate={{ filter: "drop-shadow(0px 0px 16px #f6019d)" }}
+					>
+						<SmartImage
+							src={logo_animated_img}
+							alt="Animated logo"
+							className="h-32 max-w-none transition-transform delay-1000"
+							style={{
+								transitionTimingFunction: `steps(${FRAMES})`,
+								transitionDuration: `${ANIMATION_TIME}s`,
+							}}
+						/>
+					</motion.div>
+					<p className="text-light-primary">Definitely Loading...</p>
+				</div>
+				<GlitchWall />
 			</div>
-			<GlitchWall />
-		</motion.div>
+			<motion.div
+				animate={loaded ? "loaded" : "unloaded"}
+				initial="unloaded"
+				className="contents"
+			>
+				{children}
+			</motion.div>
+		</>
 	);
 };
 

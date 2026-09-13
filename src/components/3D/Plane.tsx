@@ -3,8 +3,8 @@ import { useContext, useRef, useState } from "react";
 import { Color, ShaderMaterial } from "three";
 import fragmentShader from "../../assets/shaders/grid.frag";
 import vertexShader from "../../assets/shaders/grid.vert";
+import { MobileContext } from "../../store/MobileContext";
 import { Colors } from "../../utils";
-import { MobileContext } from "../OS";
 
 interface PlaneProps {
 	seed: number;

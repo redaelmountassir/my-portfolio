@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
+import { MobileContext } from "../store/MobileContext";
 import type { SystemObject } from "../store/types";
 import { cn } from "../utils";
 import Icon from "./Icon";
-import { MobileContext } from "./OS";
 
 interface ShortcutProps {
 	sysObj: SystemObject;

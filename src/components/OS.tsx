@@ -1,5 +1,6 @@
 import { useReducedMotion } from "motion/react";
-import React, { createContext, useEffect } from "react";
+import React, { useEffect } from "react";
+import { MobileContext } from "../store/MobileContext";
 import {
 	cn,
 	useBreakpointMD,
@@ -11,11 +12,8 @@ import Desktop from "./Desktop";
 import Head from "./Head";
 import Intro from "./Intro";
 import Loader from "./Loader";
-import MobileTaskbar from "./MobileTaskbarPanel";
 import Modifiers from "./Modifiers";
 import Taskbar from "./Taskbar";
-
-export const MobileContext = createContext(true);
 
 const OS = () => {
 	const wide = useBreakpointMD();
@@ -66,7 +64,7 @@ though you didn't hear that from me...
 		};
 	}, []);
 
-	const [ready, introDone, setIntroDone] = usePersistent(
+	const [introDone, setIntroDone] = usePersistent(
 		"introDone",
 		isMobile || (reducedMotion ?? false),
 		str => str === "true",
@@ -83,18 +81,16 @@ though you didn't hear that from me...
 				ref={mainRef}
 				id="invert-layer"
 			>
-				{ready &&
-					(introDone ? (
-						<>
-							<Loader />
-							<Background />
-							{isMobile ? <MobileTaskbar /> : <Taskbar />}
-							<Desktop />
-							{/* <WindowsArea /> */}
-						</>
-					) : (
-						<Intro onFinish={() => setIntroDone(true)} />
-					))}
+				{introDone ? (
+					<Loader>
+						<Background />
+						<Taskbar />
+						<Desktop />
+						{/* <WindowsArea /> */}
+					</Loader>
+				) : (
+					<Intro onFinish={() => setIntroDone(true)} />
+				)}
 			</main>
 			<Modifiers />
 		</MobileContext.Provider>
