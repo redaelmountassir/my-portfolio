@@ -58,7 +58,7 @@ const MobileTaskbar = () => {
 
 		if (!("getBattery" in navigator))
 			return setBattery(Math.max(Math.random(), 0.001));
-		let batteryRef: any, updateBattery: Function;
+		let batteryRef: any, updateBattery: () => void;
 		//@ts-ignore
 		navigator.getBattery().then(batt => {
 			batteryRef = batt;
@@ -66,7 +66,8 @@ const MobileTaskbar = () => {
 			batt.addEventListener("levelchange", updateBattery);
 			updateBattery();
 		});
-		return () => batteryRef?.removeEventListener("levelchange", updateBattery);
+		return () =>
+			batteryRef?.removeEventListener("levelchange", updateBattery);
 	}, []);
 
 	return (
@@ -95,13 +96,19 @@ const MobileTaskbar = () => {
 				onDragEnd={() => {
 					document.documentElement.classList.remove("cursor-grab");
 					document.body.classList.remove("pointer-events-none");
-					animate(settingsReveal, settingsReveal.get() > 0.65 ? 1 : 0);
+					animate(
+						settingsReveal,
+						settingsReveal.get() > 0.65 ? 1 : 0,
+					);
 				}}
 			>
 				<motion.div
 					className="grid h-full grid-cols-2 gap-4"
 					style={{
-						y: useTransform(settingsReveal, val => `${(1 - val) * -100}%`),
+						y: useTransform(
+							settingsReveal,
+							val => `${(1 - val) * -100}%`,
+						),
 						gridTemplateRows: "auto repeat(5, 1fr) auto auto",
 					}}
 				>
@@ -122,12 +129,16 @@ const MobileTaskbar = () => {
 							target="_blank"
 							className="cursor-pointer"
 						>
-							<SmartImage src={gitHubImg} alt="GitHub Logo" className="w-6" />
+							<SmartImage
+								src={gitHubImg}
+								alt="GitHub Logo"
+								className="w-6"
+							/>
 						</a>
 						<button
 							type="button"
 							className="cursor-pointer"
-							onClick={() => restart()}
+							onClick={restart}
 						>
 							<SmartImage
 								src={restartImg}
@@ -212,7 +223,9 @@ const MobileTaskbar = () => {
 									key={path}
 									className={cn(
 										"origin-center scale-0 stroke-transparent transition",
-										brightness >= ((arr.length - i) / arr.length) * 100 &&
+										brightness >=
+											((arr.length - i) / arr.length) *
+												100 &&
 											"scale-100 stroke-white-primary",
 									)}
 									d={path}
@@ -242,21 +255,24 @@ const MobileTaskbar = () => {
 							<path
 								className={cn(
 									"-translate-x-1 stroke-transparent transition",
-									volume > 0 && "translate-x-0 stroke-white-primary",
+									volume > 0 &&
+										"translate-x-0 stroke-white-primary",
 								)}
 								d="M9 6h1M10 7h1M10 8h1M9 9h1"
 							/>
 							<path
 								className={cn(
 									"-translate-x-1 stroke-transparent transition",
-									volume > 33.3 && "translate-x-0 stroke-white-primary",
+									volume > 33.3 &&
+										"translate-x-0 stroke-white-primary",
 								)}
 								d="M10 4h1M11 5h1M12 6h1M12 7h1M12 8h1M12 9h1M11 10h1M10 11h1"
 							/>
 							<path
 								className={cn(
 									"-translate-x-1 stroke-transparent transition",
-									volume > 66.6 && "translate-x-0 stroke-white-primary",
+									volume > 66.6 &&
+										"translate-x-0 stroke-white-primary",
 								)}
 								d="M11 2h1M12 3h1M13 4h1M14 5h1M14 6h1M14 7h1M14 8h1M14 9h1M14 10h1M13 11h1M12 12h1M11 13h1"
 							/>
@@ -287,12 +303,17 @@ const MobileTaskbar = () => {
 					document.body.classList.add("pointer-events-none");
 				}}
 				onDrag={(_e, info) =>
-					settingsReveal.set(clamp(info.offset.y / window.innerHeight, 0, 1))
+					settingsReveal.set(
+						clamp(info.offset.y / window.innerHeight, 0, 1),
+					)
 				}
 				onDragEnd={() => {
 					document.documentElement.classList.remove("cursor-grab");
 					document.body.classList.remove("pointer-events-none");
-					animate(settingsReveal, settingsReveal.get() > 0.35 ? 1 : 0);
+					animate(
+						settingsReveal,
+						settingsReveal.get() > 0.35 ? 1 : 0,
+					);
 				}}
 			>
 				<p>
@@ -304,7 +325,7 @@ const MobileTaskbar = () => {
 				<SmartImage
 					src={mobileIcons}
 					alt="Mobile icons"
-					className="w- ml-auto h-4"
+					className="ml-auto h-4"
 				/>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -326,14 +347,16 @@ const MobileTaskbar = () => {
 					<path
 						className={cn(
 							"-translate-x-1 stroke-transparent transition",
-							volume > 33.3 && "translate-x-0 stroke-white-primary",
+							volume > 33.3 &&
+								"translate-x-0 stroke-white-primary",
 						)}
 						d="M10 4h1M11 5h1M12 6h1M12 7h1M12 8h1M12 9h1M11 10h1M10 11h1"
 					/>
 					<path
 						className={cn(
 							"-translate-x-1 stroke-transparent transition",
-							volume > 66.6 && "translate-x-0 stroke-white-primary",
+							volume > 66.6 &&
+								"translate-x-0 stroke-white-primary",
 						)}
 						d="M11 2h1M12 3h1M13 4h1M14 5h1M14 6h1M14 7h1M14 8h1M14 9h1M14 10h1M13 11h1M12 12h1M11 13h1"
 					/>

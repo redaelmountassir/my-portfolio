@@ -60,7 +60,7 @@ const TaskbarContents = () => {
 
 		if (!("getBattery" in navigator))
 			return setBattery(Math.max(Math.random(), 0.001));
-		let batteryRef: any, updateBattery: Function;
+		let batteryRef: any, updateBattery: () => void;
 		//@ts-ignore
 		navigator.getBattery().then(batt => {
 			batteryRef = batt;
@@ -122,7 +122,7 @@ const TaskbarContents = () => {
 						<button
 							type="button"
 							className="group block w-full p-4 text-left whitespace-nowrap transition-colors ease-steps2 hover:bg-white-primary hover:text-black-primary"
-							onClick={() => restart()}
+							onClick={restart}
 						>
 							<SmartImage
 								src={restartImg}

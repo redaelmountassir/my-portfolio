@@ -9,20 +9,23 @@ const GlitchWall = ({ duration = 6000, enable = false }) => {
 
 	//Doesn't create a new array every frame now
 	const charCount = Math.ceil(
-		(window.innerWidth / APPROX_CHAR_W) * (window.innerHeight / APPROX_CHAR_H) +
+		(window.innerWidth / APPROX_CHAR_W) *
+			(window.innerHeight / APPROX_CHAR_H) +
 			100,
 	);
-	const array = Array.from(Array(charCount));
 
 	useEffect(() => {
 		if (!enable) return;
 
 		const interval = setInterval(() => {
 			if (!textRef.current) return;
-			textRef.current.textContent = array.map(randomChar).join("");
+			textRef.current.textContent = Array.from(
+				{ length: charCount },
+				randomChar,
+			).join("");
 		}, 60);
 
-		let timeout: number;
+		let timeout = -1;
 		if (duration !== Infinity)
 			timeout = setTimeout(() => clearInterval(interval), duration);
 

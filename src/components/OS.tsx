@@ -14,6 +14,7 @@ import Intro from "./Intro";
 import Loader from "./Loader";
 import Modifiers from "./Modifiers";
 import Taskbar from "./Taskbar";
+import WindowsArea from "./WindowsArea";
 
 const OS = () => {
 	const wide = useBreakpointMD();
@@ -84,7 +85,7 @@ though you didn't hear that from me...
 			>
 				<Background />
 				<Desktop />
-				{/* <WindowsArea /> */}
+				<WindowsArea />
 				<Taskbar />
 			</Loader>
 			<Modifiers />

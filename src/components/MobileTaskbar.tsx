@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 import backImg from "../assets/images/back.png";
 import homeImg from "../assets/images/home.png";
 import menuImg from "../assets/images/menu.png";
-import { useBoundStore, useMobileStore } from "../store";
+import { useMobileStore, useSystemStore } from "../store";
 import { cn, ease5Steps } from "../utils";
 import MobileTaskbarPanel from "./MobileTaskbarPanel";
 import SmartImage from "./SmartImage";
@@ -17,7 +17,7 @@ const MobileTaskbar = () => {
 			state.menuOpen,
 		],
 	);
-	const windows = useBoundStore(state => state.windows.length);
+	const windows = useSystemStore(state => state.windows.length);
 
 	return (
 		<>
@@ -61,7 +61,7 @@ const MobileTaskbar = () => {
 					<button
 						className="flex grow justify-center short:py-2"
 						type="button"
-						onClick={() => home()}
+						onClick={home}
 					>
 						<SmartImage
 							src={homeImg}
@@ -73,7 +73,7 @@ const MobileTaskbar = () => {
 					<button
 						className="flex grow justify-center short:py-2"
 						type="button"
-						onClick={() => back()}
+						onClick={back}
 					>
 						<SmartImage
 							src={backImg}

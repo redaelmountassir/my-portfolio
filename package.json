@@ -25,7 +25,6 @@
 		"react": "^19.2.8",
 		"react-dom": "^19.2.8",
 		"screenfull": "^6.0.2",
-		"simplex-noise": "^4.0.3",
 		"tailwind-merge": "^3.6.0",
 		"tailwindcss": "^4.3.3",
 		"three": "^0.185.1",

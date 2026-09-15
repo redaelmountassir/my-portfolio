@@ -4,7 +4,7 @@ import {
 	type HTMLMotionProps,
 	type Variants,
 } from "motion/react";
-import { forwardRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import logo_animated_img from "../assets/images/logo/logo_lg_animated.png";
 import { useSettingsStore } from "../store";
 import { cn, ease5Steps, easeSteps } from "../utils";
@@ -67,87 +67,83 @@ interface LoaderProps extends HTMLMotionProps<"main"> {
 	enable: boolean;
 }
 
-const Loader = forwardRef<HTMLElement, LoaderProps>(
-	({ children, enable, ...props }: LoaderProps, ref) => {
-		const skipLoader = useSettingsStore(state => state.skipLoader);
-		const [loaded, setLoaded] = useState(skipLoader && enable);
+const Loader = ({ children, enable, ref, ...props }: LoaderProps) => {
+	const skipLoader = useSettingsStore(state => state.skipLoader);
+	const [loaded, setLoaded] = useState(skipLoader && enable);
 
-		useEffect(() => {
-			if (!enable) {
-				setLoaded(false);
-				return;
-			}
+	useEffect(() => {
+		if (!enable) {
+			setLoaded(false);
+			return;
+		}
 
-			if (skipLoader) {
-				document.title = "RedaOS";
-				setLoaded(true);
-				return;
-			}
+		if (skipLoader) {
+			document.title = "RedaOS";
+			setLoaded(true);
+			return;
+		}
 
-			let cancelled = false;
+		let cancelled = false;
 
-			(async () => {
-				await animate(0, 3.99, {
-					repeat: 5,
-					duration: 1,
-					type: "tween",
-					ease: "linear",
-					onUpdate: latest =>
-						(document.title = `Booting${".".repeat(Math.floor(latest))}`),
-				});
-				document.title = "RedaOS";
+		(async () => {
+			await animate(0, 3.99, {
+				repeat: 5,
+				duration: 1,
+				type: "tween",
+				ease: "linear",
+				onUpdate: latest =>
+					(document.title = `Booting${".".repeat(Math.floor(latest))}`),
+			});
+			document.title = "RedaOS";
 
-				if (!cancelled) setLoaded(true);
-			})();
+			if (!cancelled) setLoaded(true);
+		})();
 
-			return () => {
-				cancelled = true;
-			};
-		}, [enable, skipLoader]);
+		return () => {
+			cancelled = true;
+		};
+	}, [enable, skipLoader]);
 
-		return (
-			<>
-				<motion.main
-					animate={loaded ? "loaded" : "unloaded"}
-					initial="unloaded"
-					{...props}
-					className={cn(
-						props.className,
-						"transition delay-75",
-						!loaded && "invisible",
-					)}
-					ref={ref}
-				>
-					{children}
-				</motion.main>
-				<motion.div
-					className={cn(
-						"fixed inset-0 z-50 flex items-center justify-center bg-black-primary",
-					)}
-					initial={false}
-					animate={loaded ? "exit" : enable ? "boot" : "idle"}
-					variants={coverVariants}
-				>
-					<div className="flex size-128 flex-col items-center justify-center bg-radial-[circle] from-black-primary from-[128px] to-transparent to-[256px]">
-						<motion.div
-							className="w-64 overflow-hidden"
-							variants={logoVariants}
-						>
-							<motion.div variants={spriteVariants}>
-								<SmartImage
-									src={logo_animated_img}
-									alt="Animated logo"
-									className="h-32 max-w-none"
-								/>
-							</motion.div>
+	return (
+		<>
+			<motion.main
+				animate={loaded ? "loaded" : "unloaded"}
+				initial="unloaded"
+				{...props}
+				className={cn(
+					props.className,
+					"transition delay-75",
+					!loaded && "invisible",
+				)}
+				ref={ref}
+			>
+				{children}
+			</motion.main>
+			<motion.div
+				className="fixed inset-0 z-10 flex items-center justify-center bg-black-primary"
+				initial={false}
+				animate={loaded ? "exit" : enable ? "boot" : "idle"}
+				variants={coverVariants}
+			>
+				<div className="flex size-128 flex-col items-center justify-center bg-radial from-black-primary from-[128px] to-transparent to-[256px]">
+					<motion.div
+						className="w-64 overflow-hidden"
+						variants={logoVariants}
+					>
+						<motion.div variants={spriteVariants}>
+							<SmartImage
+								src={logo_animated_img}
+								alt="Animated logo"
+								className="h-32 max-w-none"
+							/>
 						</motion.div>
-						<p className="text-light-primary">Definitely Loading...</p>
-					</div>
-					<GlitchWall enable={enable && !loaded} />
-				</motion.div>
-			</>
-		);
-	},
-);
+					</motion.div>
+					<p className="text-light-primary">Definitely Loading...</p>
+				</div>
+				<GlitchWall enable={enable && !loaded} />
+			</motion.div>
+		</>
+	);
+};
 
 export default Loader;

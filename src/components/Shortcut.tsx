@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useSystemKeys } from "../store";
 import { MobileContext } from "../store/MobileContext";
 import type { SystemObject } from "../store/types";
 import { cn } from "../utils";
@@ -11,7 +12,7 @@ interface ShortcutProps {
 }
 
 const Shortcut = ({ sysObj, overrideClick, tile = true }: ShortcutProps) => {
-	// const [addWindow] = useBoundStore(state => [state.addWindow]);
+	const { addWindow } = useSystemKeys("addWindow");
 	const isMobile = useContext(MobileContext);
 
 	return (
@@ -21,33 +22,39 @@ const Shortcut = ({ sysObj, overrideClick, tile = true }: ShortcutProps) => {
 				!tile && "w-full gap-6 md:gap-4 md:py-2",
 			)}
 			type="button"
-			// onDoubleClick={
-			// 	overrideClick
-			// 		? e => !isMobile && overrideClick(e)
-			// 		: e =>
-			// 				!isMobile &&
-			// 				addWindow({
-			// 					...sysObj,
-			// 					htmlElement:
-			// 						e.target instanceof HTMLElement ? e.target : undefined,
-			// 				})
-			// }
-			// onClick={
-			// 	overrideClick
-			// 		? e => isMobile && overrideClick(e)
-			// 		: e =>
-			// 				isMobile &&
-			// 				addWindow({
-			// 					...sysObj,
-			// 					htmlElement:
-			// 						e.target instanceof HTMLElement ? e.target : undefined,
-			// 				})
-			// }
+			onDoubleClick={
+				overrideClick
+					? e => !isMobile && overrideClick(e)
+					: e =>
+							!isMobile &&
+							addWindow({
+								...sysObj,
+								htmlElement:
+									e.target instanceof HTMLElement
+										? e.target
+										: undefined,
+							})
+			}
+			onClick={
+				overrideClick
+					? e => isMobile && overrideClick(e)
+					: e =>
+							isMobile &&
+							addWindow({
+								...sysObj,
+								htmlElement:
+									e.target instanceof HTMLElement
+										? e.target
+										: undefined,
+							})
+			}
 		>
 			<Icon
 				className={cn(
 					"pointer-events-none size-10",
-					tile ? "size-16 md:mb-4" : "shrink-0 xs:size-16 md:h-10 md:w-10",
+					tile
+						? "size-16 md:mb-4"
+						: "shrink-0 xs:size-16 md:size-10",
 				)}
 				sysObj={sysObj}
 			/>
@@ -60,7 +67,9 @@ const Shortcut = ({ sysObj, overrideClick, tile = true }: ShortcutProps) => {
 				)}
 			>
 				{sysObj.name}
-				{"ext" in sysObj && sysObj.ext !== "exe" ? `.${sysObj.ext}` : ""}
+				{"ext" in sysObj && sysObj.ext !== "exe"
+					? `.${sysObj.ext}`
+					: ""}
 			</p>
 		</button>
 	);

@@ -2,31 +2,10 @@ import { clamp } from "motion/react";
 import screenfull from "screenfull";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { useShallow } from "zustand/react/shallow";
 import { createDirectorySlice } from "./directorySlice";
-import type {
-	DirectorySlice,
-	MobileStore,
-	SettingsStore,
-	WindowSlice,
-} from "./types";
+import type { MobileStore, SettingsStore, SystemState } from "./types";
 import { createWindowSlice } from "./windowSlice";
-
-export const useBoundStore = create<WindowSlice & DirectorySlice>()((...a) => ({
-	...createWindowSlice(...a),
-	...createDirectorySlice(...a),
-}));
-
-export const useMobileStore = create<MobileStore>(set => ({
-	menuOpen: false,
-	windowOpen: undefined,
-	toggleMenu: () => set(state => ({ menuOpen: !state.menuOpen })),
-	home: () => set({ windowOpen: undefined, menuOpen: false }),
-	showWindow: toShow => set({ windowOpen: toShow }),
-	back: () =>
-		set(state =>
-			state.menuOpen ? { menuOpen: false } : { windowOpen: undefined },
-		),
-}));
 
 const LIGHT_MODE_TEXT = [
 	"Light Mode?",
@@ -68,6 +47,37 @@ const LIGHT_MODE_TEXT = [
 	"Fine",
 	"Light Mode",
 ];
+
+export function useSystemKeys<K extends keyof SystemState>(
+	...keys: K[]
+): Pick<SystemState, K> {
+	return useSystemStore(
+		useShallow(state => {
+			const slice = {} as Pick<SystemState, K>;
+			for (const key of keys) {
+				slice[key] = state[key];
+			}
+			return slice;
+		}),
+	);
+}
+
+export const useSystemStore = create<SystemState>()((...a) => ({
+	...createWindowSlice(...a),
+	...createDirectorySlice(...a),
+}));
+
+export const useMobileStore = create<MobileStore>(set => ({
+	menuOpen: false,
+	windowOpen: undefined,
+	toggleMenu: () => set(state => ({ menuOpen: !state.menuOpen })),
+	home: () => set({ windowOpen: undefined, menuOpen: false }),
+	showWindow: toShow => set({ windowOpen: toShow }),
+	back: () =>
+		set(state =>
+			state.menuOpen ? { menuOpen: false } : { windowOpen: undefined },
+		),
+}));
 
 export const useSettingsStore = create<
 	SettingsStore,

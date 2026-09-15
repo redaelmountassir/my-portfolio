@@ -1,18 +1,16 @@
-import type { ImgHTMLAttributes } from "react";
 import { cn } from "../utils";
 
 type ImageProps = Omit<
-	ImgHTMLAttributes<HTMLImageElement>,
+	React.ComponentPropsWithRef<"img">,
 	"src" | "alt" | "width" | "height"
 > & {
 	src: ImportedImage;
 	alt: string;
+	ref?: React.RefObject<HTMLImageElement | null>;
 };
 
-const SmartImage = ({ src, ...props }: ImageProps) => {
-	return (
-		<img {...src} {...props} className={cn("h-auto w-auto", props.className)} />
-	);
-};
+const SmartImage = ({ src, ...props }: ImageProps) => (
+	<img {...src} {...props} className={cn("size-auto", props.className)} />
+);
 
 export default SmartImage;

@@ -7,7 +7,7 @@ import {
 	WebGLRenderer,
 	type WebGLRendererParameters,
 } from "three";
-import { useBoundStore, useMobileStore } from "../store";
+import { useMobileStore, useSystemKeys } from "../store";
 import { MobileContext } from "../store/MobileContext";
 import { Colors } from "../utils";
 import CameraEffects from "./3D/CameraEffects";
@@ -82,8 +82,8 @@ const Background3D = () => {
 	const windowCovering =
 		useMobileStore(state => state.windowOpen !== undefined || state.menuOpen) &&
 		isMobile;
-	const windowMaximized =
-		useBoundStore(state => state.windowMaximized) && !isMobile;
+	const { windowMaximized: maximized } = useSystemKeys("windowMaximized");
+	const windowMaximized = maximized && !isMobile;
 
 	return (
 		<Canvas

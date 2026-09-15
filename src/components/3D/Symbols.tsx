@@ -10,8 +10,8 @@ import React, {
 import { Mesh } from "three";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { createGlitchMat } from "../../assets/shaders/glitchMat";
-import { useBoundStore } from "../../store";
-import type { Window } from "../../store/types";
+import { useSystemStore } from "../../store";
+import type { WindowData } from "../../store/types";
 import { randRange } from "../../utils";
 import { disposeLoadedGltfTextures } from "../../utils/3D";
 
@@ -25,7 +25,7 @@ type GLTFResult = GLTF & {
 	};
 };
 
-function checkVisibility(window: Window | undefined): string {
+function checkVisibility(window: WindowData | undefined): string {
 	if (!window) return "logo";
 	switch (window.type) {
 		case "Contact":
@@ -80,7 +80,7 @@ const Symbols = (props: React.JSX.IntrinsicElements["group"]) => {
 	const [currentNode, setCurrentNode] = useState<string>(
 		checkVisibility(undefined),
 	);
-	const currentWindow = useBoundStore(
+	const currentWindow = useSystemStore(
 		({ windows }) => windows[windows.length - 1],
 	);
 	useEffect(() => {

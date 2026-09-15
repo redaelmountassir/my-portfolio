@@ -12,6 +12,7 @@ export type WindowType =
 	| "Virus"
 	| "Blank";
 export type Path = string[];
+export type SystemState = WindowSlice & DirectorySlice;
 
 // Essentially media === projects
 export const mediaSchema = z.object({
@@ -47,7 +48,7 @@ export interface File {
 	htmlElement?: HTMLElement;
 }
 
-export interface Window {
+export interface WindowData {
 	id: number;
 	sysObj: SystemObject;
 	type: WindowType;
@@ -55,19 +56,19 @@ export interface Window {
 
 export interface WindowSlice {
 	lastId: number;
-	windows: Window[];
+	windows: WindowData[];
 	windowAudio?: HTMLAudioElement;
 	windowMaximized: boolean;
 	setWindowMaximized(windowMaximized: boolean): void;
 	playSound(reverse?: boolean): void;
-	findWindow(windows: Window[], ref: number | Window): number;
+	findWindow(windows: WindowData[], ref: number | WindowData): number;
 	addWindow(
 		sysObj: SystemObject,
 		customID?: number,
 		blockSound?: boolean,
 	): void;
-	deleteWindow(ref: number | Window): void;
-	replaceWindow(oldWindow: number | Window, newObj: SystemObject): void;
+	deleteWindow(ref: number | WindowData): void;
+	replaceWindow(oldWindow: number | WindowData, newObj: SystemObject): void;
 	deleteWindows(): void;
 }
 
@@ -87,11 +88,11 @@ export interface DirectorySlice {
 
 export interface MobileStore {
 	menuOpen: boolean;
-	windowOpen?: Window;
-	toggleMenu: Function;
-	home: Function;
-	showWindow(toShow: Window): void;
-	back: Function;
+	windowOpen?: WindowData;
+	toggleMenu: () => void;
+	home: () => void;
+	showWindow(toShow: WindowData): void;
+	back: () => void;
 }
 
 export interface SettingsStore {
@@ -116,7 +117,7 @@ export interface SettingsStore {
 	setLightMode(val: boolean): void;
 	setFullscreen(val: boolean): void;
 	setSkipLoader(val: boolean): void;
-	initFullscreen: Function;
-	restart: Function;
-	shutdown: Function;
+	initFullscreen: () => void;
+	restart: () => void;
+	shutdown: () => void;
 }

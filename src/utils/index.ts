@@ -109,17 +109,33 @@ export function useDebounce<type>(
 	return [state, debouncedDispatch];
 }
 
-export function useInterval(callback: Function, delay: number) {
+export function useInterval(callback: () => void, delay: number) {
+	const id = useRef(-1);
+	const callbackRef = useRef(callback);
 	useEffect(() => {
-		const interval = setInterval(callback, delay);
-		return () => clearInterval(interval);
-	}, []);
+		callbackRef.current = callback;
+	});
+	useEffect(() => {
+		id.current = setInterval(() => callbackRef.current(), delay);
+		return () => {
+			clearInterval(id.current);
+			id.current = -1;
+		};
+	}, [delay]);
 }
-export function useTimeout(callback: Function, delay: number) {
+export function useTimeout(callback: () => void, delay: number) {
+	const id = useRef(-1);
+	const callbackRef = useRef(callback);
 	useEffect(() => {
-		const timeout = setTimeout(callback, delay);
-		return () => clearTimeout(timeout);
-	}, []);
+		callbackRef.current = callback;
+	});
+	useEffect(() => {
+		id.current = setTimeout(() => callbackRef.current(), delay);
+		return () => {
+			clearTimeout(id.current);
+			id.current = -1;
+		};
+	}, [delay]);
 }
 
 export const useAudio = (src: string, vol = 1, loop = false) => {

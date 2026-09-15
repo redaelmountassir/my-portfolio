@@ -8,10 +8,10 @@ interface GlitchTextProps {
 	animated?: boolean;
 	onLoad?: boolean | number;
 	onScroll?: boolean;
-	scrollRoot?: React.RefObject<Element>;
+	scrollRoot?: React.RefObject<Element | null>;
 	decay?: boolean;
 	decayRate?: number;
-	onComplete?: Function;
+	onComplete?: () => void;
 }
 
 const GlitchText = ({
@@ -33,6 +33,7 @@ const GlitchText = ({
 		() => {
 			if (!text.current) return;
 			clearInterval(interval.current);
+			let timeout = -1;
 			const begin = () => {
 				if (interval.current !== -1) return;
 				interval.current = setInterval(() => {
@@ -40,7 +41,7 @@ const GlitchText = ({
 					if (iterations.current > children.length) {
 						clearInterval(interval.current);
 						interval.current = -1;
-						onComplete && onComplete();
+						onComplete?.();
 						return;
 					}
 
@@ -62,7 +63,8 @@ const GlitchText = ({
 						root: scrollRoot?.current ?? undefined,
 						amount: 0.7,
 					});
-				else if (typeof onLoad === "number") setTimeout(begin, onLoad);
+				else if (typeof onLoad === "number")
+					timeout = setTimeout(begin, onLoad);
 				else begin();
 			} else if (text.current) {
 				text.current.textContent = children;
@@ -72,6 +74,7 @@ const GlitchText = ({
 			return () => {
 				clearInterval(interval.current);
 				interval.current = -1;
+				clearTimeout(timeout);
 			};
 		},
 		onLoad || onScroll ? [text.current] : [animated, text.current],

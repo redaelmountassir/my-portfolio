@@ -1,4 +1,4 @@
-import { type MotionStyle, type Variants, motion } from "motion/react";
+import { type Variants, motion } from "motion/react";
 import React, { useEffect, useRef, useState } from "react";
 import { cn, ease5Steps } from "../utils";
 
@@ -79,14 +79,6 @@ const Dropdown = (props: DropdownProps) => {
 		return () => document.removeEventListener("pointerdown", clickOut);
 	}, [forcedAlignment]);
 
-	const alignmentStyle: MotionStyle = { top: "100%" };
-	if (align === "left") alignmentStyle.left = "0";
-	else if (align === "right") alignmentStyle.right = "0";
-	else {
-		alignmentStyle.left = "50%";
-		alignmentStyle.x = "-50%";
-	}
-
 	return (
 		<div className={cn("relative select-none", pClassName)} ref={dropdown}>
 			<button
@@ -102,12 +94,14 @@ const Dropdown = (props: DropdownProps) => {
 			</button>
 			<motion.div
 				className={cn(
-					"absolute -z-1 border-2 border-t-0 border-white-primary bg-linear-to-r from-black-primary/75 to-dark-primary/75 bg-fixed backdrop-blur-sm",
+					"absolute top-full -z-1 border-2 border-t-0 border-white-primary bg-linear-to-r from-black-primary/75 to-dark-primary/75 bg-fixed backdrop-blur-sm",
+					align === "left" && "left-0",
+					align === "right" && "right-0",
+					align === "center" && "left-1/2 -translate-x-1/2",
 					!open && "pointer-events-none",
 					!noPadding && "p-4",
 					dClassName,
 				)}
-				style={alignmentStyle}
 				initial="closed"
 				animate={open ? "open" : "closed"}
 				variants={dropdownVariants}

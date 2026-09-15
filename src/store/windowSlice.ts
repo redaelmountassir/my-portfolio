@@ -5,7 +5,7 @@ import { randRange } from "../utils";
 import type {
 	DirectorySlice,
 	SystemObject,
-	Window,
+	WindowData,
 	WindowSlice,
 	WindowType,
 } from "./types";
@@ -67,7 +67,7 @@ export const createWindowSlice: StateCreator<
 	addWindow(sysObj, customID = -1, blockSound = false) {
 		const type = pickWindowType(sysObj);
 		let id = customID === -1 ? get().lastId : customID;
-		const newWindow: Window = {
+		const newWindow: WindowData = {
 			sysObj,
 			type,
 			id,

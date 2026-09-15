@@ -6,12 +6,13 @@ import palmImg from "../assets/images/palm.png";
 import pixelatedHeadGif from "../assets/images/pixelated_head.gif";
 import triangleImg from "../assets/images/triangle_outline_blue.png";
 import { useSettingsStore } from "../store";
+import { cn } from "../utils";
 import SmartImage from "./SmartImage";
 
 const Background3D = React.lazy(() => import("./Background3D"));
 
-const PALM_PATH =
-	"polygon(42% 100%, 38% 70%, 48% 37%, 63% 54%, 72% 46%, 80% 43%, 66% 30%, 95% 30%, 96% 25%, 87% 23%, 73% 16%, 94% 18%, 84% 4%, 60% 5%, 42% 0%, 34% 1%, 36% 9%, 21% 7%, 5% 13%, 14% 19%, 2% 25%, 4% 31%, 17% 31%, 23% 34%, 24% 44%, 31% 46%, 35% 52%, 27% 69%, 22% 100%)";
+const PALM_CLIP =
+	"[clip-path:polygon(42%_100%,38%_70%,48%_37%,63%_54%,72%_46%,80%_43%,66%_30%,95%_30%,96%_25%,87%_23%,73%_16%,94%_18%,84%_4%,60%_5%,42%_0%,34%_1%,36%_9%,21%_7%,5%_13%,14%_19%,2%_25%,4%_31%,17%_31%,23%_34%,24%_44%,31%_46%,35%_52%,27%_69%,22%_100%)]";
 const Background = () => {
 	const use3D = useSettingsStore(state => state.use3D);
 	const [odds] = useState(Math.random);
@@ -60,14 +61,16 @@ const Background = () => {
 						src={triangleImg}
 						alt=""
 						draggable="false"
-						className="absolute top-1/2 left-1/2 w-96 -translate-x-1/2 translate-y-[-62%] drop-shadow-[0_0_35px_#b1d7ef] filter"
+						className="absolute top-1/2 left-1/2 w-96 -translate-x-1/2 -translate-y-[62%] drop-shadow-[0_0_35px_#b1d7ef] filter"
 					/>
 					<SmartImage
 						src={palmImg}
 						alt=""
 						draggable="false"
-						style={{ clipPath: PALM_PATH }}
-						className="absolute -bottom-10 -left-32 w-[384px] origin-[35%_bottom] rotate-6 transition-transform duration-1000 ease-in-out hover:rotate-12 md:-left-5"
+						className={cn(
+							"absolute -bottom-10 -left-32 w-96 origin-[35%_bottom] rotate-6 transition-transform duration-1000 ease-in-out hover:rotate-12 md:-left-5",
+							PALM_CLIP,
+						)}
 					/>
 					<img
 						src={pixelatedHeadGif}
@@ -79,15 +82,19 @@ const Background = () => {
 						src={palmImg}
 						alt=""
 						draggable="false"
-						style={{ clipPath: PALM_PATH }}
-						className="invisible absolute -right-10 -bottom-24 w-[384px] origin-[35%_bottom] scale-75 -scale-x-100 -rotate-12 transition-transform duration-1000 ease-in-out hover:-rotate-6 md:visible"
+						className={cn(
+							"invisible absolute -right-10 -bottom-24 w-96 origin-[35%_bottom] scale-75 -scale-x-100 -rotate-12 transition-transform duration-1000 ease-in-out hover:-rotate-6 md:visible",
+							PALM_CLIP,
+						)}
 					/>
 					<SmartImage
 						src={palmImg}
 						alt=""
 						draggable="false"
-						style={{ clipPath: PALM_PATH }}
-						className="absolute -right-36 -bottom-10 w-[384px] origin-[35%_bottom] -scale-x-100 rotate-12 transition-transform duration-1000 ease-in-out hover:rotate-6"
+						className={cn(
+							"absolute -right-36 -bottom-10 w-96 origin-[35%_bottom] -scale-x-100 rotate-12 transition-transform duration-1000 ease-in-out hover:rotate-6",
+							PALM_CLIP,
+						)}
 					/>
 				</>
 			)}
