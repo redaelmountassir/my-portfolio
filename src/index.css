@@ -42,7 +42,8 @@
 		"Retro", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
 		"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 	--font-display:
-		"Retro Fancy", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+		"Retro Fancy", ui-serif, Georgia, Cambria, "Times New Roman", Times,
+		serif;
 
 	--breakpoint-xs: 512px;
 
@@ -158,7 +159,8 @@
 	.ss01,
 	.ss02 {
 		--combined:
-			var(--retro-fancy-dlig), var(--retro-fancy-ss01), var(--retro-fancy-ss02);
+			var(--retro-fancy-dlig), var(--retro-fancy-ss01),
+			var(--retro-fancy-ss02);
 		font-feature-settings: var(--combined);
 		-moz-font-feature-settings: var(--combined);
 		-webkit-font-feature-settings: var(--combined);
@@ -308,24 +310,24 @@
 
 	::-webkit-scrollbar-button:decrement {
 		@apply h-10 border-b-2 border-l-2 border-white-primary transition-colors ease-steps2;
-		background: no-repeat center / 70% url(images/arrow_up.png);
+		background: no-repeat center / 70% url(assets/images/arrow_up.png);
 	}
 
 	::-webkit-scrollbar-button:decrement:active {
 		@apply bg-white-primary;
 		background:
-			no-repeat center / 70% url(images/arrow_up_active.png),
+			no-repeat center / 70% url(assets/images/arrow_up_active.png),
 			rgb(245 249 255);
 	}
 
 	::-webkit-scrollbar-button:increment {
 		@apply h-10 border-t-2 border-l-2 border-white-primary transition-colors ease-steps2;
-		background: no-repeat center / 70% url(images/arrow_down.png);
+		background: no-repeat center / 70% url(assets/images/arrow_down.png);
 	}
 
 	::-webkit-scrollbar-button:increment:active {
 		background:
-			no-repeat center / 70% url(images/arrow_down_active.png),
+			no-repeat center / 70% url(assets/images/arrow_down_active.png),
 			rgb(245 249 255);
 	}
 

@@ -25,6 +25,41 @@ const BRIGHTENING_DELAY = 9.5;
 const Intro = ({ onComplete }: { onComplete: () => void }) => {
 	const wrapperRef = useRef<HTMLDivElement>(null);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
+	const skipHintRef = useRef<HTMLParagraphElement>(null);
+
+	useEffect(() => {
+		const skip = (event: KeyboardEvent) => {
+			event.preventDefault();
+			onComplete();
+		};
+		window.addEventListener("keydown", skip);
+		return () => window.removeEventListener("keydown", skip);
+	}, [onComplete]);
+
+	useEffect(() => {
+		const hint = skipHintRef.current;
+		if (!hint) return;
+
+		const fadeIn = animate(
+			hint,
+			{ opacity: 1 },
+			{ delay: 1, duration: 1.2, ease: "easeOut" },
+		);
+		let pulse: ReturnType<typeof animate> | undefined;
+		const startPulse = window.setTimeout(() => {
+			pulse = animate(
+				hint,
+				{ opacity: [1, 0.45, 1] },
+				{ duration: 2, repeat: Infinity, ease: "easeInOut" },
+			);
+		}, 2200);
+
+		return () => {
+			fadeIn.stop();
+			window.clearTimeout(startPulse);
+			pulse?.stop();
+		};
+	}, []);
 
 	useEffect(() => {
 		const canvas = canvasRef.current;
@@ -89,25 +124,37 @@ const Intro = ({ onComplete }: { onComplete: () => void }) => {
 						transition={CAM_TRANSITION}
 					/>
 				</Suspense>
-				<ambientLight intensity={0.7 * Math.PI} color={Colors.WhitePrimary} />
+				<ambientLight
+					intensity={0.7 * Math.PI}
+					color={Colors.WhitePrimary}
+				/>
 				<spotLight
-					position={[0, 2, 0]}
+					position={[0, 3, 0]}
 					color={Colors.PinkAccent}
-					intensity={4 * Math.PI}
-					angle={Math.PI / 2}
+					intensity={20 * Math.PI}
+					angle={Math.PI / 3}
 					penumbra={0.8}
 					castShadow
 					shadow-mapSize-height={512}
 					shadow-mapSize-width={512}
 				/>
+				<BakeShadows />
 				<fog
 					attach="fog"
 					color="black"
 					near={5}
 					far={15}
-					args={["black", 5, 15] /* Freaks out if I don't god knows y */}
+					args={
+						["black", 5, 15] /* Freaks out if I don't god knows y */
+					}
 				/>
 			</Canvas>
+			<p
+				ref={skipHintRef}
+				className="text-md pointer-events-none absolute inset-x-0 bottom-8 text-center text-white-primary opacity-0 select-none [text-shadow:0_1px_4px_#000]"
+			>
+				[To Skip Press Any Key]
+			</p>
 		</div>
 	);
 };

@@ -35,7 +35,7 @@ const FileExplorer = () => {
 	const parentFolders = traverse(sysObj) ?? [];
 
 	return (
-		<div className="relative flex-1 grid-cols-3 overflow-x-hidden overflow-y-auto md:grid short:md:mt-8.5">
+		<div className="relative flex-1 grid-cols-3 overflow-x-hidden overflow-y-auto md:grid short:md:mt-8 short:md:border-t-2">
 			<Marquee
 				className="sticky! z-1 hidden overflow-hidden border-b-2 border-white-primary bg-yellow-accent md:fixed! md:top-10 short:block"
 				innerClass="text-black-primary text-md py-1 px-20 text-center whitespace-pre"

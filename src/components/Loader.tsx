@@ -4,7 +4,7 @@ import {
 	type HTMLMotionProps,
 	type Variants,
 } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import logo_animated_img from "../assets/images/logo/logo_lg_animated.png";
 import { useSettingsStore } from "../store";
 import { cn, ease5Steps, easeSteps } from "../utils";
@@ -70,6 +70,9 @@ interface LoaderProps extends HTMLMotionProps<"main"> {
 const Loader = ({ children, enable, ref, ...props }: LoaderProps) => {
 	const skipLoader = useSettingsStore(state => state.skipLoader);
 	const [loaded, setLoaded] = useState(skipLoader && enable);
+	// initial only applies on mount. A later visit already has enable=true,
+	// so start at idle or the boot transition never runs.
+	const playBoot = useRef(enable && !skipLoader).current;
 
 	useEffect(() => {
 		if (!enable) {
@@ -121,7 +124,7 @@ const Loader = ({ children, enable, ref, ...props }: LoaderProps) => {
 			</motion.main>
 			<motion.div
 				className="fixed inset-0 z-10 flex items-center justify-center bg-black-primary"
-				initial={false}
+				initial={playBoot ? "idle" : false}
 				animate={loaded ? "exit" : enable ? "boot" : "idle"}
 				variants={coverVariants}
 			>
