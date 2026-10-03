@@ -1,7 +1,6 @@
 import {
 	easeIn,
 	motion,
-	steps,
 	useAnimationFrame,
 	useMotionValue,
 } from "motion/react";
@@ -18,6 +17,9 @@ import SmartImage from "../../SmartImage";
 const FRAMES = 46;
 const FRAME_WIDTH = 256;
 const ANIMATION_TIME = 2;
+const easeSteps = (count: number) => (progress: number) =>
+	Math.floor(progress * count) / count;
+
 const NameCard = () => {
 	const isMobile = useContext(MobileContext);
 	const pos = useRef(0);
@@ -43,7 +45,7 @@ const NameCard = () => {
 	return (
 		<div
 			ref={containerRef}
-			className="relative size-full overflow-hidden"
+			className="relative h-200 w-full overflow-hidden"
 			onPointerMove={e => {
 				if (!containerRef.current || isMobile) return;
 				const bounds = containerRef.current.getBoundingClientRect();
@@ -57,7 +59,7 @@ const NameCard = () => {
 				className="absolute bottom-0 left-1/2 w-175 max-w-none -translate-x-1/2"
 			/>
 			<motion.div
-				className="h-full preserve-3D perspective-[300px] perspective-origin-bottom"
+				className="h-full preserve-3D perspective-near perspective-origin-bottom"
 				style={{
 					rotateY,
 					rotate,
@@ -84,20 +86,20 @@ const NameCard = () => {
 				</motion.div>
 				<motion.div
 					initial={{ rotate: -180, y: "500%", z: 30, opacity: 0 }}
-					animate={{ rotate: 0, y: "50%", z: 30, opacity: 1 }}
+					animate={{ rotate: 0, y: "0%", z: 30, opacity: 1 }}
 					transition={{
 						delay: 2.5,
 						duration: 2,
 						type: "tween",
 						ease: "circOut",
 					}}
-					className="pointer-events-none absolute bottom-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+					className="pointer-events-none absolute bottom-2/5 left-1/2 -translate-x-1/2 translate-y-1/2"
 				>
 					<Float>
 						<SmartImage
 							src={myPhotoImg}
 							alt="Me on a horse"
-							className="h-100"
+							className="h-125 max-w-none"
 							loading="eager"
 						/>
 					</Float>
@@ -122,7 +124,8 @@ const NameCard = () => {
 							}}
 							transition={{
 								type: "tween",
-								ease: i => steps(10)(easeIn(i)),
+								ease: progress =>
+									easeSteps(10)(easeIn(progress)),
 								duration: 1,
 								delay: 0.5 + i * 0.1,
 							}}
@@ -131,18 +134,15 @@ const NameCard = () => {
 								animate={{ x: -FRAMES * FRAME_WIDTH }}
 								transition={{
 									duration: ANIMATION_TIME,
-									ease: steps(FRAMES),
+									ease: easeSteps(FRAMES),
 									delay: 2,
 								}}
 							>
 								<SmartImage
 									src={logoXLAnimatedImg}
 									alt="Animated logo"
-									className="h-32 transition-transform delay-1000"
-									style={{
-										transitionTimingFunction: `steps(${FRAMES})`,
-										transitionDuration: `${ANIMATION_TIME}s`,
-									}}
+									className="h-32 max-w-none"
+									loading="eager"
 								/>
 							</motion.div>
 						</motion.div>

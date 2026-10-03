@@ -1,6 +1,6 @@
 import { use } from "react";
 import { readProjectAsset } from "../../../content/projectsLoader";
-import PixelDissolveMedia from "./PixelDissolveMedia";
+import PixelDissolveMedia from "../../PixelDissolveMedia";
 
 const TOTAL_DURATION = 0.75;
 const HALF_DURATION = TOTAL_DURATION / 2;

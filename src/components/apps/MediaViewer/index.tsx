@@ -36,7 +36,7 @@ const MediaViewer = () => {
 	const sysObj = windowData?.sysObj;
 	const id = windowData?.id;
 	const setTitle = windowData?.setTitle;
-	const file = sysObj && isMediaFile(sysObj) ? sysObj : null;
+	const file = isMediaFile(sysObj) ? sysObj : null;
 	const projectData = file?.value;
 	const title = file?.name.replaceAll("_", " ") ?? "";
 

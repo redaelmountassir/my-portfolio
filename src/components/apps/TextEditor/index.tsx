@@ -1,4 +1,4 @@
-import { motion, steps, type Transition, useScroll } from "motion/react";
+import { useScroll } from "motion/react";
 import { useContext, useEffect, useRef, useState } from "react";
 import { randInt } from "three/src/math/MathUtils.js";
 import cenoteImg from "../../../assets/images/about/cenote.jpg";
@@ -17,15 +17,16 @@ import quebecImg from "../../../assets/images/about/quebec.jpg";
 import rabatImg from "../../../assets/images/about/rabat.jpg";
 import soccerImg from "../../../assets/images/about/soccer.jpg";
 import camImg from "../../../assets/images/cam.png";
-import { MobileContext } from "../../../store/MobileContext";
+import { isFile } from "../../../store/types";
 import { cn, useInterval } from "../../../utils";
-import ContentEditable from "./ContentEditable";
 import Float from "../../Float";
 import GlitchText from "../../GlitchText";
-import NameCard from "./NameCard";
+import PixelDissolveMedia from "../../PixelDissolveMedia";
 import ScrollMarquee from "../../ScrollMarquee";
 import SmartImage from "../../SmartImage";
 import { InternalWindowDataContext } from "../../window/Window";
+import ContentEditable from "./ContentEditable";
+import NameCard from "./NameCard";
 
 const countSentences = (str: string) => {
 	const sentences = str.split(/[.!?]/);
@@ -39,24 +40,34 @@ const countSentences = (str: string) => {
 
 const countWords = (str: string) => str.trim().split(/\s+/).length;
 
-const transition: Transition = {
-	ease: steps(25),
-	duration: 0.5,
-	type: "tween",
-};
+const photos = [
+	{ img: cenoteImg, alt: "Jumping into a Mexican cenote" },
+	{ img: chichenItzaImg, alt: "One of the wonders of the world: chichen itza" },
+	{ img: cupcakesImg, alt: "My cupcakes" },
+	{ img: donkeyImg, alt: "Me riding a donkey" },
+	{ img: istanbulImg, alt: "Istanbul, Turkey" },
+	{ img: marrakeshImg, alt: "My favorite Moroccan city: Marrakesh" },
+	{ img: muffinsImg, alt: "My muffins" },
+	{ img: newYorkImg, alt: "New York" },
+	{ img: parisImg, alt: "Paris, France" },
+	{ img: philly1Img, alt: "Just a bit of Philly" },
+	{ img: philly2Img, alt: "Some more Philly" },
+	{ img: philly3Img, alt: "I love Philly" },
+	{ img: quebecImg, alt: "Quebec, Canada" },
+	{ img: rabatImg, alt: "Rabat, Morocco" },
+	{ img: soccerImg, alt: "My favorite sport soccer" },
+];
 
 const TextEditor = () => {
 	const windowData = useContext(InternalWindowDataContext);
 	if (!windowData) return;
 	const { sysObj, setTitle, getWidth } = windowData;
-	if (!("ext" in sysObj) || typeof sysObj.value !== "string") return;
+	if (!isFile(sysObj) || typeof sysObj.value !== "string") return;
 
 	useEffect(() => {
 		if (!setTitle || !sysObj) return;
 		setTitle(`${sysObj.name}.${sysObj.ext} - Text Editor`);
 	}, [setTitle, sysObj]);
-
-	const isMobile = useContext(MobileContext);
 
 	const scrollContainer = useRef(null);
 	const { scrollY } = useScroll({
@@ -67,57 +78,12 @@ const TextEditor = () => {
 	const wordCount = countWords(text);
 	const sentenceCount = countSentences(text);
 
-	const imgs = [
-		<SmartImage
-			className="h-125"
-			alt="Jumping into a Mexican cenote"
-			src={cenoteImg}
-		/>,
-		<SmartImage
-			className="h-125"
-			alt="One of the wonders of the world: chichen itza"
-			src={chichenItzaImg}
-		/>,
-		<SmartImage className="h-125" alt="My cupcakes" src={cupcakesImg} />,
-		<SmartImage
-			className="h-125"
-			alt="Me riding a donkey"
-			src={donkeyImg}
-		/>,
-		<SmartImage
-			className="h-125"
-			alt="Istanbul, Turkey"
-			src={istanbulImg}
-		/>,
-		<SmartImage
-			className="h-125"
-			alt="My favorite Moroccan city: Marrakesh"
-			src={marrakeshImg}
-		/>,
-		<SmartImage className="h-125" alt="My muffins" src={muffinsImg} />,
-		<SmartImage className="h-125" alt="New York" src={newYorkImg} />,
-		<SmartImage className="h-125" alt="Paris, France" src={parisImg} />,
-		<SmartImage
-			className="h-125"
-			alt="Just a bit of Philly"
-			src={philly1Img}
-		/>,
-		<SmartImage
-			className="h-125"
-			alt="Some more Philly"
-			src={philly2Img}
-		/>,
-		<SmartImage className="h-125" alt="I love Philly" src={philly3Img} />,
-		<SmartImage className="h-125" alt="Quebec, Canada" src={quebecImg} />,
-		<SmartImage className="h-125" alt="Rabat, Morocco" src={rabatImg} />,
-		<SmartImage
-			className="h-125"
-			alt="My favorite sport soccer"
-			src={soccerImg}
-		/>,
-	];
-	const [currentImg, setCurrentImg] = useState(randInt(0, imgs.length - 1));
-	const updateImg = () => setCurrentImg(old => (old + 1) % imgs.length);
+	const [currentImg, setCurrentImg] = useState(() =>
+		randInt(0, photos.length - 1),
+	);
+	const [displayedImg, setDisplayedImg] = useState(currentImg);
+	const updateImg = () => setCurrentImg(old => (old + 1) % photos.length);
+	const frame = photos[displayedImg];
 	useInterval(updateImg, 20000);
 
 	return (
@@ -155,45 +121,27 @@ const TextEditor = () => {
 						onClick={updateImg}
 					>
 						<Float className="group xs:inline-block">
-							{imgs.map((img, i) => (
-								<motion.div
-									key={i}
-									animate={`${isMobile ? "mobile" : ""}${currentImg === i ? "Shown" : "Hidden"}`}
-									variants={{
-										Shown: {
-											maskPosition: "0 0%",
-											transition,
-										},
-										Hidden: {
-											maskPosition: "0 100%",
-											transition,
-										},
-										mobileShown: {
-											clipPath: "inset(0 0% 0 0)",
-											transition: {
-												duration: 0.5,
-												ease: steps(5),
-												type: "tween",
-											},
-										},
-										mobileHidden: {
-											clipPath: "inset(0 100% 0 0)",
-											transition: {
-												delay: 0.5,
-												duration: 0.5,
-												ease: steps(5),
-												type: "tween",
-											},
-										},
+							<div
+								className="darken-left relative inline-block h-125 border-2 border-white-primary bg-black grayscale transition ease-steps-2 group-hover:grayscale-0"
+								style={{
+									aspectRatio: `${frame.img.width} / ${frame.img.height}`,
+								}}
+								role="img"
+								aria-label={frame.alt}
+							>
+								<PixelDissolveMedia
+									media={photos[currentImg].img}
+									duration={0.5}
+									objectFit="contain"
+									onDisplay={next => {
+										if (typeof next === "string") return;
+										const index = photos.findIndex(
+											photo => photo.img.src === next.src,
+										);
+										if (index >= 0) setDisplayedImg(index);
 									}}
-									className={cn(
-										"darken-left top-0 border-2 border-white-primary bg-black pixel-mask grayscale transition ease-steps-2 group-hover:grayscale-0",
-										i === 0 ? "inline-block" : "absolute",
-									)}
-								>
-									{img}
-								</motion.div>
-							))}
+								/>
+							</div>
 						</Float>
 						<SmartImage
 							src={camImg}
@@ -212,7 +160,7 @@ const TextEditor = () => {
 						</GlitchText>
 					</h3>
 					<ContentEditable
-						className="min-h-96 resize-none border-y-0 border-r-0 border-white-primary bg-transparent leading-8 outline-hidden md:ml-5 md:border-l-2 md:pl-7"
+						className="min-h-96 resize-none border-y-0 border-r-0 border-white-primary bg-transparent leading-8 outline-hidden [caret-shape:block] md:ml-5 md:border-l-2 md:pl-7"
 						value={text}
 						onUpdate={setText}
 					/>

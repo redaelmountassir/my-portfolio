@@ -2,16 +2,17 @@ import type { StateCreator } from "zustand";
 import { useMobileStore, useSettingsStore } from ".";
 import windowOpenAudio from "../assets/audio/open_window.mp3";
 import { randRange } from "../utils";
-import type {
-	DirectorySlice,
-	SystemObject,
-	WindowData,
-	WindowSlice,
-	WindowType,
+import {
+	isFile,
+	type DirectorySlice,
+	type SystemObject,
+	type WindowData,
+	type WindowSlice,
+	type WindowType,
 } from "./types";
 
 const pickWindowType = (sysObj: SystemObject): WindowType => {
-	if (!("ext" in sysObj)) return "FileExplorer";
+	if (!isFile(sysObj)) return "FileExplorer";
 	switch (sysObj.ext) {
 		case "exe":
 			if (sysObj.name === "Console") return "Console";
@@ -102,7 +103,9 @@ export const createWindowSlice: StateCreator<
 		}));
 		const mobileOpen = useMobileStore.getState().windowOpen;
 		if (mobileOpen?.id === id)
-			useMobileStore.getState().showWindow({ ...mobileOpen, sysObj: newObj, type });
+			useMobileStore
+				.getState()
+				.showWindow({ ...mobileOpen, sysObj: newObj, type });
 	},
 	deleteWindows() {
 		useMobileStore.setState({ windowOpen: undefined });

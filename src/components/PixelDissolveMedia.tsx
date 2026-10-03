@@ -2,123 +2,193 @@ import { Canvas } from "@react-three/fiber";
 import { animate, useMotionValue } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import { cn } from "../../../utils";
-import { silenceContextLoss } from "../../../utils/3D";
-import Throbber from "../../Throbber";
+import { cn } from "../utils";
+import { silenceContextLoss } from "../utils/3D";
 import DissolveMaterial, { type TextureContent } from "./DissolveMaterial";
 import FixCanvas from "./FixCanvas";
 import MediaMesh, { type ObjectFit } from "./MediaMesh";
+import Throbber from "./Throbber";
+
+type MediaSource = ImportedImage | string;
+
+const mediaKey = (media: MediaSource) =>
+	typeof media === "string" ? media : media.src;
 
 interface PixelDissolveProps {
-	media: ImportedImage | string;
+	media: MediaSource;
 	duration?: number;
 	onComplete?: () => void;
+	onDisplay?: (media: MediaSource) => void;
 	pixelGranularity?: number;
 	disolveFactor?: number;
 	dissolved?: boolean;
 	objectFit?: ObjectFit;
 }
 
+// Pass `dissolved` when the parent owns the transition (MediaViewer).
+// Omit it and a new `media` dissolves out, swaps, then dissolves back in.
 const PixelDissolveMedia = ({
 	media,
 	duration = 2,
 	onComplete,
+	onDisplay,
 	pixelGranularity = 18,
 	disolveFactor = 1,
-	dissolved = false,
+	dissolved,
 	objectFit = "cover",
 }: PixelDissolveProps) => {
+	const controlled = dissolved !== undefined;
+	const [shownMedia, setShownMedia] = useState(media);
 	const [texture, setTexture] = useState<TextureContent | null>(null);
 	const [ready, setReady] = useState(false);
-	const videoRef = useRef<HTMLVideoElement | null>(null);
 	const [contentAspectRatio, setContentAspectRatio] = useState(1);
 	const [isVideo, setIsVideo] = useState(false);
 	const [seed, setSeed] = useState(Math.random());
-	const [internalDissolved, setInternalDissolved] = useState(dissolved);
+	const [internalDissolved, setInternalDissolved] = useState(
+		dissolved ?? false,
+	);
 	const progress = useMotionValue(0);
 	const onCompleteRef = useRef(onComplete);
 	onCompleteRef.current = onComplete;
+	const onDisplayRef = useRef(onDisplay);
+	onDisplayRef.current = onDisplay;
+	const swapTarget = useRef<MediaSource | null>(null);
+	const revealAfterLoad = useRef(false);
+	const hasTexture = useRef(false);
+	const internalDissolvedRef = useRef(internalDissolved);
+	internalDissolvedRef.current = internalDissolved;
+	const mediaRef = useRef(media);
+	mediaRef.current = media;
+	const requestedKey = mediaKey(media);
 
-	// Sync internal dissolved state with prop
-	useEffect(() => setInternalDissolved(dissolved), [dissolved]);
-
-	// Determine media type and load accordingly
 	useEffect(() => {
-		setReady(false);
-		if (typeof media == "string") {
-			setIsVideo(true);
+		if (dissolved === undefined) return;
+		setInternalDissolved(dissolved);
+	}, [dissolved]);
 
-			// Load video
+	useEffect(() => {
+		const requested = mediaRef.current;
+		const sameMedia = (current: MediaSource) =>
+			mediaKey(current) === requestedKey;
+
+		if (controlled || !hasTexture.current) {
+			if (
+				!controlled &&
+				!hasTexture.current &&
+				mediaKey(shownMedia) !== requestedKey
+			)
+				onDisplayRef.current?.(requested);
+			setShownMedia(current =>
+				sameMedia(current) ? current : requested,
+			);
+			return;
+		}
+
+		if (sameMedia(shownMedia)) return;
+		swapTarget.current = requested;
+		setInternalDissolved(true);
+	}, [controlled, requestedKey, shownMedia]);
+
+	useEffect(() => {
+		if (!revealAfterLoad.current) setReady(false);
+
+		let cancelled = false;
+
+		const adopt = (
+			next: TextureContent,
+			ratio: number,
+			video: boolean,
+		) => {
+			if (cancelled) {
+				next.dispose();
+				return;
+			}
+			hasTexture.current = true;
+			setIsVideo(video);
+			setContentAspectRatio(ratio);
+			setTexture(previous => {
+				if (previous && previous !== next) previous.dispose();
+				return next;
+			});
+			if (!revealAfterLoad.current) return;
+
+			revealAfterLoad.current = false;
+			const queued = swapTarget.current;
+			if (queued) {
+				swapTarget.current = null;
+				revealAfterLoad.current = true;
+				onDisplayRef.current?.(queued);
+				setShownMedia(queued);
+				return;
+			}
+			setInternalDissolved(false);
+		};
+
+		if (typeof shownMedia === "string") {
 			const video = document.createElement("video");
 			video.crossOrigin = "anonymous";
 			video.loop = true;
 			video.muted = true;
 			video.playsInline = true;
-			let videoTexture: THREE.VideoTexture<HTMLVideoElement> | null =
-				null;
 
 			const onLoadedMetadata = () => {
-				const ratio = video.videoWidth / video.videoHeight;
-				setContentAspectRatio(ratio);
-
-				// Create video texture
-				videoTexture = new THREE.VideoTexture(video);
+				const videoTexture = new THREE.VideoTexture(video);
 				videoTexture.colorSpace = THREE.NoColorSpace;
-				setTexture(videoTexture);
-
+				adopt(
+					videoTexture,
+					video.videoWidth / video.videoHeight,
+					true,
+				);
 				video
 					.play()
-					.catch(e => console.warn("Video autoplay failed:", e));
+					.catch(error => console.warn("Video autoplay failed:", error));
 			};
 
 			video.addEventListener("loadedmetadata", onLoadedMetadata);
-			video.src = media;
-			videoRef.current = video;
+			video.src = shownMedia;
 
 			return () => {
+				cancelled = true;
 				video.removeEventListener("loadedmetadata", onLoadedMetadata);
 				video.pause();
-				videoTexture?.dispose();
 			};
 		}
 
-		setIsVideo(false);
 		const textureLoader = new THREE.TextureLoader();
-		let loadedTexture: THREE.Texture | null = null;
-		let active = true;
-		textureLoader.load(media.src, texture => {
-			// Keep the file's sRGB bytes. An sRGB texture is decoded to linear on
-			// sample, and this shader writes the sample straight to the canvas.
-			texture.colorSpace = THREE.NoColorSpace;
-			if (!active) {
-				texture.dispose();
-				return;
-			}
-			loadedTexture = texture;
-			setContentAspectRatio(texture.image.width / texture.image.height);
-			setTexture(texture);
+		textureLoader.load(shownMedia.src, loaded => {
+			loaded.colorSpace = THREE.NoColorSpace;
+			adopt(
+				loaded,
+				loaded.image.width / loaded.image.height,
+				false,
+			);
 		});
 
 		return () => {
-			active = false;
-			loadedTexture?.dispose();
+			cancelled = true;
 		};
-	}, [media]);
+	}, [shownMedia]);
 
-	// Handle animation completion
 	const handleAnimationComplete = useCallback(() => {
-		// Generate new seed for next animation
 		setSeed(Math.random());
+		const next = swapTarget.current;
+		if (!controlled && next && internalDissolvedRef.current) {
+			swapTarget.current = null;
+			revealAfterLoad.current = true;
+			onDisplayRef.current?.(next);
+			setShownMedia(next);
+			return;
+		}
 		onCompleteRef.current?.();
-	}, []);
+	}, [controlled]);
 
-	// Animate to the target state when dissolved changes
 	useEffect(() => {
 		if (!texture) return;
 
 		const targetProgress = (internalDissolved ? 1 : 0) * disolveFactor;
 		if (Math.abs(progress.get() - targetProgress) <= 0.01) {
-			if (internalDissolved) handleAnimationComplete();
+			if (internalDissolved && !revealAfterLoad.current)
+				handleAnimationComplete();
 			return;
 		}
 

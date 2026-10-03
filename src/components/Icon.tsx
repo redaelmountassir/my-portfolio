@@ -1,6 +1,6 @@
 import React, { use } from "react";
 import { resolveProjectAsset } from "../content/projectsLoader";
-import type { SystemObject } from "../store/types";
+import { isFile, type SystemObject } from "../store/types";
 import SmartImage from "./SmartImage";
 
 interface IconProps extends React.ComponentPropsWithoutRef<"img"> {
@@ -8,7 +8,7 @@ interface IconProps extends React.ComponentPropsWithoutRef<"img"> {
 }
 
 const selectIcon = (sysObj: SystemObject) => {
-	if (!("ext" in sysObj))
+	if (!isFile(sysObj))
 		return sysObj.name === "Trash"
 			? "trash.png"
 			: sysObj.children.length

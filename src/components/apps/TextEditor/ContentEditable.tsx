@@ -2,14 +2,115 @@ import { motion, useMotionValue } from "motion/react";
 import React, { useContext, useEffect, useRef } from "react";
 import { MobileContext } from "../../../store/MobileContext";
 
-function getCaretPosition() {
-	const sel = window.getSelection();
-	if (sel && sel.rangeCount > 0) {
-		const range = sel.getRangeAt(0);
-		const rect = range.getBoundingClientRect();
-		return { top: rect.top, left: rect.left };
+function nonEmptyRect(range: Range) {
+	const rects = range.getClientRects();
+	for (const rect of rects) {
+		if (rect.width > 0 || rect.height > 0) return rect;
 	}
-	return null;
+	const rect = range.getBoundingClientRect();
+	if (rect.width === 0 && rect.height === 0) return null;
+	return rect;
+}
+
+function rangeRect(node: Node, start: number, end: number) {
+	const range = document.createRange();
+	range.setStart(node, start);
+	range.setEnd(node, end);
+	return nonEmptyRect(range);
+}
+
+function caretClientRect(node: Node, offset: number): DOMRect | null {
+	if (node.nodeType === Node.TEXT_NODE) {
+		const text = node as Text;
+		const length = text.data.length;
+		const prev = offset > 0 ? rangeRect(text, offset - 1, offset) : null;
+		const next =
+			offset < length ? rangeRect(text, offset, offset + 1) : null;
+
+		if (prev && next && Math.abs(prev.top - next.top) > 1) {
+			const collapsed = rangeRect(text, offset, offset);
+			const onPrevLine =
+				!!collapsed &&
+				Math.abs(collapsed.top - prev.top) <
+					Math.abs(collapsed.top - next.top);
+			if (onPrevLine) {
+				return new DOMRect(prev.right, prev.top, 0, prev.height);
+			}
+			return new DOMRect(next.left, next.top, 0, next.height);
+		}
+
+		if (next) return new DOMRect(next.left, next.top, 0, next.height);
+		if (prev) return new DOMRect(prev.right, prev.top, 0, prev.height);
+	}
+
+	if (node.nodeType === Node.ELEMENT_NODE) {
+		const child = node.childNodes[offset];
+		if (child) return caretClientRect(child, 0);
+		const prevChild = node.childNodes[offset - 1];
+		if (prevChild) {
+			return caretClientRect(
+				prevChild,
+				prevChild.nodeType === Node.TEXT_NODE
+					? (prevChild.textContent?.length ?? 0)
+					: prevChild.childNodes.length,
+			);
+		}
+	}
+
+	return rangeRect(node, offset, offset);
+}
+
+function establishesFixedContainingBlock(style: CSSStyleDeclaration) {
+	const willChange = style.willChange;
+	if (
+		willChange.includes("transform") ||
+		willChange.includes("perspective") ||
+		willChange.includes("filter")
+	) {
+		return true;
+	}
+
+	return (
+		style.transform !== "none" ||
+		style.perspective !== "none" ||
+		style.filter !== "none" ||
+		style.backdropFilter !== "none" ||
+		style.translate !== "none" ||
+		style.scale !== "none" ||
+		style.rotate !== "none" ||
+		style.contain.includes("paint")
+	);
+}
+
+function fixedContainingOrigin(el: HTMLElement) {
+	let node = el.parentElement;
+	while (node) {
+		const style = getComputedStyle(node);
+		if (establishesFixedContainingBlock(style)) {
+			const rect = node.getBoundingClientRect();
+			return {
+				left: rect.left + (parseFloat(style.borderLeftWidth) || 0),
+				top: rect.top + (parseFloat(style.borderTopWidth) || 0),
+			};
+		}
+		node = node.parentElement;
+	}
+	return { left: 0, top: 0 };
+}
+
+function getCaretPosition(editable: HTMLElement) {
+	const sel = window.getSelection();
+	if (!sel || sel.rangeCount === 0 || !sel.focusNode) return null;
+	if (!editable.contains(sel.focusNode)) return null;
+
+	const rect = caretClientRect(sel.focusNode, sel.focusOffset);
+	if (!rect) return null;
+
+	const origin = fixedContainingOrigin(editable);
+	return {
+		top: rect.top - origin.top,
+		left: rect.left - origin.left,
+	};
 }
 
 function getIndexRelative(
@@ -92,29 +193,72 @@ const ContentEditable = ({
 	}, []);
 
 	useEffect(() => {
-		const onSelectionChange = () => {
-			const pos = getCaretPosition();
+		const update = () => {
+			const editable = contentEditableRef.current;
+			if (!editable) return;
+			const pos = getCaretPosition(editable);
 			if (!pos) return;
 			x.set(pos.left);
 			y.set(pos.top);
 		};
-		document.addEventListener("selectionchange", onSelectionChange);
-		return () =>
-			document.removeEventListener("selectionchange", onSelectionChange);
-	}, []);
+		document.addEventListener("selectionchange", update);
+		document.addEventListener("scroll", update, true);
+		window.addEventListener("resize", update);
+		return () => {
+			document.removeEventListener("selectionchange", update);
+			document.removeEventListener("scroll", update, true);
+			window.removeEventListener("resize", update);
+		};
+	}, [x, y]);
+
+	useEffect(() => {
+		const editable = contentEditableRef.current;
+		if (!editable || isMobile) return;
+
+		let armed = false;
+
+		const onPointerDown = (event: PointerEvent) => {
+			if (!editable.contains(event.target as Node)) return;
+			armed = true;
+			display.set("none");
+		};
+
+		const onPointerUp = () => {
+			if (!armed) return;
+			armed = false;
+			const pos = getCaretPosition(editable);
+			if (!pos) return;
+			x.set(pos.left);
+			y.set(pos.top);
+			display.set("block");
+		};
+
+		const onPointerCancel = () => {
+			armed = false;
+		};
+
+		document.addEventListener("pointerdown", onPointerDown);
+		document.addEventListener("pointerup", onPointerUp);
+		document.addEventListener("pointercancel", onPointerCancel);
+		return () => {
+			document.removeEventListener("pointerdown", onPointerDown);
+			document.removeEventListener("pointerup", onPointerUp);
+			document.removeEventListener("pointercancel", onPointerCancel);
+		};
+	}, [display, isMobile, x, y]);
 
 	return (
 		<>
 			{!isMobile && (
 				<motion.div
-					className="fixed top-0 left-0 z-1"
+					className="fixed top-0 left-0 z-10"
 					style={{ display, x, y }}
-					onFocus={() => display.set("block")}
+					onMouseDown={e => e.preventDefault()}
 					onBlur={() => display.set("none")}
 				>
-					<motion.div className="-translate-x-1/2 -translate-y-[300%] divide-x-2 divide-white-primary border-2 border-white-primary bg-black-primary">
+					<motion.div className="-translate-x-1/2 translate-y-[calc(-100%-12px)] divide-x-2 divide-white-primary border-2 border-white-primary bg-black-primary">
 						<button
-							className="ease-steps-2 w-8 py-1 text-center font-bold transition hover:bg-white-primary hover:text-black-primary"
+							className="w-8 py-1 text-center font-bold transition ease-steps-2 hover:bg-white-primary hover:text-black-primary"
 							type="button"
 							onClick={e => {
 								if (!contentEditableRef.current) return;
@@ -129,7 +273,7 @@ const ContentEditable = ({
 							B
 						</button>
 						<button
-							className="ease-steps-2 w-8 py-1 text-center underline transition hover:bg-white-primary hover:text-black-primary"
+							className="w-8 py-1 text-center underline transition ease-steps-2 hover:bg-white-primary hover:text-black-primary"
 							type="button"
 							onClick={e => {
 								if (!contentEditableRef.current) return;
@@ -144,7 +288,7 @@ const ContentEditable = ({
 							U
 						</button>
 						<button
-							className="ease-steps-2 w-8 py-1 text-center italic transition hover:bg-white-primary hover:text-black-primary"
+							className="w-8 py-1 text-center italic transition ease-steps-2 hover:bg-white-primary hover:text-black-primary"
 							type="button"
 							onClick={e => {
 								if (!contentEditableRef.current) return;
@@ -170,7 +314,6 @@ const ContentEditable = ({
 						(e.target as HTMLParagraphElement).textContent ?? "",
 					)
 				}
-				onFocus={() => display.set("block")}
 				onBlur={() => display.set("none")}
 			/>
 		</>

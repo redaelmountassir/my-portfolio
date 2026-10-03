@@ -1,5 +1,9 @@
 import { z } from "zod";
 
+// Zod probes `new Function` to enable JIT parsing. That probe is reported as a
+// CSP violation even when the error is caught, so disable it before any schema is created.
+z.config({ jitless: true });
+
 export type SystemObject = Directory | File;
 export type FileExtension = "pdf" | "txt" | "png" | "mp4" | "exe" | "mys";
 export type WindowType =
@@ -48,10 +52,13 @@ export interface File {
 	htmlElement?: HTMLElement;
 }
 
+export const isFile = (obj?: SystemObject): obj is File =>
+	!!obj && "ext" in obj;
+
 export type MediaFile = File & { value: Media }; // MediaFile === projects for my portfolio
 
-export const isMediaFile = (obj: SystemObject): obj is MediaFile =>
-	"ext" in obj && !!obj.value && typeof obj.value !== "string";
+export const isMediaFile = (obj?: SystemObject): obj is MediaFile =>
+	isFile(obj) && !!obj.value && typeof obj.value !== "string";
 
 export interface WindowData {
 	id: number;

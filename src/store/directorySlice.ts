@@ -1,6 +1,11 @@
 import type { StateCreator } from "zustand";
 import InitialSystem from "../content/InitialSystem";
-import type { DirectorySlice, SystemObject, WindowSlice } from "./types";
+import {
+	isFile,
+	type DirectorySlice,
+	type SystemObject,
+	type WindowSlice,
+} from "./types";
 
 export const createDirectorySlice: StateCreator<
 	WindowSlice & DirectorySlice,
@@ -36,7 +41,7 @@ export const createDirectorySlice: StateCreator<
 			const isLast = i === path.length - 1;
 			let temp = current.children.find(obj => {
 				if (isLast && extension !== null) {
-					if (!("ext" in obj)) return false;
+					if (!isFile(obj)) return false;
 					return next === obj.name && extension === obj.ext;
 				}
 				return next === obj.name;
@@ -76,7 +81,9 @@ export const createDirectorySlice: StateCreator<
 		let currentDir: SystemObject | undefined = modifiedSystem;
 		for (let i = 0; i < path.length; i++) {
 			if (!("children" in currentDir)) return;
-			currentDir = currentDir.children.find(child => child.name === path[i]);
+			currentDir = currentDir.children.find(
+				child => child.name === path[i],
+			);
 			if (!currentDir || !("children" in currentDir)) return;
 		}
 		currentDir = mod(currentDir);

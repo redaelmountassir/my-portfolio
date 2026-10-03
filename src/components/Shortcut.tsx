@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useSystemKeys } from "../store";
 import { MobileContext } from "../store/MobileContext";
-import type { SystemObject } from "../store/types";
+import { isFile, type SystemObject } from "../store/types";
 import { cn } from "../utils";
 import Icon from "./Icon";
 
@@ -18,10 +18,8 @@ const Shortcut = ({ sysObj, overrideClick, tile = true }: ShortcutProps) => {
 	return (
 		<button
 			className={cn(
-				"group ease-steps-2 flex h-auto max-h-full w-24 items-center p-2 outline-2 outline-offset-8 outline-transparent transition-all hover:outline-offset-0 hover:outline-white-primary md:p-4 md:active:shadow-[inset_0_0_70px] md:active:outline-offset-0 md:active:outline-white-primary",
-				tile
-					? "flex-col gap-2"
-					: "w-full gap-6 md:gap-4 md:py-2",
+				"group flex h-auto max-h-full w-24 items-center p-2 outline-2 outline-offset-8 outline-transparent transition-all ease-steps-2 hover:outline-offset-0 hover:outline-white-primary md:p-4 md:active:shadow-[inset_0_0_70px] md:active:outline-offset-0 md:active:outline-white-primary",
+				tile ? "flex-col gap-2" : "w-full gap-6 md:gap-4 md:py-2",
 			)}
 			type="button"
 			onDoubleClick={
@@ -60,16 +58,14 @@ const Shortcut = ({ sysObj, overrideClick, tile = true }: ShortcutProps) => {
 			/>
 			<p
 				className={cn(
-					"ease-steps-2 max-w-[175%] p-2 leading-none wrap-break-word text-white-primary transition-all select-none",
+					"max-w-[175%] p-2 leading-none wrap-break-word text-white-primary transition-all ease-steps-2 select-none",
 					tile
 						? "text-center text-sm shadow-[inset_0_0_40px] shadow-black-primary md:group-active:shadow-none"
-						: "flex-1 overflow-hidden text-left text-base text-ellipsis text-nowrap",
+						: "flex-1 overflow-hidden text-left text-base text-nowrap text-ellipsis",
 				)}
 			>
 				{sysObj.name}
-				{"ext" in sysObj && sysObj.ext !== "exe"
-					? `.${sysObj.ext}`
-					: ""}
+				{isFile(sysObj) && sysObj.ext !== "exe" ? `.${sysObj.ext}` : ""}
 			</p>
 		</button>
 	);

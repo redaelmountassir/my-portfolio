@@ -4,7 +4,7 @@ import filterImg from "../../../assets/images/filter.png";
 import listModeImg from "../../../assets/images/list_mode.png";
 import tileModeImg from "../../../assets/images/tile_mode.png";
 import { useSystemKeys } from "../../../store";
-import { isMediaFile } from "../../../store/types";
+import { isFile, isMediaFile } from "../../../store/types";
 import { cn } from "../../../utils";
 import Dropdown from "../../Dropdown";
 import GlitchText from "../../GlitchText";
@@ -28,18 +28,16 @@ const FileExplorer = () => {
 		"replaceWindow",
 	);
 
-	const directory = sysObj && !("ext" in sysObj) ? sysObj : undefined;
+	const directory = sysObj && !isFile(sysObj) ? sysObj : undefined;
 	const children = directory?.children.filter(child => !child.hidden) ?? [];
 	const isProjects = directory?.name === "Projects";
 	const extensions = uniqueSorted(
-		children.flatMap(child => ("ext" in child ? [child.ext] : [])),
+		children.flatMap(child => (isFile(child) ? [child.ext] : [])),
 	);
 	const categories = isProjects
 		? uniqueSorted(
 				children.flatMap(child =>
-					"ext" in child && isMediaFile(child)
-						? child.value.categories
-						: [],
+					isMediaFile(child) ? child.value.categories : [],
 				),
 			)
 		: [];
@@ -53,7 +51,7 @@ const FileExplorer = () => {
 	);
 
 	useEffect(() => {
-		if (!windowData || !sysObj || "ext" in sysObj) return;
+		if (!windowData || !sysObj || isFile(sysObj)) return;
 		windowData.setTitle(`File Explorer - ${sysObj.name}`);
 	}, [windowData, sysObj]);
 
@@ -62,7 +60,7 @@ const FileExplorer = () => {
 	const { id, getWidth } = windowData;
 	const isTrash = directory.name === "Trash";
 	const shown = children.filter(child => {
-		if (!("ext" in child)) return true;
+		if (!isFile(child)) return true;
 		if (
 			extensions.length > 0 &&
 			!extensionFilter.selected.includes(child.ext)
@@ -217,7 +215,7 @@ const FileExplorer = () => {
 							<Shortcut
 								sysObj={child}
 								overrideClick={
-									"ext" in child
+									isFile(child)
 										? undefined
 										: () => replaceWindow(id, child)
 								}

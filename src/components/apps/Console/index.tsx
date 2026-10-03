@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSettingsStore, useSystemKeys } from "../../../store";
-import type { Path } from "../../../store/types";
+import { isFile, type Path } from "../../../store/types";
 import { cn } from "../../../utils";
 import LocationText from "./LocationText";
 
@@ -71,7 +71,10 @@ const Console = () => {
 		if (input.includes("!!")) {
 			const inputs = getInputs();
 			return exec(
-				input.replace("!!", inputs[inputs.length - bangSearch]?.text ?? ""),
+				input.replace(
+					"!!",
+					inputs[inputs.length - bangSearch]?.text ?? "",
+				),
 				bangSearch + 1,
 			);
 		}
@@ -124,7 +127,9 @@ cat: prints out the contents of a text file
 					executed.mod = "Error";
 					break;
 				}
-				const obj = navigate(reducePath([...location, ...toPath(objGoal)]));
+				const obj = navigate(
+					reducePath([...location, ...toPath(objGoal)]),
+				);
 				if (!obj) {
 					executed.text = `'${objGoal}' is not a real path.`;
 					executed.mod = "Error";
@@ -139,7 +144,8 @@ cat: prints out the contents of a text file
 				let goalDir = location,
 					showHidden = false;
 				if (parts[1]) {
-					if (parts[1] === "-h" || parts[1] === "--hidden") showHidden = true;
+					if (parts[1] === "-h" || parts[1] === "--hidden")
+						showHidden = true;
 					else goalDir = [...location, ...toPath(parts[1])];
 				}
 				const navigated = navigate(goalDir);
@@ -153,10 +159,13 @@ cat: prints out the contents of a text file
 					break;
 				}
 				let children = navigated.children;
-				if (!showHidden) children = children.filter(child => !child.hidden);
+				if (!showHidden)
+					children = children.filter(child => !child.hidden);
 				executed.text = `\nName\n----\n${children
 					.map(sysObj =>
-						"ext" in sysObj ? `${sysObj.name}.${sysObj.ext}` : sysObj.name,
+						isFile(sysObj)
+							? `${sysObj.name}.${sysObj.ext}`
+							: sysObj.name,
 					)
 					.join("\n")}\n\n`;
 				break;
@@ -176,7 +185,7 @@ cat: prints out the contents of a text file
 						executed.mod = "Error";
 						break;
 					}
-					if ("ext" in endObj) {
+					if (isFile(endObj)) {
 						executed.text = `'${goal}' is a file and cannot be navigated to.`;
 						executed.mod = "Error";
 						break;
@@ -245,7 +254,8 @@ cat: prints out the contents of a text file
 		];
 		Object.defineProperty(window, "help", {
 			get: () =>
-				hints[i++] ?? "Stop bothering me now. I don't feel like writing more",
+				hints[i++] ??
+				"Stop bothering me now. I don't feel like writing more",
 		});
 		Object.defineProperty(window, "ifoundit123", {
 			get() {
