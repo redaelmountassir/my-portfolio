@@ -84,7 +84,7 @@ const TaskbarContents = () => {
 	return (
 		<>
 			<Dropdown
-				className="group ease-steps-2 h-full px-4 transition-colors hover:bg-white-primary"
+				className="group h-full px-4 transition-colors ease-steps-2 hover:bg-white-primary"
 				dClassName="divide-y-2 divide-white-primary"
 				noPadding
 				dContent={
@@ -94,51 +94,52 @@ const TaskbarContents = () => {
 								RedaOS
 							</h1>
 							<h2 className="whitespace-nowrap">
-								Software Version 3.0.0
+								Software Version 4.0.0
 							</h2>
 							<p className="font-normal">
-								(c) Paradox Computers, Inc. 2022-2023
+								(c) Paradox Computers, Inc. 2022-
+								{new Date().getFullYear()}
 							</p>
 						</div>
 						<a
 							href="https://www.linkedin.com/in/reda-elmountassir"
 							target="_blank"
-							className="group ease-steps-2 block w-full p-4 text-left whitespace-nowrap transition-colors hover:bg-white-primary hover:text-black-primary"
+							className="group block w-full p-4 text-left whitespace-nowrap transition-colors ease-steps-2 hover:bg-white-primary hover:text-black-primary"
 						>
 							<SmartImage
 								src={linkedInImg}
 								alt="LinkedIn Logo"
-								className="ease-steps-2 mr-4 inline-block h-6 transition group-hover:invert"
+								className="mr-4 inline-block h-6 transition ease-steps-2 group-hover:invert"
 							/>
 							LinkedIn
 						</a>
 						<a
 							href="https://github.com/redaelmountassir"
 							target="_blank"
-							className="group ease-steps-2 block w-full p-4 text-left whitespace-nowrap transition-colors hover:bg-white-primary hover:text-black-primary"
+							className="group block w-full p-4 text-left whitespace-nowrap transition-colors ease-steps-2 hover:bg-white-primary hover:text-black-primary"
 						>
 							<SmartImage
 								src={gitHubImg}
 								alt="GitHub Logo"
-								className="ease-steps-2 mr-4 inline-block h-6 transition group-hover:invert"
+								className="mr-4 inline-block h-6 transition ease-steps-2 group-hover:invert"
 							/>
 							GitHub
 						</a>
 						<button
 							type="button"
-							className="group ease-steps-2 block w-full p-4 text-left whitespace-nowrap transition-colors hover:bg-white-primary hover:text-black-primary"
+							className="group block w-full p-4 text-left whitespace-nowrap transition-colors ease-steps-2 hover:bg-white-primary hover:text-black-primary"
 							onClick={restart}
 						>
 							<SmartImage
 								src={restartImg}
 								alt="restart symbol"
-								className="ease-steps-2 mr-4 inline-block h-6 transition group-hover:invert"
+								className="mr-4 inline-block h-6 transition ease-steps-2 group-hover:invert"
 							/>
 							Restart
 						</button>
 						<button
 							type="button"
-							className="group ease-steps-2 block w-full p-4 text-left whitespace-nowrap transition-colors hover:bg-white-primary hover:text-black-primary"
+							className="group block w-full p-4 text-left whitespace-nowrap transition-colors ease-steps-2 hover:bg-white-primary hover:text-black-primary"
 							onClick={() => {
 								shutdown();
 								pauseBg();
@@ -148,7 +149,7 @@ const TaskbarContents = () => {
 							<SmartImage
 								src={shutdownImg}
 								alt="shutdown symbol"
-								className="ease-steps-2 mr-4 inline-block h-6 transition group-hover:invert"
+								className="mr-4 inline-block h-6 transition ease-steps-2 group-hover:invert"
 							/>
 							Shut down
 						</button>
@@ -163,7 +164,7 @@ const TaskbarContents = () => {
 			</Dropdown>
 			<Dropdown
 				pClassName="ml-auto"
-				className="ease-steps-2 p-4 transition-colors hover:bg-white-primary hover:text-black-primary"
+				className="p-4 transition-colors ease-steps-2 hover:bg-white-primary hover:text-black-primary"
 				onPointerDown={() => setEffectsSelected(true)}
 				onPointerOut={() =>
 					effectsSelected && setEffectsSelected(false)
@@ -243,7 +244,7 @@ const TaskbarContents = () => {
 				<GlitchText animated={effectsSelected}>Visuals</GlitchText>
 			</Dropdown>
 			<Dropdown
-				className="ease-steps-2 p-4 transition-colors hover:bg-white-primary hover:text-black-primary"
+				className="p-4 transition-colors ease-steps-2 hover:bg-white-primary hover:text-black-primary"
 				onPointerDown={() => setAudioSelected(true)}
 				onPointerOut={() => audioSelected && setAudioSelected(false)}
 				onPointerUp={() => setAudioSelected(false)}
@@ -308,7 +309,7 @@ const TaskbarContents = () => {
 				<GlitchText animated={audioSelected}>Audio</GlitchText>
 			</Dropdown>
 			<Dropdown
-				className="ease-steps-2 h-full px-3 transition-colors hover:bg-white-primary hover:text-black-primary"
+				className="h-full px-3 transition-colors ease-steps-2 hover:bg-white-primary hover:text-black-primary"
 				dClassName="whitespace-nowrap"
 				dContent={
 					<>

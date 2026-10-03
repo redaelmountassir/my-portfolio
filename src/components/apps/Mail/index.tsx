@@ -1,6 +1,6 @@
 import emailjs from "@emailjs/browser";
 import { anticipate, easeInOut, useAnimate } from "motion/react";
-import { useContext, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import gitHubImg from "../../../assets/images/github.png";
 import linkedInImg from "../../../assets/images/linkedIn.png";
 import phoneImg from "../../../assets/images/phone.png";
@@ -9,7 +9,6 @@ import triangle2Img from "../../../assets/images/triangle_gradient.png";
 import triangleImg from "../../../assets/images/triangle_outline_blue.png";
 import { cn } from "../../../utils";
 import SmartImage from "../../SmartImage";
-import { InternalWindowDataContext } from "../../window/Window";
 
 const OFFSET_PATH =
 	'path("M32 0C67-38 296.4-106.9 251.4-151.9 189.5-213.8 83.4 81.6 16.4 57.6.4 47.6 9.4 23.6 32 0")';
@@ -17,7 +16,26 @@ const OFFSET_ANCHOR = "top right";
 const OFFSET_ROT = "auto 45deg";
 
 const Mail = () => {
-	const width = useContext(InternalWindowDataContext)?.getWidth() ?? 0;
+	const rootRef = useRef<HTMLDivElement>(null);
+	const [width, setWidth] = useState(0);
+
+	// Window width lives on a motion value, which does not re-render this view.
+	useLayoutEffect(() => {
+		const el = rootRef.current;
+		if (!el) return;
+
+		const apply = (measured: number) => {
+			const next = Math.round(measured);
+			setWidth(current => (current === next ? current : next));
+		};
+
+		const observer = new ResizeObserver(entries => {
+			const next = entries[0]?.contentRect.width;
+			if (next != null) apply(next);
+		});
+		observer.observe(el);
+		return () => observer.disconnect();
+	}, []);
 
 	const [scope, animate] = useAnimate();
 	const [scope2, animate2] = useAnimate();
@@ -25,7 +43,10 @@ const Mail = () => {
 	const [inbox, setInbox] = useState<boolean[]>([]);
 
 	return (
-		<div className="flex flex-1 flex-col overflow-hidden border-white-primary pb-16 text-white-primary md:flex-row md:pb-0">
+		<div
+			ref={rootRef}
+			className="flex flex-1 flex-col overflow-hidden border-white-primary pb-16 text-white-primary md:flex-row md:pb-0"
+		>
 			<ul
 				className={cn(
 					"ease-steps-2 flex shrink-0 overflow-hidden border-white-primary transition-all md:block md:max-w-14 md:border-r-2 md:hover:max-w-60 md:hover:bg-black-primary",
