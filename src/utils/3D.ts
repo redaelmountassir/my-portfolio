@@ -7,9 +7,26 @@ import {
 	Vector2,
 	type Material,
 	type Texture,
+	type WebGLRenderer,
 } from "three";
 
 const strippedGltfUrls = new Set<string>();
+
+// R3F calls forceContextLoss when a canvas unmounts. That event is intentional
+// teardown; Three still prints "THREE.WebGLRenderer: Context Lost." for it.
+export function silenceContextLoss({ gl }: { gl: WebGLRenderer }) {
+	const canvas = gl.domElement;
+	const loseContext = gl.forceContextLoss.bind(gl);
+
+	gl.forceContextLoss = () => {
+		const swallow = (e: Event) => {
+			e.stopImmediatePropagation();
+			canvas.removeEventListener("webglcontextlost", swallow, true);
+		};
+		canvas.addEventListener("webglcontextlost", swallow, true);
+		loseContext();
+	};
+}
 
 function disposeMaterialTextures(material: Material) {
 	for (const key of Object.keys(material)) {

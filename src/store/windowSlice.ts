@@ -93,9 +93,16 @@ export const createWindowSlice: StateCreator<
 		});
 	},
 	replaceWindow(oldWindow, newObj) {
-		get().deleteWindow(oldWindow);
-		const idToReuse = typeof oldWindow === "number" ? oldWindow : oldWindow.id;
-		get().addWindow(newObj, idToReuse, true);
+		const id = typeof oldWindow === "number" ? oldWindow : oldWindow.id;
+		const type = pickWindowType(newObj);
+		set(state => ({
+			windows: state.windows.map(window =>
+				window.id === id ? { ...window, sysObj: newObj, type } : window,
+			),
+		}));
+		const mobileOpen = useMobileStore.getState().windowOpen;
+		if (mobileOpen?.id === id)
+			useMobileStore.getState().showWindow({ ...mobileOpen, sysObj: newObj, type });
 	},
 	deleteWindows() {
 		useMobileStore.setState({ windowOpen: undefined });

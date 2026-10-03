@@ -1,15 +1,15 @@
 import emailjs from "@emailjs/browser";
 import { anticipate, easeInOut, useAnimate } from "motion/react";
 import { useContext, useState } from "react";
-import gitHubImg from "../../assets/images/github.png";
-import linkedInImg from "../../assets/images/linkedIn.png";
-import phoneImg from "../../assets/images/phone.png";
-import sendMessageImg from "../../assets/images/send_message.png";
-import triangle2Img from "../../assets/images/triangle_gradient.png";
-import triangleImg from "../../assets/images/triangle_outline_blue.png";
-import { cn } from "../../utils";
-import SmartImage from "../SmartImage";
-import { InternalWindowDataContext } from "../window/Window";
+import gitHubImg from "../../../assets/images/github.png";
+import linkedInImg from "../../../assets/images/linkedIn.png";
+import phoneImg from "../../../assets/images/phone.png";
+import sendMessageImg from "../../../assets/images/send_message.png";
+import triangle2Img from "../../../assets/images/triangle_gradient.png";
+import triangleImg from "../../../assets/images/triangle_outline_blue.png";
+import { cn } from "../../../utils";
+import SmartImage from "../../SmartImage";
+import { InternalWindowDataContext } from "../../window/Window";
 
 const OFFSET_PATH =
 	'path("M32 0C67-38 296.4-106.9 251.4-151.9 189.5-213.8 83.4 81.6 16.4 57.6.4 47.6 9.4 23.6 32 0")';
@@ -28,7 +28,7 @@ const Mail = () => {
 		<div className="flex flex-1 flex-col overflow-hidden border-white-primary pb-16 text-white-primary md:flex-row md:pb-0">
 			<ul
 				className={cn(
-					"flex shrink-0 overflow-hidden border-white-primary transition-all ease-steps2 md:block md:max-w-14 md:border-r-2 md:hover:max-w-60 md:hover:bg-black-primary",
+					"ease-steps-2 flex shrink-0 overflow-hidden border-white-primary transition-all md:block md:max-w-14 md:border-r-2 md:hover:max-w-60 md:hover:bg-black-primary",
 					width > 1200 && "md:max-w-60! md:bg-black-primary!",
 					width < 400 && "md:hidden",
 				)}
@@ -42,7 +42,7 @@ const Mail = () => {
 						<SmartImage
 							src={phoneImg}
 							alt="LinkedIn Logo"
-							className="inline-block h-6 transition-all ease-steps2 group-hover:invert xs:mr-4"
+							className="ease-steps-2 inline-block h-6 transition-all group-hover:invert xs:mr-4"
 						/>
 						<span className="mr-4 hidden xs:inline">
 							267-231-2928
@@ -58,7 +58,7 @@ const Mail = () => {
 						<SmartImage
 							src={linkedInImg}
 							alt="LinkedIn Logo"
-							className="inline-block h-6 transition-all ease-steps2 group-hover:invert xs:mr-4"
+							className="ease-steps-2 inline-block h-6 transition-all group-hover:invert xs:mr-4"
 						/>
 						<span className="mr-4 hidden xs:inline">LinkedIn</span>
 					</a>
@@ -72,7 +72,7 @@ const Mail = () => {
 						<SmartImage
 							src={gitHubImg}
 							alt="GitHub Logo"
-							className="inline-block h-6 transition-all ease-steps2 group-hover:invert xs:mr-4"
+							className="ease-steps-2 inline-block h-6 transition-all group-hover:invert xs:mr-4"
 						/>
 						<span className="mr-4 hidden xs:inline">GitHub</span>
 					</a>
@@ -198,7 +198,7 @@ const Mail = () => {
 				</div>
 				<div
 					id="email-container"
-					className="flex items-center bg-linear-to-r from-blue-accent/20 to-burgundy-accent/20 to-[65px] p-2 whitespace-nowrap outline-2 outline-offset-8 outline-transparent transition-[outline] ease-steps2 hover:outline-offset-0 hover:outline-white-primary focus:outline-offset-0 focus:outline-white-primary"
+					className="ease-steps-2 flex items-center bg-linear-to-r from-blue-accent/20 to-burgundy-accent/20 to-[65px] p-2 whitespace-nowrap outline-2 outline-offset-8 outline-transparent transition-[outline] hover:outline-offset-0 hover:outline-white-primary focus:outline-offset-0 focus:outline-white-primary"
 				>
 					<label className="inline-block" htmlFor="email">
 						From:
@@ -219,14 +219,14 @@ const Mail = () => {
 							"redaelmountassir0@gmail.com",
 						)
 					}
-					className="group relative flex items-center bg-linear-to-r from-blue-accent/20 to-burgundy-accent/20 to-[50px] p-2 whitespace-nowrap outline-2 outline-offset-8 outline-transparent transition-[outline] ease-steps2 hover:outline-offset-0 hover:outline-white-primary focus:outline-offset-0 focus:outline-white-primary"
+					className="group ease-steps-2 relative flex items-center bg-linear-to-r from-blue-accent/20 to-burgundy-accent/20 to-[50px] p-2 whitespace-nowrap outline-2 outline-offset-8 outline-transparent transition-[outline] hover:outline-offset-0 hover:outline-white-primary focus:outline-offset-0 focus:outline-white-primary"
 				>
 					<p className="inline-block">To:</p>
 					<span className="grow overflow-hidden pl-4 text-left text-ellipsis">
 						redaelmountassir0@gmail.com
 						<span
 							className={cn(
-								"absolute pl-2 opacity-0 transition-opacity ease-steps2 group-hover:opacity-100 group-focus:opacity-0",
+								"ease-steps-2 absolute pl-2 opacity-0 transition-opacity group-hover:opacity-100 group-focus:opacity-0",
 								width < 350 &&
 									"top-0 right-0 h-full bg-white-primary p-2 text-black-primary",
 							)}
@@ -235,7 +235,7 @@ const Mail = () => {
 						</span>
 						<span
 							className={cn(
-								"pl-2 opacity-0 transition-opacity ease-steps2 group-focus:opacity-100",
+								"ease-steps-2 pl-2 opacity-0 transition-opacity group-focus:opacity-100",
 								width < 350 &&
 									"absolute top-0 right-0 h-full bg-white-primary p-2 text-black-primary",
 							)}
@@ -246,7 +246,7 @@ const Mail = () => {
 				</button>
 				<div
 					id="subject-container"
-					className="flex items-center bg-linear-to-r from-blue-accent/20 to-burgundy-accent/20 to-[65px] p-2 whitespace-nowrap outline-2 outline-offset-8 outline-transparent transition-[outline] ease-steps2 hover:outline-offset-0 hover:outline-white-primary focus:outline-offset-0 focus:outline-white-primary"
+					className="ease-steps-2 flex items-center bg-linear-to-r from-blue-accent/20 to-burgundy-accent/20 to-[65px] p-2 whitespace-nowrap outline-2 outline-offset-8 outline-transparent transition-[outline] hover:outline-offset-0 hover:outline-white-primary focus:outline-offset-0 focus:outline-white-primary"
 				>
 					<label className="inline-block" htmlFor="subject">
 						Subject:
@@ -263,7 +263,7 @@ const Mail = () => {
 					id="message-container"
 					name="message"
 					required
-					className="min-h-96 grow resize-none overflow-hidden bg-transparent bg-linear-to-r from-blue-accent/20 to-burgundy-accent/20 to-50% p-2 outline-hidden outline-2 outline-offset-8 outline-transparent transition-[outline] ease-steps2 hover:outline-offset-0 hover:outline-white-primary focus:overflow-y-auto focus:outline-offset-0 focus:outline-white-primary md:min-h-0"
+					className="ease-steps-2 min-h-96 grow resize-none overflow-hidden bg-transparent bg-linear-to-r from-blue-accent/20 to-burgundy-accent/20 to-50% p-2 outline-hidden outline-2 outline-offset-8 outline-transparent transition-[outline] hover:outline-offset-0 hover:outline-white-primary focus:overflow-y-auto focus:outline-offset-0 focus:outline-white-primary md:min-h-0"
 				/>
 				{/* Honeypot */}
 				<input
@@ -278,7 +278,7 @@ const Mail = () => {
 					id="submit"
 					type="submit"
 					value="send"
-					className="flex items-center justify-center bg-white-primary p-2 text-black-primary shadow-[0px_2px] shadow-light-primary transition-all ease-steps2 hover:translate-y-0.5 hover:shadow-[0_0]"
+					className="ease-steps-2 flex items-center justify-center bg-white-primary p-2 text-black-primary shadow-[0px_2px] shadow-light-primary transition-all hover:translate-y-0.5 hover:shadow-[0_0]"
 				>
 					<span className="hidden pr-4 text-left font-bold md:block">
 						Send Message

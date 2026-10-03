@@ -1,10 +1,10 @@
 import { motion } from "motion/react";
 import { useState } from "react";
-import columnImg from "../../assets/images/column.png";
-import dolphinImg from "../../assets/images/dolphin.png";
-import throbberGif from "../../assets/images/throbber.gif";
-import { cn } from "../../utils";
-import SmartImage from "../SmartImage";
+import columnImg from "../../../assets/images/column.png";
+import dolphinImg from "../../../assets/images/dolphin.png";
+import throbberGif from "../../../assets/images/throbber.gif";
+import { cn } from "../../../utils";
+import SmartImage from "../../SmartImage";
 
 const PDFNoSupport = () => {
 	const [dowloaded, setDowloaded] = useState(false);

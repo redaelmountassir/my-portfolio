@@ -1,13 +1,14 @@
 import {
 	animate,
 	motion,
+	steps,
 	type HTMLMotionProps,
 	type Variants,
 } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import logo_animated_img from "../assets/images/logo/logo_lg_animated.png";
 import { useSettingsStore } from "../store";
-import { cn, ease5Steps, easeSteps } from "../utils";
+import { cn } from "../utils";
 import GlitchWall from "./GlitchWall";
 import SmartImage from "./SmartImage";
 
@@ -21,7 +22,7 @@ const coverVariants: Variants = {
 	exit: {
 		opacity: 0,
 		transitionEnd: { visibility: "hidden" },
-		transition: { type: "tween", duration: 0.4, ease: ease5Steps },
+		transition: { type: "tween", duration: 0.4, ease: steps(5) },
 	},
 };
 
@@ -51,9 +52,8 @@ const spriteVariants: Variants = {
 		x: -(FRAMES * FRAME_WIDTH),
 		transition: {
 			type: "tween",
-			delay: 1,
 			duration: ANIMATION_TIME,
-			ease: easeSteps(FRAMES),
+			ease: steps(FRAMES),
 		},
 	},
 	exit: {

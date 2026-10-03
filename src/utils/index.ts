@@ -27,13 +27,7 @@ export const gcd = (x: number, y: number) => {
 	return x;
 };
 
-export const easeSteps = (steps: number) => (progress: number) =>
-	Math.floor(progress * steps) / steps;
-
 export const circOut = (t: number) => Math.sqrt(1 - (t - 1) ** 2);
-
-export const ease5Steps = easeSteps(5);
-export const ease25Steps = easeSteps(25);
 
 const CHARS =
 	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#+&%?!";
@@ -51,7 +45,9 @@ export function cn(...inputs: ClassValue[]) {
 
 export const useMediaQuery = (query: string) => {
 	const [matches, setMatches] = useState(() =>
-		typeof window === "undefined" ? false : window.matchMedia(query).matches,
+		typeof window === "undefined"
+			? false
+			: window.matchMedia(query).matches,
 	);
 
 	useEffect(() => {

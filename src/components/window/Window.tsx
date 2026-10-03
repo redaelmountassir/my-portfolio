@@ -1,11 +1,13 @@
 import {
 	motion,
+	steps,
 	useDragControls,
 	useMotionValue,
 	type Point,
 } from "motion/react";
 import React, {
 	createContext,
+	Suspense,
 	useContext,
 	useEffect,
 	useRef,
@@ -15,8 +17,9 @@ import { useShallow } from "zustand/react/shallow";
 import { useMobileStore, useSystemKeys } from "../../store";
 import { MobileContext } from "../../store/MobileContext";
 import type { WindowData } from "../../store/types";
-import { cn, easeSteps } from "../../utils";
+import { cn } from "../../utils";
 import { calcOrigin, type Dimensions } from "../../utils/window";
+import Throbber from "../Throbber";
 import Outline from "./Outline";
 import Resizers from "./Resizers";
 import WindowBody from "./WindowBody";
@@ -127,11 +130,15 @@ const Window = ({
 				}}
 				initial={isMobile ? { opacity: 0 } : { scale: 0 }}
 				animate={isMobile ? { opacity: 1 } : { scale: 1 }}
-				exit={isMobile ? { opacity: 0, pointerEvents: "none" } : { scale: 0 }}
+				exit={
+					isMobile
+						? { opacity: 0, pointerEvents: "none" }
+						: { scale: 0 }
+				}
 				transition={{
 					duration: 0.3,
 					type: "tween",
-					ease: easeSteps(7),
+					ease: steps(7),
 				}}
 				onClick={
 					disableInteraction
@@ -189,7 +196,15 @@ const Window = ({
 						title={windowTitle}
 					/>
 				)}
-				<WindowBody />
+				<Suspense
+					fallback={
+						<div className="relative flex-1">
+							<Throbber />
+						</div>
+					}
+				>
+					<WindowBody />
+				</Suspense>
 				{!isMobile && (
 					<>
 						<Resizers

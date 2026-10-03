@@ -1,31 +1,31 @@
-import { motion, type Transition, useScroll } from "motion/react";
+import { motion, steps, type Transition, useScroll } from "motion/react";
 import { useContext, useEffect, useRef, useState } from "react";
 import { randInt } from "three/src/math/MathUtils.js";
-import cenoteImg from "../../assets/images/about/cenote.jpg";
-import chichenItzaImg from "../../assets/images/about/chichen_itza.jpg";
-import cupcakesImg from "../../assets/images/about/cupcakes.jpg";
-import donkeyImg from "../../assets/images/about/donkey.jpg";
-import istanbulImg from "../../assets/images/about/istanbul.jpg";
-import marrakeshImg from "../../assets/images/about/marrakesh.jpg";
-import muffinsImg from "../../assets/images/about/muffins.jpg";
-import newYorkImg from "../../assets/images/about/new_york.jpg";
-import parisImg from "../../assets/images/about/paris.jpg";
-import philly1Img from "../../assets/images/about/philly_1.jpg";
-import philly2Img from "../../assets/images/about/philly_2.jpg";
-import philly3Img from "../../assets/images/about/philly_3.jpg";
-import quebecImg from "../../assets/images/about/quebec.jpg";
-import rabatImg from "../../assets/images/about/rabat.jpg";
-import soccerImg from "../../assets/images/about/soccer.jpg";
-import camImg from "../../assets/images/cam.png";
-import { MobileContext } from "../../store/MobileContext";
-import { cn, ease25Steps, ease5Steps, useInterval } from "../../utils";
-import ContentEditable from "../ContentEditable";
-import Float from "../Float";
-import GlitchText from "../GlitchText";
-import NameCard from "../NameCard";
-import ScrollMarquee from "../ScrollMarquee";
-import SmartImage from "../SmartImage";
-import { InternalWindowDataContext } from "../window/Window";
+import cenoteImg from "../../../assets/images/about/cenote.jpg";
+import chichenItzaImg from "../../../assets/images/about/chichen_itza.jpg";
+import cupcakesImg from "../../../assets/images/about/cupcakes.jpg";
+import donkeyImg from "../../../assets/images/about/donkey.jpg";
+import istanbulImg from "../../../assets/images/about/istanbul.jpg";
+import marrakeshImg from "../../../assets/images/about/marrakesh.jpg";
+import muffinsImg from "../../../assets/images/about/muffins.jpg";
+import newYorkImg from "../../../assets/images/about/new_york.jpg";
+import parisImg from "../../../assets/images/about/paris.jpg";
+import philly1Img from "../../../assets/images/about/philly_1.jpg";
+import philly2Img from "../../../assets/images/about/philly_2.jpg";
+import philly3Img from "../../../assets/images/about/philly_3.jpg";
+import quebecImg from "../../../assets/images/about/quebec.jpg";
+import rabatImg from "../../../assets/images/about/rabat.jpg";
+import soccerImg from "../../../assets/images/about/soccer.jpg";
+import camImg from "../../../assets/images/cam.png";
+import { MobileContext } from "../../../store/MobileContext";
+import { cn, useInterval } from "../../../utils";
+import ContentEditable from "./ContentEditable";
+import Float from "../../Float";
+import GlitchText from "../../GlitchText";
+import NameCard from "./NameCard";
+import ScrollMarquee from "../../ScrollMarquee";
+import SmartImage from "../../SmartImage";
+import { InternalWindowDataContext } from "../../window/Window";
 
 const countSentences = (str: string) => {
 	const sentences = str.split(/[.!?]/);
@@ -40,7 +40,7 @@ const countSentences = (str: string) => {
 const countWords = (str: string) => str.trim().split(/\s+/).length;
 
 const transition: Transition = {
-	ease: ease25Steps,
+	ease: steps(25),
 	duration: 0.5,
 	type: "tween",
 };
@@ -150,7 +150,7 @@ const TextEditor = () => {
 							"relative w-auto cursor-pointer text-right sm:text-center",
 							getWidth() <= 800
 								? "mb-20 md:mb-14 md:hidden"
-								: "group relative mb-7 ml-8 h-full w-2/5 flicker transition duration-1000 ease-steps2 md:float-right md:block",
+								: "group relative mb-7 ml-8 h-full w-2/5 flicker transition duration-1000 ease-steps-2 md:float-right md:block",
 						)}
 						onClick={updateImg}
 					>
@@ -172,7 +172,7 @@ const TextEditor = () => {
 											clipPath: "inset(0 0% 0 0)",
 											transition: {
 												duration: 0.5,
-												ease: ease5Steps,
+												ease: steps(5),
 												type: "tween",
 											},
 										},
@@ -181,13 +181,13 @@ const TextEditor = () => {
 											transition: {
 												delay: 0.5,
 												duration: 0.5,
-												ease: ease5Steps,
+												ease: steps(5),
 												type: "tween",
 											},
 										},
 									}}
 									className={cn(
-										"darken-left top-0 border-2 border-white-primary bg-black pixel-mask grayscale transition ease-steps2 group-hover:grayscale-0",
+										"darken-left top-0 border-2 border-white-primary bg-black pixel-mask grayscale transition ease-steps-2 group-hover:grayscale-0",
 										i === 0 ? "inline-block" : "absolute",
 									)}
 								>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { cn, pickRand } from "../utils";
+import { cn, pickRand } from "../../../utils";
 
 interface TagProps {
 	children: string;
@@ -19,7 +19,7 @@ const Tag = ({ children, bg, className }: TagProps) => {
 	return (
 		<span
 			className={cn(
-				"p-2 py-1 whitespace-nowrap outline-2 outline-white-primary transition ease-steps2 hover:scale-125 hover:bg-white-primary! hover:text-black-primary",
+				"ease-steps-2 p-2 py-1 whitespace-nowrap outline-2 outline-white-primary transition hover:scale-125 hover:bg-white-primary! hover:text-black-primary",
 				bg &&
 					(bg == "random"
 						? randBg

@@ -3,6 +3,7 @@ import { Canvas } from "@react-three/fiber";
 import { animate } from "motion/react";
 import { Suspense, useEffect, useRef } from "react";
 import { Colors } from "../utils";
+import { silenceContextLoss } from "../utils/3D";
 import CameraRig from "./3D/CameraRig";
 import Desk from "./3D/Desk";
 
@@ -106,6 +107,7 @@ const Intro = ({ onComplete }: { onComplete: () => void }) => {
 				}}
 				onCreated={({ gl }) => {
 					gl.setClearColor("#000000");
+					silenceContextLoss({ gl });
 				}}
 			>
 				<Suspense fallback={null}>

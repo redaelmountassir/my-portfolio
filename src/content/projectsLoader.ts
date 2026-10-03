@@ -80,5 +80,27 @@ export const resolveProjectAsset = (
 	return promise;
 };
 
+const pendingAsset = new Promise<ProjectAsset>(() => {});
+const readableAssets = new WeakMap<
+	Promise<ProjectAsset>,
+	Promise<ProjectAsset>
+>();
+
+/** Stays pending when a showcase file is missing, so `use()` keeps the Suspense fallback visible. */
+export const readProjectAsset = (
+	projectName: string,
+	fileName: string,
+): Promise<ProjectAsset> => {
+	const loading = resolveProjectAsset(projectName, fileName);
+	if (!loading) return pendingAsset;
+
+	const cached = readableAssets.get(loading);
+	if (cached) return cached;
+
+	const readable = loading.then(asset => asset ?? pendingAsset);
+	readableAssets.set(loading, readable);
+	return readable;
+};
+
 export const projects = loadProjects();
 export const projectFiles = toProjectFiles(projects);

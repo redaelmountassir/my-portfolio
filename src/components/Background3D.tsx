@@ -10,6 +10,7 @@ import {
 import { useMobileStore, useSystemKeys } from "../store";
 import { MobileContext } from "../store/MobileContext";
 import { Colors } from "../utils";
+import { silenceContextLoss } from "../utils/3D";
 import CameraEffects from "./3D/CameraEffects";
 import Plane from "./3D/Plane";
 import Sky from "./3D/Sky";
@@ -57,7 +58,10 @@ const createRenderer = ({
 
 	const glContext =
 		context ??
-		(canvas as HTMLCanvasElement).getContext("webgl2", GL_CONTEXT_ATTRIBUTES);
+		(canvas as HTMLCanvasElement).getContext(
+			"webgl2",
+			GL_CONTEXT_ATTRIBUTES,
+		);
 
 	if (!(glContext instanceof WebGL2RenderingContext)) {
 		throw new Error("WebGL2 is not available.");
@@ -75,13 +79,15 @@ const createRenderer = ({
 
 const onCreated = ({ gl }: RootState) => {
 	applyRendererProps(gl);
+	silenceContextLoss({ gl });
 };
 
 const Background3D = () => {
 	const isMobile = useContext(MobileContext);
 	const windowCovering =
-		useMobileStore(state => state.windowOpen !== undefined || state.menuOpen) &&
-		isMobile;
+		useMobileStore(
+			state => state.windowOpen !== undefined || state.menuOpen,
+		) && isMobile;
 	const { windowMaximized: maximized } = useSystemKeys("windowMaximized");
 	const windowMaximized = maximized && !isMobile;
 
@@ -90,8 +96,8 @@ const Background3D = () => {
 			dpr={0.3}
 			fallback={
 				<p className="absolute top-1/2 w-full -translate-y-1/2 px-10 text-center text-white-primary">
-					3D is not supported on this browser. Check the visuals panel to
-					disable it.
+					3D is not supported on this browser. Check the visuals panel
+					to disable it.
 				</p>
 			}
 			frameloop={windowCovering || windowMaximized ? "demand" : "always"}

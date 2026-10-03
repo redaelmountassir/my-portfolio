@@ -15,7 +15,7 @@ const TimeDropdown = ({ timeSelected, setTimeSelected }: TimeDropdownProps) => {
 
 	return (
 		<Dropdown
-			className="p-4 transition-colors ease-steps2 hover:bg-white-primary hover:text-black-primary"
+			className="ease-steps-2 p-4 transition-colors hover:bg-white-primary hover:text-black-primary"
 			onPointerDown={() => setTimeSelected(true)}
 			onPointerOut={() => timeSelected && setTimeSelected(false)}
 			onPointerUp={() => setTimeSelected(false)}

@@ -58,8 +58,8 @@
 	--color-white-primary: #f5f9ff;
 	--color-purple-watermark: #291632;
 
-	--ease-steps2: steps(2, end);
-	--ease-steps10: steps(10, end);
+	--ease-steps-2: steps(2, end);
+	--ease-steps-10: steps(10, end);
 
 	--animate-pan: pan linear infinite;
 	--animate-pan-vertical: pan-vertical linear infinite;
@@ -309,7 +309,7 @@
 	}
 
 	::-webkit-scrollbar-button:decrement {
-		@apply h-10 border-b-2 border-l-2 border-white-primary transition-colors ease-steps2;
+		@apply ease-steps-2 h-10 border-b-2 border-l-2 border-white-primary transition-colors;
 		background: no-repeat center / 70% url(assets/images/arrow_up.png);
 	}
 
@@ -321,7 +321,7 @@
 	}
 
 	::-webkit-scrollbar-button:increment {
-		@apply h-10 border-t-2 border-l-2 border-white-primary transition-colors ease-steps2;
+		@apply ease-steps-2 h-10 border-t-2 border-l-2 border-white-primary transition-colors;
 		background: no-repeat center / 70% url(assets/images/arrow_down.png);
 	}
 

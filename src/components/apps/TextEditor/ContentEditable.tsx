@@ -1,6 +1,6 @@
 import { motion, useMotionValue } from "motion/react";
 import React, { useContext, useEffect, useRef } from "react";
-import { MobileContext } from "../store/MobileContext";
+import { MobileContext } from "../../../store/MobileContext";
 
 function getCaretPosition() {
 	const sel = window.getSelection();
@@ -114,7 +114,7 @@ const ContentEditable = ({
 				>
 					<motion.div className="-translate-x-1/2 -translate-y-[300%] divide-x-2 divide-white-primary border-2 border-white-primary bg-black-primary">
 						<button
-							className="w-8 py-1 text-center font-bold transition ease-steps2 hover:bg-white-primary hover:text-black-primary"
+							className="ease-steps-2 w-8 py-1 text-center font-bold transition hover:bg-white-primary hover:text-black-primary"
 							type="button"
 							onClick={e => {
 								if (!contentEditableRef.current) return;
@@ -129,7 +129,7 @@ const ContentEditable = ({
 							B
 						</button>
 						<button
-							className="w-8 py-1 text-center underline transition ease-steps2 hover:bg-white-primary hover:text-black-primary"
+							className="ease-steps-2 w-8 py-1 text-center underline transition hover:bg-white-primary hover:text-black-primary"
 							type="button"
 							onClick={e => {
 								if (!contentEditableRef.current) return;
@@ -144,7 +144,7 @@ const ContentEditable = ({
 							U
 						</button>
 						<button
-							className="w-8 py-1 text-center italic transition ease-steps2 hover:bg-white-primary hover:text-black-primary"
+							className="ease-steps-2 w-8 py-1 text-center italic transition hover:bg-white-primary hover:text-black-primary"
 							type="button"
 							onClick={e => {
 								if (!contentEditableRef.current) return;

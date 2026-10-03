@@ -1,15 +1,15 @@
 import { useContext, useEffect, useState } from "react";
-import sunImg from "../../assets/images/circle.png";
-import listModeImg from "../../assets/images/list_mode.png";
-import tileModeImg from "../../assets/images/tile_mode.png";
-import { useSystemKeys } from "../../store";
-import { cn } from "../../utils";
-import GlitchText from "../GlitchText";
-import Marquee from "../Marquee";
-import Shortcut from "../Shortcut";
-import SmartImage from "../SmartImage";
-import TrashBtn from "../TrashBtn";
-import { InternalWindowDataContext } from "../window/Window";
+import sunImg from "../../../assets/images/circle.png";
+import listModeImg from "../../../assets/images/list_mode.png";
+import tileModeImg from "../../../assets/images/tile_mode.png";
+import { useSystemKeys } from "../../../store";
+import { cn } from "../../../utils";
+import GlitchText from "../../GlitchText";
+import Marquee from "../../Marquee";
+import Shortcut from "../../Shortcut";
+import SmartImage from "../../SmartImage";
+import TrashBtn from "./TrashBtn";
+import { InternalWindowDataContext } from "../../window/Window";
 
 const FileExplorer = () => {
 	const windowData = useContext(InternalWindowDataContext);
@@ -27,7 +27,7 @@ const FileExplorer = () => {
 		windowData.setTitle(`File Explorer - ${sysObj.name}`);
 	}, [windowData, sysObj]);
 
-	if (!windowData || !sysObj || "ext" in sysObj) return null;
+	if (!windowData || !sysObj || "ext" in sysObj) return;
 
 	const { id, getWidth } = windowData;
 	const isTrash = sysObj.name === "Trash";
@@ -50,15 +50,15 @@ const FileExplorer = () => {
 					<li key={folder.name} className="text-nowrap">
 						<button
 							type="button"
-							className="text-md group relative w-full p-2 text-left transition-colors ease-steps2 md:p-4 md:hover:bg-white-primary md:hover:text-black-primary"
+							className="text-md group relative w-full p-2 text-left transition-colors ease-steps-2 md:p-4 md:hover:bg-white-primary md:hover:text-black-primary"
 							onPointerDown={() => setSelected(i)}
 							onClick={() => replaceWindow(id, folder)}
 						>
-							<span className="absolute opacity-0 transition-opacity ease-steps2 md:group-hover:opacity-100">
+							<span className="absolute opacity-0 transition-opacity ease-steps-2 md:group-hover:opacity-100">
 								&gt;
 							</span>
 							<GlitchText
-								className="block whitespace-nowrap transition-transform ease-steps2 group-hover:underline md:no-underline! md:group-hover:translate-x-4"
+								className="block whitespace-nowrap transition-transform ease-steps-2 group-hover:underline md:no-underline! md:group-hover:translate-x-4"
 								animated={i === selected}
 								onComplete={() =>
 									i === selected && setSelected(-1)

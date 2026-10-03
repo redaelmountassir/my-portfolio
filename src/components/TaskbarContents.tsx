@@ -68,7 +68,8 @@ const TaskbarContents = () => {
 			batt.addEventListener("levelchange", updateBattery);
 			updateBattery();
 		});
-		return () => batteryRef?.removeEventListener("levelchange", updateBattery);
+		return () =>
+			batteryRef?.removeEventListener("levelchange", updateBattery);
 	}, []);
 
 	const [hardmode, setHardmode] = useState(false);
@@ -83,14 +84,18 @@ const TaskbarContents = () => {
 	return (
 		<>
 			<Dropdown
-				className="group h-full px-4 transition-colors ease-steps2 hover:bg-white-primary"
+				className="group ease-steps-2 h-full px-4 transition-colors hover:bg-white-primary"
 				dClassName="divide-y-2 divide-white-primary"
 				noPadding
 				dContent={
 					<>
 						<div className="space-y-2 px-4 py-16">
-							<h1 className="ss01 font-display text-8xl">RedaOS</h1>
-							<h2 className="whitespace-nowrap">Software Version 3.0.0</h2>
+							<h1 className="ss01 font-display text-8xl">
+								RedaOS
+							</h1>
+							<h2 className="whitespace-nowrap">
+								Software Version 3.0.0
+							</h2>
 							<p className="font-normal">
 								(c) Paradox Computers, Inc. 2022-2023
 							</p>
@@ -98,42 +103,42 @@ const TaskbarContents = () => {
 						<a
 							href="https://www.linkedin.com/in/reda-elmountassir"
 							target="_blank"
-							className="group block w-full p-4 text-left whitespace-nowrap transition-colors ease-steps2 hover:bg-white-primary hover:text-black-primary"
+							className="group ease-steps-2 block w-full p-4 text-left whitespace-nowrap transition-colors hover:bg-white-primary hover:text-black-primary"
 						>
 							<SmartImage
 								src={linkedInImg}
 								alt="LinkedIn Logo"
-								className="mr-4 inline-block h-6 transition ease-steps2 group-hover:invert"
+								className="ease-steps-2 mr-4 inline-block h-6 transition group-hover:invert"
 							/>
 							LinkedIn
 						</a>
 						<a
 							href="https://github.com/redaelmountassir"
 							target="_blank"
-							className="group block w-full p-4 text-left whitespace-nowrap transition-colors ease-steps2 hover:bg-white-primary hover:text-black-primary"
+							className="group ease-steps-2 block w-full p-4 text-left whitespace-nowrap transition-colors hover:bg-white-primary hover:text-black-primary"
 						>
 							<SmartImage
 								src={gitHubImg}
 								alt="GitHub Logo"
-								className="mr-4 inline-block h-6 transition ease-steps2 group-hover:invert"
+								className="ease-steps-2 mr-4 inline-block h-6 transition group-hover:invert"
 							/>
 							GitHub
 						</a>
 						<button
 							type="button"
-							className="group block w-full p-4 text-left whitespace-nowrap transition-colors ease-steps2 hover:bg-white-primary hover:text-black-primary"
+							className="group ease-steps-2 block w-full p-4 text-left whitespace-nowrap transition-colors hover:bg-white-primary hover:text-black-primary"
 							onClick={restart}
 						>
 							<SmartImage
 								src={restartImg}
 								alt="restart symbol"
-								className="mr-4 inline-block h-6 transition ease-steps2 group-hover:invert"
+								className="ease-steps-2 mr-4 inline-block h-6 transition group-hover:invert"
 							/>
 							Restart
 						</button>
 						<button
 							type="button"
-							className="group block w-full p-4 text-left whitespace-nowrap transition-colors ease-steps2 hover:bg-white-primary hover:text-black-primary"
+							className="group ease-steps-2 block w-full p-4 text-left whitespace-nowrap transition-colors hover:bg-white-primary hover:text-black-primary"
 							onClick={() => {
 								shutdown();
 								pauseBg();
@@ -143,7 +148,7 @@ const TaskbarContents = () => {
 							<SmartImage
 								src={shutdownImg}
 								alt="shutdown symbol"
-								className="mr-4 inline-block h-6 transition ease-steps2 group-hover:invert"
+								className="ease-steps-2 mr-4 inline-block h-6 transition group-hover:invert"
 							/>
 							Shut down
 						</button>
@@ -158,9 +163,11 @@ const TaskbarContents = () => {
 			</Dropdown>
 			<Dropdown
 				pClassName="ml-auto"
-				className="p-4 transition-colors ease-steps2 hover:bg-white-primary hover:text-black-primary"
+				className="ease-steps-2 p-4 transition-colors hover:bg-white-primary hover:text-black-primary"
 				onPointerDown={() => setEffectsSelected(true)}
-				onPointerOut={() => effectsSelected && setEffectsSelected(false)}
+				onPointerOut={() =>
+					effectsSelected && setEffectsSelected(false)
+				}
 				onPointerUp={() => setEffectsSelected(false)}
 				dContent={
 					<>
@@ -192,7 +199,10 @@ const TaskbarContents = () => {
 										key={path}
 										className={cn(
 											"origin-center scale-0 stroke-transparent transition",
-											brightness >= ((arr.length - i) / arr.length) * 100 &&
+											brightness >=
+												((arr.length - i) /
+													arr.length) *
+													100 &&
 												"scale-100 stroke-white-primary",
 										)}
 										d={path}
@@ -233,7 +243,7 @@ const TaskbarContents = () => {
 				<GlitchText animated={effectsSelected}>Visuals</GlitchText>
 			</Dropdown>
 			<Dropdown
-				className="p-4 transition-colors ease-steps2 hover:bg-white-primary hover:text-black-primary"
+				className="ease-steps-2 p-4 transition-colors hover:bg-white-primary hover:text-black-primary"
 				onPointerDown={() => setAudioSelected(true)}
 				onPointerOut={() => audioSelected && setAudioSelected(false)}
 				onPointerUp={() => setAudioSelected(false)}
@@ -263,21 +273,24 @@ const TaskbarContents = () => {
 							<path
 								className={cn(
 									"-translate-x-1 stroke-transparent transition",
-									volume > 0 && "translate-x-0 stroke-white-primary",
+									volume > 0 &&
+										"translate-x-0 stroke-white-primary",
 								)}
 								d="M9 6h1M10 7h1M10 8h1M9 9h1"
 							/>
 							<path
 								className={cn(
 									"-translate-x-1 stroke-transparent transition",
-									volume > 33.3 && "translate-x-0 stroke-white-primary",
+									volume > 33.3 &&
+										"translate-x-0 stroke-white-primary",
 								)}
 								d="M10 4h1M11 5h1M12 6h1M12 7h1M12 8h1M12 9h1M11 10h1M10 11h1"
 							/>
 							<path
 								className={cn(
 									"-translate-x-1 stroke-transparent transition",
-									volume > 66.6 && "translate-x-0 stroke-white-primary",
+									volume > 66.6 &&
+										"translate-x-0 stroke-white-primary",
 								)}
 								d="M11 2h1M12 3h1M13 4h1M14 5h1M14 6h1M14 7h1M14 8h1M14 9h1M14 10h1M13 11h1M12 12h1M11 13h1"
 							/>
@@ -295,7 +308,7 @@ const TaskbarContents = () => {
 				<GlitchText animated={audioSelected}>Audio</GlitchText>
 			</Dropdown>
 			<Dropdown
-				className="h-full px-3 transition-colors ease-steps2 hover:bg-white-primary hover:text-black-primary"
+				className="ease-steps-2 h-full px-3 transition-colors hover:bg-white-primary hover:text-black-primary"
 				dClassName="whitespace-nowrap"
 				dContent={
 					<>

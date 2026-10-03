@@ -19,7 +19,7 @@ const Toggle = ({ state, setter, children }: ToggleProps) => (
 		{children}
 		<div
 			className={cn(
-				"ml-4 h-6 w-14 p-1 outline-2 outline-white-primary transition-colors ease-steps2",
+				"ease-steps-2 ml-4 h-6 w-14 p-1 outline-2 outline-white-primary transition-colors",
 				state && "bg-linear-to-r from-pink-accent to-blue-accent",
 			)}
 		>

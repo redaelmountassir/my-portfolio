@@ -70,9 +70,9 @@ const ScrollMarquee = ({
 			{...rest}
 			className={cn(
 				"group relative overflow-hidden whitespace-nowrap",
-				vertical
-					? cn("writing-vertical-lr [text-orientation:upright]", !flexMode && "h-full")
-					: "w-full",
+				vertical &&
+					"[text-orientation:upright] [writing-mode:vertical-lr]",
+				vertical && (!flexMode ? "h-full" : "w-full"),
 				className,
 			)}
 			style={style}

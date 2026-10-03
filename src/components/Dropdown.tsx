@@ -1,6 +1,6 @@
-import { type Variants, motion } from "motion/react";
+import { type Variants, motion, steps } from "motion/react";
 import React, { useEffect, useRef, useState } from "react";
-import { cn, ease5Steps } from "../utils";
+import { cn } from "../utils";
 
 interface DropdownProps extends React.ComponentPropsWithoutRef<"button"> {
 	pClassName?: string;
@@ -15,14 +15,14 @@ const dropdownVariants: Variants = {
 	open: {
 		clipPath: "inset(0 0 0% 0)",
 		transition: {
-			ease: ease5Steps,
+			ease: steps(5),
 			type: "tween",
 		},
 	},
 	closed: {
 		clipPath: "inset(0 0 100% 0)",
 		transition: {
-			ease: ease5Steps,
+			ease: steps(5),
 			type: "tween",
 		},
 	},

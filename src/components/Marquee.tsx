@@ -37,7 +37,7 @@ const Marquee = (props: MarqueeProps) => {
 			className={cn(
 				"group relative overflow-hidden whitespace-nowrap",
 				vertical
-					? "h-full writing-vertical-lr [text-orientation:upright]"
+					? "h-full [text-orientation:upright] [writing-mode:vertical-lr]"
 					: "w-full",
 				className,
 			)}

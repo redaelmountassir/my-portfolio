@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useSettingsStore, useSystemKeys } from "../../store";
-import type { Path } from "../../store/types";
-import { cn } from "../../utils";
+import { useSettingsStore, useSystemKeys } from "../../../store";
+import type { Path } from "../../../store/types";
+import { cn } from "../../../utils";
+import LocationText from "./LocationText";
 
 interface HistoryItem {
 	text: string;
@@ -21,10 +22,6 @@ Copyright (C) Paradox Corporation. All rights reserved.
 Console Version 1.0.2
 
   `;
-
-const LocationText = (props: { location: Path }) => {
-	return `${props.location.join("/")}$ `;
-};
 
 //Removes any .. in path
 function reducePath(path: Path) {

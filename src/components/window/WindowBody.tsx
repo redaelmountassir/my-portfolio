@@ -1,12 +1,13 @@
-import { useContext } from "react";
+import { lazy, useContext } from "react";
 import Console from "../apps/Console";
 import FileExplorer from "../apps/FileExplorer";
-import Mail from "../apps/Mail";
-import MediaViewer from "../apps/MediaViewer";
 import PDFReader from "../apps/PDFReader";
-import TextEditor from "../apps/TextEditor";
 import Virus from "../apps/Virus";
 import { InternalWindowDataContext } from "./Window";
+
+const Mail = lazy(() => import("../apps/Mail"));
+const MediaViewer = lazy(() => import("../apps/MediaViewer"));
+const TextEditor = lazy(() => import("../apps/TextEditor"));
 
 const WindowBody = () => {
 	const type = useContext(InternalWindowDataContext)?.type;
@@ -27,7 +28,7 @@ const WindowBody = () => {
 			return <Virus />;
 		case "Blank":
 		default:
-			return null;
+			return;
 	}
 };
 

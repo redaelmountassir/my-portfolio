@@ -1,7 +1,6 @@
-import { motion } from "motion/react";
+import { motion, steps } from "motion/react";
 import { useContext } from "react";
 import { MobileContext } from "../store/MobileContext";
-import { ease5Steps } from "../utils";
 import MobileTaskbar from "./MobileTaskbar";
 import TaskbarContents from "./TaskbarContents";
 
@@ -20,7 +19,7 @@ const Taskbar = () => {
 					y: 0,
 					transition: {
 						type: "tween",
-						ease: ease5Steps,
+						ease: steps(5),
 						delay: 0.5,
 					},
 				},

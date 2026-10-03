@@ -1,9 +1,9 @@
-import { motion } from "motion/react";
+import { motion, steps } from "motion/react";
 import backImg from "../assets/images/back.png";
 import homeImg from "../assets/images/home.png";
 import menuImg from "../assets/images/menu.png";
 import { useMobileStore, useSystemStore } from "../store";
-import { cn, ease5Steps } from "../utils";
+import { cn } from "../utils";
 import MobileTaskbarPanel from "./MobileTaskbarPanel";
 import SmartImage from "./SmartImage";
 
@@ -31,7 +31,7 @@ const MobileTaskbar = () => {
 						y: 0,
 						transition: {
 							type: "tween",
-							ease: ease5Steps,
+							ease: steps(5),
 							delay: 0.5,
 						},
 					},

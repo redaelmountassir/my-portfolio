@@ -1,19 +1,19 @@
 import {
 	easeIn,
 	motion,
+	steps,
 	useAnimationFrame,
 	useMotionValue,
 } from "motion/react";
 import { useContext, useRef } from "react";
 import { lerp } from "three/src/math/MathUtils.js";
-import gridImg from "../assets/images/floor_grid.png";
-import logoXLAnimatedImg from "../assets/images/logo/logo_xl_animated.png";
-import myPhotoImg from "../assets/images/my_photo.png";
-import triangleImg from "../assets/images/triangle_outline_blue.png";
-import { MobileContext } from "../store/MobileContext";
-import { easeSteps } from "../utils";
-import Float from "./Float";
-import SmartImage from "./SmartImage";
+import gridImg from "../../../assets/images/floor_grid.png";
+import logoXLAnimatedImg from "../../../assets/images/logo/logo_xl_animated.png";
+import myPhotoImg from "../../../assets/images/my_photo.png";
+import triangleImg from "../../../assets/images/triangle_outline_blue.png";
+import { MobileContext } from "../../../store/MobileContext";
+import Float from "../../Float";
+import SmartImage from "../../SmartImage";
 
 const FRAMES = 46;
 const FRAME_WIDTH = 256;
@@ -122,7 +122,7 @@ const NameCard = () => {
 							}}
 							transition={{
 								type: "tween",
-								ease: i => easeSteps(10)(easeIn(i)),
+								ease: i => steps(10)(easeIn(i)),
 								duration: 1,
 								delay: 0.5 + i * 0.1,
 							}}
@@ -131,7 +131,7 @@ const NameCard = () => {
 								animate={{ x: -FRAMES * FRAME_WIDTH }}
 								transition={{
 									duration: ANIMATION_TIME,
-									ease: easeSteps(FRAMES),
+									ease: steps(FRAMES),
 									delay: 2,
 								}}
 							>

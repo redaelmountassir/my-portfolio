@@ -1,20 +1,22 @@
-import {
-	animate,
-	motion,
-	type AnimationOptions,
-	type AnimationScope,
-} from "motion/react";
-import React, { useContext, useEffect, useRef } from "react";
-import shapeGif from "../assets/images/icohedron.gif";
-import infoImg from "../assets/images/info.png";
-import scrollDownImg from "../assets/images/scroll_down.png";
-import throbberGif from "../assets/images/throbber.gif";
-import { MobileContext } from "../store/MobileContext";
-import type { File } from "../store/types";
-import { cn, ease25Steps, ease5Steps } from "../utils";
-import Follow from "./Follow";
-import Showcase from "./Showcase";
-import SmartImage from "./SmartImage";
+import { motion, type AnimationScope } from "motion/react";
+import React, {
+	Suspense,
+	useCallback,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
+import shapeGif from "../../../assets/images/icohedron.gif";
+import infoImg from "../../../assets/images/info.png";
+import scrollDownImg from "../../../assets/images/scroll_down.png";
+import { MobileContext } from "../../../store/MobileContext";
+import type { File } from "../../../store/types";
+import { cn } from "../../../utils";
+import Follow from "../../Follow";
+import SmartImage from "../../SmartImage";
+import Throbber from "../../Throbber";
+import MainShowcaseMedia from "./MainShowcaseMedia";
 
 interface MainShowcaseProps {
 	file: File;
@@ -22,26 +24,6 @@ interface MainShowcaseProps {
 	inTop: boolean;
 	skipSection?: React.MouseEventHandler<HTMLDivElement>;
 }
-
-const TOTAL_DURATION = 0.75;
-const HALF_DURATION = TOTAL_DURATION / 2;
-
-const desktopHalf: AnimationOptions = {
-	duration: HALF_DURATION,
-	ease: ease25Steps,
-	type: "tween" as const,
-};
-
-const mobileHalf: AnimationOptions = {
-	duration: HALF_DURATION,
-	ease: ease5Steps,
-	type: "tween" as const,
-};
-
-const maskUnsupported = !(
-	"mask" in document.documentElement.style ||
-	"webkitMask" in document.documentElement.style
-);
 
 const MainShowcase = ({
 	file,
@@ -52,92 +34,32 @@ const MainShowcase = ({
 	const isMobile = useContext(MobileContext);
 
 	const mainShowcaseRef = useRef<HTMLDivElement>(null);
-	const playbackRef = useRef<ReturnType<typeof animate> | null>(null);
-	const prevInTopRef = useRef(inTop);
+	const layoutInTopRef = useRef(inTop);
+	const desiredInTopRef = useRef(inTop);
+	const [dissolved, setDissolved] = useState(false);
+	const [animating, setAnimating] = useState(false);
+	const dissolvedRef = useRef(dissolved);
+	dissolvedRef.current = dissolved;
+
+	const onDissolveComplete = useCallback(() => {
+		if (!dissolvedRef.current) {
+			setAnimating(false);
+			return;
+		}
+
+		const el = mainShowcaseRef.current;
+		const next = desiredInTopRef.current;
+		if (el) el.style.position = next ? "absolute" : "relative";
+		layoutInTopRef.current = next;
+		setDissolved(false);
+	}, []);
 
 	useEffect(() => {
-		const el = mainShowcaseRef.current;
-		if (!el) return;
-
-		const prevInTop = prevInTopRef.current;
-		prevInTopRef.current = inTop;
-		if (prevInTop === inTop) return;
-
-		let cancelled = false;
-		const useClip = isMobile || maskUnsupported;
-
-		const clearInlineMask = () => {
-			el.style.maskImage = "";
-			el.style.webkitMaskImage = "";
-		};
-
-		const applyMidLayout = () => {
-			el.style.position = inTop ? "absolute" : "relative";
-			if (!useClip) {
-				const size = inTop ? "100% 2600%" : "200% 2600%";
-				el.style.maskSize = size;
-				el.style.webkitMaskSize = size;
-			}
-		};
-
-		const finishDesktopMask = () => {
-			if (useClip) return;
-			el.style.maskImage = "none";
-			el.style.webkitMaskImage = "none";
-		};
-
-		const run = async () => {
-			clearInlineMask();
-
-			const out = useClip
-				? animate(
-						el,
-						{ clipPath: ["inset(0 0% 0 0)", "inset(0 100% 0 0)"] },
-						mobileHalf,
-					)
-				: animate(
-						el,
-						{
-							maskPosition: ["0 0%", "0 100%"],
-							webkitMaskPosition: ["0 0%", "0 100%"],
-						},
-						desktopHalf,
-					);
-			playbackRef.current = out;
-			await out;
-
-			if (cancelled) return;
-			applyMidLayout();
-
-			const inn = useClip
-				? animate(
-						el,
-						{ clipPath: ["inset(0 100% 0 0)", "inset(0 0% 0 0)"] },
-						mobileHalf,
-					)
-				: animate(
-						el,
-						{
-							maskPosition: ["0 100%", "0 0%"],
-							webkitMaskPosition: ["0 100%", "0 0%"],
-						},
-						desktopHalf,
-					);
-			playbackRef.current = inn;
-			await inn;
-
-			if (cancelled || useClip) return;
-			finishDesktopMask();
-		};
-
-		run();
-
-		return () => {
-			cancelled = true;
-			playbackRef.current?.stop();
-			playbackRef.current = null;
-		};
-	}, [inTop, isMobile]);
+		desiredInTopRef.current = inTop;
+		const shouldDissolve = layoutInTopRef.current !== inTop;
+		if (shouldDissolve) setAnimating(true);
+		setDissolved(shouldDissolve);
+	}, [inTop]);
 
 	if (typeof file.value === "string" || !file.value) return;
 	const projectData = file.value;
@@ -167,17 +89,27 @@ const MainShowcase = ({
 	return (
 		<div className="sticky top-0 mb-14 flex gap-4 md:top-12">
 			<div className="z-1 min-w-0 basis-0 md:flex-1">
-				<motion.div
+				<div
 					ref={mainShowcaseRef}
-					className="darken-bottom absolute size-full cursor-none border-2 border-white-primary pixel-mask"
+					className={cn(
+						"absolute size-full cursor-none border-2 border-white-primary transition-colors duration-300 ease-out",
+						animating && "border-transparent",
+					)}
 				>
-					<img
-						src={throbberGif}
-						alt="Throbber"
-						className="absolute top-1/2 left-1/2 z-1 w-16 -translate-x-1/2 -translate-y-1/2"
-					/>
-					<div className="absolute top-0 size-full bg-black-primary" />
-					<Showcase src={projectData.showcases[0]} />
+					<Suspense
+						fallback={
+							<div className="absolute top-0 size-full bg-black-primary">
+								<Throbber />
+							</div>
+						}
+					>
+						<MainShowcaseMedia
+							project={file.name}
+							src={projectData.showcases[0]}
+							dissolved={dissolved}
+							onDissolveComplete={onDissolveComplete}
+						/>
+					</Suspense>
 					{!isMobile && <Follow />}
 					<div
 						className={cn(
@@ -192,7 +124,7 @@ const MainShowcase = ({
 							className="w-4 origin-top-right scale-[3] drop-shadow-md md:origin-bottom-right md:scale-[4]"
 						/>
 					</div>
-				</motion.div>
+				</div>
 				<h3 className="dlig ss02 pointer-events-none absolute -bottom-12 left-7 z-1 hidden overflow-visible font-display text-7xl leading-[0.95] whitespace-nowrap uppercase shadow-black-primary/25 [text-shadow:-5px_5px_5px_var(--tw-shadow-color)] md:inline">
 					{titleAnimated}
 				</h3>
@@ -260,7 +192,7 @@ const MainShowcase = ({
 				</div>
 				<img
 					src={shapeGif}
-					alt="spinning shape"
+					alt=""
 					className="h-28 w-full border-2 border-white-primary bg-black-primary object-contain p-4 py-1"
 				/>
 			</div>
