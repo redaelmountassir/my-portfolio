@@ -15,6 +15,7 @@ import {
 } from "react";
 import { useSystemKeys } from "../../../store";
 import { MobileContext } from "../../../store/MobileContext";
+import { isMediaFile } from "../../../store/types";
 import Throbber from "../../Throbber";
 import { InternalWindowDataContext } from "../../window/Window";
 import About from "./About";
@@ -23,7 +24,6 @@ import MediaFrame from "./MediaFrame";
 import NextProject from "./NextProject";
 import ProjectTitle from "./ProjectTitle";
 import ShowcasePair from "./ShowcasePair";
-import { isMediaFile } from "./types";
 
 const MediaViewer = () => {
 	const windowData = useContext(InternalWindowDataContext);

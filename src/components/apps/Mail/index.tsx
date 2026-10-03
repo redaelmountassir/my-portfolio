@@ -91,17 +91,16 @@ const Mail = () => {
 									key={val}
 									className="flex max-w-full items-center gap-4 border-b-2 border-light-primary px-4 py-2 whitespace-nowrap"
 								>
-									<div
-										onClick={e => {
-											e.preventDefault();
+									<input
+										type="checkbox"
+										checked={!!inbox[i]}
+										onChange={() => {
 											const newInbox = [...inbox];
 											newInbox[i] = !inbox[i];
 											setInbox(newInbox);
 										}}
-										className={cn(
-											"size-3 cursor-pointer border-2 border-burgundy-accent",
-											inbox[i] && "bg-burgundy-accent",
-										)}
+										aria-label={`Select ${val}`}
+										className="size-3 shrink-0 cursor-pointer appearance-none border-2 border-burgundy-accent checked:bg-burgundy-accent"
 									/>
 									<span className="flex-1 overflow-hidden text-ellipsis">
 										{val}
@@ -198,7 +197,7 @@ const Mail = () => {
 				</div>
 				<div
 					id="email-container"
-					className="ease-steps-2 flex items-center bg-linear-to-r from-blue-accent/20 to-burgundy-accent/20 to-[65px] p-2 whitespace-nowrap outline-2 outline-offset-8 outline-transparent transition-[outline] hover:outline-offset-0 hover:outline-white-primary focus:outline-offset-0 focus:outline-white-primary"
+					className="ease-steps-2 flex items-center bg-[linear-gradient(to_right,color-mix(in_oklab,var(--color-blue-accent)_20%,transparent),color-mix(in_oklab,var(--color-burgundy-accent)_20%,transparent)_65px)] p-2 whitespace-nowrap outline-2 outline-offset-8 outline-transparent transition-[outline-offset,outline-color] hover:outline-offset-0 hover:outline-white-primary focus-within:outline-offset-0 focus-within:outline-white-primary"
 				>
 					<label className="inline-block" htmlFor="email">
 						From:
@@ -219,7 +218,7 @@ const Mail = () => {
 							"redaelmountassir0@gmail.com",
 						)
 					}
-					className="group ease-steps-2 relative flex items-center bg-linear-to-r from-blue-accent/20 to-burgundy-accent/20 to-[50px] p-2 whitespace-nowrap outline-2 outline-offset-8 outline-transparent transition-[outline] hover:outline-offset-0 hover:outline-white-primary focus:outline-offset-0 focus:outline-white-primary"
+					className="group ease-steps-2 relative flex items-center bg-[linear-gradient(to_right,color-mix(in_oklab,var(--color-blue-accent)_20%,transparent),color-mix(in_oklab,var(--color-burgundy-accent)_20%,transparent)_50px)] p-2 whitespace-nowrap outline-2 outline-offset-8 outline-transparent transition-[outline-offset,outline-color] hover:outline-offset-0 hover:outline-white-primary focus:outline-offset-0 focus:outline-white-primary"
 				>
 					<p className="inline-block">To:</p>
 					<span className="grow overflow-hidden pl-4 text-left text-ellipsis">
@@ -246,7 +245,7 @@ const Mail = () => {
 				</button>
 				<div
 					id="subject-container"
-					className="ease-steps-2 flex items-center bg-linear-to-r from-blue-accent/20 to-burgundy-accent/20 to-[65px] p-2 whitespace-nowrap outline-2 outline-offset-8 outline-transparent transition-[outline] hover:outline-offset-0 hover:outline-white-primary focus:outline-offset-0 focus:outline-white-primary"
+					className="ease-steps-2 flex items-center bg-[linear-gradient(to_right,color-mix(in_oklab,var(--color-blue-accent)_20%,transparent),color-mix(in_oklab,var(--color-burgundy-accent)_20%,transparent)_65px)] p-2 whitespace-nowrap outline-2 outline-offset-8 outline-transparent transition-[outline-offset,outline-color] hover:outline-offset-0 hover:outline-white-primary focus-within:outline-offset-0 focus-within:outline-white-primary"
 				>
 					<label className="inline-block" htmlFor="subject">
 						Subject:
@@ -263,7 +262,7 @@ const Mail = () => {
 					id="message-container"
 					name="message"
 					required
-					className="ease-steps-2 min-h-96 grow resize-none overflow-hidden bg-transparent bg-linear-to-r from-blue-accent/20 to-burgundy-accent/20 to-50% p-2 outline-hidden outline-2 outline-offset-8 outline-transparent transition-[outline] hover:outline-offset-0 hover:outline-white-primary focus:overflow-y-auto focus:outline-offset-0 focus:outline-white-primary md:min-h-0"
+					className="ease-steps-2 min-h-96 grow resize-none overflow-hidden bg-[linear-gradient(to_right,color-mix(in_oklab,var(--color-blue-accent)_20%,transparent),color-mix(in_oklab,var(--color-burgundy-accent)_20%,transparent)_50%)] p-2 outline-2 outline-offset-8 outline-transparent transition-[outline-offset,outline-color] hover:outline-offset-0 hover:outline-white-primary focus:overflow-y-auto focus:outline-offset-0 focus:outline-white-primary md:min-h-0"
 				/>
 				{/* Honeypot */}
 				<input

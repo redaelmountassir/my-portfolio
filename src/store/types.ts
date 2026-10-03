@@ -48,6 +48,11 @@ export interface File {
 	htmlElement?: HTMLElement;
 }
 
+export type MediaFile = File & { value: Media }; // MediaFile === projects for my portfolio
+
+export const isMediaFile = (obj: SystemObject): obj is MediaFile =>
+	"ext" in obj && !!obj.value && typeof obj.value !== "string";
+
 export interface WindowData {
 	id: number;
 	sysObj: SystemObject;
@@ -81,7 +86,10 @@ export interface DirectorySlice {
 	): SystemObject | undefined;
 	navigate(path: Path | string): SystemObject | undefined;
 	traverse(target: SystemObject, startDir?: Directory): Directory[] | null;
-	modifySystem(target: Path | string, mod: (dir: Directory) => Directory): void;
+	modifySystem(
+		target: Path | string,
+		mod: (dir: Directory) => Directory,
+	): void;
 	emptyDir(target: Path | string): void;
 	fillDir(target: Path | string, children?: SystemObject[]): void;
 }

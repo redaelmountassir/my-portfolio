@@ -1,15 +1,21 @@
 import { useContext, useEffect, useState } from "react";
 import sunImg from "../../../assets/images/circle.png";
+import filterImg from "../../../assets/images/filter.png";
 import listModeImg from "../../../assets/images/list_mode.png";
 import tileModeImg from "../../../assets/images/tile_mode.png";
 import { useSystemKeys } from "../../../store";
+import { isMediaFile } from "../../../store/types";
 import { cn } from "../../../utils";
+import Dropdown from "../../Dropdown";
 import GlitchText from "../../GlitchText";
 import Marquee from "../../Marquee";
 import Shortcut from "../../Shortcut";
 import SmartImage from "../../SmartImage";
-import TrashBtn from "./TrashBtn";
 import { InternalWindowDataContext } from "../../window/Window";
+import FilterOptions, { useOptionSelection } from "./FilterOptions";
+import TrashBtn from "./TrashBtn";
+
+const uniqueSorted = (values: string[]) => [...new Set(values)].sort();
 
 const FileExplorer = () => {
 	const windowData = useContext(InternalWindowDataContext);
@@ -22,17 +28,53 @@ const FileExplorer = () => {
 		"replaceWindow",
 	);
 
+	const directory = sysObj && !("ext" in sysObj) ? sysObj : undefined;
+	const children = directory?.children.filter(child => !child.hidden) ?? [];
+	const isProjects = directory?.name === "Projects";
+	const extensions = uniqueSorted(
+		children.flatMap(child => ("ext" in child ? [child.ext] : [])),
+	);
+	const categories = isProjects
+		? uniqueSorted(
+				children.flatMap(child =>
+					"ext" in child && isMediaFile(child)
+						? child.value.categories
+						: [],
+				),
+			)
+		: [];
+	const extensionFilter = useOptionSelection(
+		`${directory?.name ?? ""}:${extensions.join("\0")}`,
+		extensions,
+	);
+	const categoryFilter = useOptionSelection(
+		`${directory?.name ?? ""}:${categories.join("\0")}`,
+		categories,
+	);
+
 	useEffect(() => {
 		if (!windowData || !sysObj || "ext" in sysObj) return;
 		windowData.setTitle(`File Explorer - ${sysObj.name}`);
 	}, [windowData, sysObj]);
 
-	if (!windowData || !sysObj || "ext" in sysObj) return;
+	if (!windowData || !directory) return;
 
 	const { id, getWidth } = windowData;
-	const isTrash = sysObj.name === "Trash";
-	const children = sysObj.children.filter(child => !child.hidden);
-	const parentFolders = traverse(sysObj) ?? [];
+	const isTrash = directory.name === "Trash";
+	const shown = children.filter(child => {
+		if (!("ext" in child)) return true;
+		if (
+			extensions.length > 0 &&
+			!extensionFilter.selected.includes(child.ext)
+		)
+			return false;
+		if (!isProjects || categories.length === 0 || !isMediaFile(child))
+			return true;
+		return child.value.categories.some(category =>
+			categoryFilter.selected.includes(category),
+		);
+	});
+	const parentFolders = traverse(directory) ?? [];
 
 	return (
 		<div className="relative flex-1 grid-cols-3 overflow-x-hidden overflow-y-auto md:grid short:md:mt-8 short:md:border-t-2">
@@ -42,7 +84,7 @@ const FileExplorer = () => {
 				panTime={getWidth() / 15}
 				steps={250}
 			>
-				{`${children.length} Items       ${children.length * 35}KB in ${sysObj.name}       175KB Available`}
+				{`${shown.length} Items       ${shown.length * 35}KB in ${directory.name}       175KB Available`}
 			</Marquee>
 
 			<ul className="hidden-scrollbar relative z-1 flex flex-1 justify-end overflow-x-hidden border-b-2 border-white-primary text-white-primary md:flex-col md:justify-start md:border-r-2 md:border-b-0 md:bg-black-primary">
@@ -73,37 +115,91 @@ const FileExplorer = () => {
 					</li>
 				))}
 				<li className="text-md w-full p-2 text-left md:mb-2 md:bg-purple-watermark md:p-4">
-					{sysObj.name}
+					{directory.name}
 				</li>
-				<button
-					type="button"
-					onClick={() => setTileMode(mode => !mode)}
-					className="relative m-2 mt-auto hidden self-start border-2 border-white-primary whitespace-nowrap md:flex"
-				>
-					<SmartImage
-						src={tileModeImg}
-						className="m-2"
-						alt="tile mode"
-					/>
-					<SmartImage
-						src={listModeImg}
-						className="m-2"
-						alt="list mode"
-					/>
-					<div
-						className={cn(
-							"absolute -z-1 h-full w-1/2 bg-purple-watermark transition ease-out",
-							!tileMode && "translate-x-full",
-						)}
-					/>
-				</button>
+				<div className="relative m-2 mt-auto hidden gap-2 md:flex">
+					<button
+						type="button"
+						onClick={() => setTileMode(mode => !mode)}
+						className="relative flex self-start border-2 border-white-primary whitespace-nowrap"
+					>
+						<SmartImage
+							src={tileModeImg}
+							className="m-2"
+							alt="tile mode"
+						/>
+						<SmartImage
+							src={listModeImg}
+							className="m-2"
+							alt="list mode"
+						/>
+						<div
+							className={cn(
+								"absolute -z-1 h-full w-1/2 bg-purple-watermark transition ease-out",
+								!tileMode && "translate-x-full",
+							)}
+						/>
+					</button>
+					{(extensions.length > 0 || categories.length > 0) && (
+						<Dropdown
+							forcedDirection="up"
+							dClassName="z-10 whitespace-nowrap"
+							dContent={
+								<div className="flex flex-col gap-4">
+									{extensions.length > 0 && (
+										<FilterOptions
+											label="By Extension:"
+											options={extensions}
+											selected={extensionFilter.selected}
+											allSelected={
+												extensionFilter.allSelected
+											}
+											onToggle={extensionFilter.toggle}
+											onToggleAll={
+												extensionFilter.toggleAll
+											}
+											format={ext => `.${ext}`}
+										/>
+									)}
+									{isProjects && categories.length > 0 && (
+										<FilterOptions
+											label="By Category:"
+											options={categories}
+											selected={categoryFilter.selected}
+											allSelected={
+												categoryFilter.allSelected
+											}
+											onToggle={categoryFilter.toggle}
+											onToggleAll={
+												categoryFilter.toggleAll
+											}
+										/>
+									)}
+								</div>
+							}
+							pClassName="flex-1"
+							className="group flex size-full items-center gap-3 border-2 bg-purple-watermark px-3 transition ease-steps-10 hover:bg-white-primary hover:text-black-primary"
+						>
+							<>
+								<SmartImage
+									src={filterImg}
+									alt="filter icon"
+									className="size-4 group-hover:invert"
+								/>
+								<p>Filter</p>
+							</>
+						</Dropdown>
+					)}
+				</div>
 			</ul>
 
-			{children.length === 0 ? (
+			{shown.length === 0 ? (
 				<p className="relative col-span-2 my-auto w-full p-4 py-12 text-center font-bold text-white-primary">
-					{isTrash
-						? "Your trashcan is empty"
-						: "This folder is empty"}
+					{children.length === 0
+						? isTrash
+							? "Your trashcan is empty"
+							: "This folder is empty"
+						: "No items match the current filter"}
 				</p>
 			) : (
 				<ul
@@ -113,7 +209,7 @@ const FileExplorer = () => {
 							"grid grid-cols-[repeat(auto-fill,minmax(min-content,100px))] grid-rows-[max-content] justify-around gap-2",
 					)}
 				>
-					{children.map(child => (
+					{shown.map(child => (
 						<li
 							key={child.name}
 							className={tileMode ? "w-24" : "w-full"}
@@ -135,7 +231,7 @@ const FileExplorer = () => {
 			{isTrash && (
 				<TrashBtn
 					onDelete={() =>
-						replaceWindow(id, { ...sysObj, children: [] })
+						replaceWindow(id, { ...directory, children: [] })
 					}
 				/>
 			)}

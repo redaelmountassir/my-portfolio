@@ -1,8 +1,8 @@
 import type { MotionValue } from "motion/react";
 import type { RefObject } from "react";
+import type { MediaFile } from "../../../store/types";
 import GlitchText from "../../GlitchText";
 import Showcase from "./Showcase";
-import type { MediaFile } from "./types";
 
 const NextProject = ({
 	project,
