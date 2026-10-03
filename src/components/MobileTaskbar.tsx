@@ -1,4 +1,5 @@
 import { motion, steps } from "motion/react";
+import { useShallow } from "zustand/react/shallow";
 import backImg from "../assets/images/back.png";
 import homeImg from "../assets/images/home.png";
 import menuImg from "../assets/images/menu.png";
@@ -9,13 +10,13 @@ import SmartImage from "./SmartImage";
 
 const MobileTaskbar = () => {
 	const [toggleMenu, home, back, windowOpen, menuOpen] = useMobileStore(
-		state => [
+		useShallow(state => [
 			state.toggleMenu,
 			state.home,
 			state.back,
 			state.windowOpen,
 			state.menuOpen,
-		],
+		]),
 	);
 	const windows = useSystemStore(state => state.windows.length);
 
@@ -55,7 +56,7 @@ const MobileTaskbar = () => {
 							src={menuImg}
 							alt="menu"
 							draggable="false"
-							className="p-12"
+							className="size-12"
 						/>
 					</button>
 					<button
@@ -67,7 +68,7 @@ const MobileTaskbar = () => {
 							src={homeImg}
 							alt="home"
 							draggable="false"
-							className="p-12"
+							className="size-12"
 						/>
 					</button>
 					<button
@@ -79,7 +80,7 @@ const MobileTaskbar = () => {
 							src={backImg}
 							alt="back"
 							draggable="false"
-							className="p-12"
+							className="size-12"
 						/>
 					</button>
 				</div>

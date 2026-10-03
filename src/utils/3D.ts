@@ -12,6 +12,15 @@ import {
 
 const strippedGltfUrls = new Set<string>();
 
+// Annoying af warning about a not yet deprecated feature
+const originalWarn = console.warn;
+console.warn = (...args) => {
+	if (typeof args[0] === "string" && args[0].includes("THREE.Clock")) {
+		return;
+	}
+	originalWarn(...args);
+};
+
 // R3F calls forceContextLoss when a canvas unmounts. That event is intentional
 // teardown; Three still prints "THREE.WebGLRenderer: Context Lost." for it.
 export function silenceContextLoss({ gl }: { gl: WebGLRenderer }) {

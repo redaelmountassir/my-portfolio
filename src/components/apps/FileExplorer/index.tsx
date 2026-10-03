@@ -5,7 +5,7 @@ import listModeImg from "../../../assets/images/list_mode.png";
 import tileModeImg from "../../../assets/images/tile_mode.png";
 import { useSystemKeys } from "../../../store";
 import { isFile, isMediaFile } from "../../../store/types";
-import { cn } from "../../../utils";
+import { cn, useBreakpointMD } from "../../../utils";
 import Dropdown from "../../Dropdown";
 import GlitchText from "../../GlitchText";
 import Marquee from "../../Marquee";
@@ -21,6 +21,7 @@ const FileExplorer = () => {
 	const windowData = useContext(InternalWindowDataContext);
 	const sysObj = windowData?.sysObj;
 
+	const wide = useBreakpointMD();
 	const [tileMode, setTileMode] = useState(true);
 	const [selected, setSelected] = useState(-1);
 	const { traverse, replaceWindow } = useSystemKeys(
@@ -85,41 +86,48 @@ const FileExplorer = () => {
 				{`${shown.length} Items       ${shown.length * 35}KB in ${directory.name}       175KB Available`}
 			</Marquee>
 
-			<ul className="hidden-scrollbar relative z-1 flex flex-1 justify-end overflow-x-hidden border-b-2 border-white-primary text-white-primary md:flex-col md:justify-start md:border-r-2 md:border-b-0 md:bg-black-primary">
-				{parentFolders.map((folder, i) => (
-					<li key={folder.name} className="text-nowrap">
-						<button
-							type="button"
-							className="text-md group relative w-full p-2 text-left transition-colors ease-steps-2 md:p-4 md:hover:bg-white-primary md:hover:text-black-primary"
-							onPointerDown={() => setSelected(i)}
-							onClick={() => replaceWindow(id, folder)}
-						>
-							<span className="absolute opacity-0 transition-opacity ease-steps-2 md:group-hover:opacity-100">
-								&gt;
-							</span>
-							<GlitchText
-								className="block whitespace-nowrap transition-transform ease-steps-2 group-hover:underline md:no-underline! md:group-hover:translate-x-4"
-								animated={i === selected}
-								onComplete={() =>
-									i === selected && setSelected(-1)
-								}
+			<ul className="hidden-scrollbar relative z-2 flex min-w-0 flex-1 items-center justify-end overflow-x-clip border-b-2 border-white-primary text-white-primary md:flex-col md:items-stretch md:justify-start md:overflow-x-hidden md:border-r-2 md:border-b-0 md:bg-black-primary">
+				<div className="flex min-w-0 flex-1 justify-end overflow-hidden md:contents">
+					<div className="mr-auto flex w-max md:contents">
+						{parentFolders.map((folder, i) => (
+							<li
+								key={folder.name}
+								className="shrink-0 text-nowrap"
 							>
-								{folder.name}
-							</GlitchText>
-						</button>
-						<span className="inline-block -translate-x-2 md:hidden">
-							►
-						</span>
-					</li>
-				))}
-				<li className="text-md w-full p-2 text-left md:mb-2 md:bg-purple-watermark md:p-4">
-					{directory.name}
-				</li>
-				<div className="relative m-2 mt-auto hidden gap-2 md:flex">
+								<button
+									type="button"
+									className="text-md group relative w-full p-2 text-left transition-colors ease-steps-2 md:p-4 md:hover:bg-white-primary md:hover:text-black-primary"
+									onPointerDown={() => setSelected(i)}
+									onClick={() => replaceWindow(id, folder)}
+								>
+									<span className="absolute opacity-0 transition-opacity ease-steps-2 md:group-hover:opacity-100">
+										&gt;
+									</span>
+									<GlitchText
+										className="block whitespace-nowrap transition-transform ease-steps-2 group-hover:underline md:no-underline! md:group-hover:translate-x-4"
+										animated={i === selected}
+										onComplete={() =>
+											i === selected && setSelected(-1)
+										}
+									>
+										{folder.name}
+									</GlitchText>
+								</button>
+								<span className="inline-block -translate-x-2 md:hidden">
+									►
+								</span>
+							</li>
+						))}
+						<li className="text-md shrink-0 p-2 text-left whitespace-nowrap md:mb-2 md:w-full md:bg-purple-watermark md:p-4">
+							{directory.name}
+						</li>
+					</div>
+				</div>
+				<div className="relative flex shrink-0 gap-2 p-2 md:m-2 md:mt-auto md:p-0">
 					<button
 						type="button"
 						onClick={() => setTileMode(mode => !mode)}
-						className="relative flex self-start border-2 border-white-primary whitespace-nowrap"
+						className="relative flex shrink-0 self-start border-2 border-white-primary whitespace-nowrap"
 					>
 						<SmartImage
 							src={tileModeImg}
@@ -140,8 +148,8 @@ const FileExplorer = () => {
 					</button>
 					{(extensions.length > 0 || categories.length > 0) && (
 						<Dropdown
-							forcedDirection="up"
-							dClassName="z-10 whitespace-nowrap"
+							forcedDirection={wide ? "up" : "down"}
+							dClassName="z-2 -mt-1 whitespace-nowrap border-t-2 md:mt-0"
 							dContent={
 								<div className="flex flex-col gap-4">
 									{extensions.length > 0 && (
@@ -175,8 +183,8 @@ const FileExplorer = () => {
 									)}
 								</div>
 							}
-							pClassName="flex-1"
-							className="group flex size-full items-center gap-3 border-2 bg-purple-watermark px-3 transition ease-steps-10 hover:bg-white-primary hover:text-black-primary"
+							pClassName="shrink-0 md:flex-1"
+							className="group flex h-full shrink-0 items-center gap-3 border-2 bg-purple-watermark px-2 transition ease-steps-10 hover:bg-white-primary hover:text-black-primary md:size-full md:px-3"
 						>
 							<>
 								<SmartImage
@@ -184,7 +192,7 @@ const FileExplorer = () => {
 									alt="filter icon"
 									className="size-4 group-hover:invert"
 								/>
-								<p>Filter</p>
+								<p className="hidden md:block">Filter</p>
 							</>
 						</Dropdown>
 					)}

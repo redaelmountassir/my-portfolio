@@ -78,7 +78,7 @@ const Menu = ({ windows, deleteWindows }: MenuProps) => {
 							>
 								<Icon
 									sysObj={window.sysObj}
-									className="absolute left-1/2 z-1 size-16 -translate-x-1/2 -translate-y-1/2"
+									className="absolute left-1/2 z-2 size-16 -translate-x-1/2 -translate-y-1/2"
 								/>
 								<Window
 									windowData={window}
@@ -93,8 +93,8 @@ const Menu = ({ windows, deleteWindows }: MenuProps) => {
 			<button
 				type="button"
 				className={cn(
-					"ease-steps-2 p-2 text-black-primary outline-2 outline-black-primary transition-opacity",
-					windows.length === 0 && "cursor-not-allowed opacity-50",
+					"p-2 text-pink-accent outline-2 outline-pink-accent transition-opacity ease-steps-2",
+					windows.length === 0 && "cursor-not-allowed opacity-25",
 				)}
 				onClick={deleteWindows}
 			>

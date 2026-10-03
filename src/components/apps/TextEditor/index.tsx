@@ -42,7 +42,10 @@ const countWords = (str: string) => str.trim().split(/\s+/).length;
 
 const photos = [
 	{ img: cenoteImg, alt: "Jumping into a Mexican cenote" },
-	{ img: chichenItzaImg, alt: "One of the wonders of the world: chichen itza" },
+	{
+		img: chichenItzaImg,
+		alt: "One of the wonders of the world: chichen itza",
+	},
 	{ img: cupcakesImg, alt: "My cupcakes" },
 	{ img: donkeyImg, alt: "Me riding a donkey" },
 	{ img: istanbulImg, alt: "Istanbul, Turkey" },
@@ -122,7 +125,7 @@ const TextEditor = () => {
 					>
 						<Float className="group xs:inline-block">
 							<div
-								className="darken-left relative inline-block h-125 border-2 border-white-primary bg-black grayscale transition ease-steps-2 group-hover:grayscale-0"
+								className="relative inline-block h-125 border-2 border-white-primary bg-black transition ease-steps-2 group-hover:grayscale-0 md:darken-left md:grayscale"
 								style={{
 									aspectRatio: `${frame.img.width} / ${frame.img.height}`,
 								}}
@@ -160,7 +163,7 @@ const TextEditor = () => {
 						</GlitchText>
 					</h3>
 					<ContentEditable
-						className="min-h-96 resize-none border-y-0 border-r-0 border-white-primary bg-transparent leading-8 outline-hidden [caret-shape:block] md:ml-5 md:border-l-2 md:pl-7"
+						className="mb-12 min-h-96 resize-none border-y-0 border-r-0 border-white-primary bg-transparent leading-8 outline-hidden [caret-shape:block] md:mb-0 md:ml-5 md:border-l-2 md:pl-7"
 						value={text}
 						onUpdate={setText}
 					/>

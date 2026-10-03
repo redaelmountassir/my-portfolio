@@ -79,7 +79,7 @@ const MobileTaskbar = () => {
 						val == 0 ? "none" : "auto",
 					),
 				}}
-				className="fixed top-0 size-full touch-none bg-black-primary/75 p-4 pt-12 text-white-primary backdrop-blur-lg short:pt-16 short:pb-12"
+				className="fixed top-0 z-1 size-full touch-none bg-black-primary/75 p-4 pt-12 text-white-primary backdrop-blur-lg short:pt-16 short:pb-12"
 				drag
 				dragConstraints={{ top: 0, left: 0, right: 0, bottom: 0 }}
 				dragElastic={0}
