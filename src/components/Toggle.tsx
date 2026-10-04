@@ -13,13 +13,16 @@ interface ToggleProps {
 const Toggle = ({ state, setter, children }: ToggleProps) => (
 	<button
 		type="button"
+		role="switch"
+		aria-checked={state}
 		onClick={() => setter(!state)}
 		className="my-2 flex w-full cursor-pointer items-center justify-between whitespace-nowrap"
 	>
 		{children}
 		<div
+			aria-hidden="true"
 			className={cn(
-				"ease-steps-2 ml-4 h-6 w-14 p-1 outline-2 outline-white-primary transition-colors",
+				"ml-4 h-6 w-14 p-1 outline-2 outline-white-primary transition-colors ease-steps-2",
 				state && "bg-linear-to-r from-pink-accent to-blue-accent",
 			)}
 		>

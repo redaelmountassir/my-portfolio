@@ -79,12 +79,13 @@ const Showcase = ({
 					autoPlay
 					playsInline
 					loop
+					aria-label={`Showcase for ${project.replaceAll("_", " ")}`}
 					className={classes}
 				/>
 			) : (
 				<SmartImage
 					src={asset}
-					alt="Showcase for project"
+					alt={`Showcase for ${project.replaceAll("_", " ")}`}
 					className={classes}
 				/>
 			)}

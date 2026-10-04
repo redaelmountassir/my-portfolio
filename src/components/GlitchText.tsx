@@ -12,6 +12,7 @@ interface GlitchTextProps {
 	decay?: boolean;
 	decayRate?: number;
 	onComplete?: () => void;
+	"aria-hidden"?: boolean | "true" | "false";
 }
 
 const GlitchText = ({
@@ -24,6 +25,7 @@ const GlitchText = ({
 	decay = true,
 	decayRate = 1,
 	onComplete,
+	"aria-hidden": ariaHidden,
 }: GlitchTextProps) => {
 	const text = useRef<HTMLSpanElement>(null);
 	const interval = useRef(-1);
@@ -48,7 +50,8 @@ const GlitchText = ({
 					text.current.textContent = children
 						.split("")
 						.map((_, i) =>
-							(decay && i < iterations.current) || children[i] == " "
+							(decay && i < iterations.current) ||
+							children[i] == " "
 								? children[i]
 								: randomChar(),
 						)
@@ -81,7 +84,7 @@ const GlitchText = ({
 	);
 
 	return (
-		<span className={className} ref={text}>
+		<span className={className} ref={text} aria-hidden={ariaHidden}>
 			{children}
 		</span>
 	);

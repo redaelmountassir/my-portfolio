@@ -34,6 +34,7 @@ const About = ({
 				onScroll
 				scrollRoot={scrollContainer}
 				decayRate={0.5}
+				aria-hidden="true"
 				className="ss02 dlig pointer-events-none absolute -right-12 -bottom-9 font-display text-9xl text-purple-watermark uppercase select-none md:text-[12.5rem]"
 			>
 				ABOUT

@@ -15,7 +15,8 @@ const TrashBtn = ({ onDelete }: { onDelete?: () => void }) => {
 	return (
 		<button
 			type="button"
-			className="ease-steps-2 fixed right-10 bottom-20 z-1 m-4 bg-linear-to-r from-blue-accent to-pink-accent bg-double bg-left px-4 py-2 text-white-primary outline-2 outline-white-primary transition-all hover:bg-right active:scale-95 md:bottom-0"
+			aria-label="Empty Trash"
+			className="fixed right-10 bottom-20 z-1 m-4 bg-linear-to-r from-blue-accent to-pink-accent bg-double bg-left px-4 py-2 text-white-primary outline-2 outline-white-primary transition-all ease-steps-2 hover:bg-right focus-visible:bg-right active:scale-95 md:bottom-0"
 			disabled={!parents}
 			onClick={() => {
 				if (!parents) return;
@@ -24,10 +25,13 @@ const TrashBtn = ({ onDelete }: { onDelete?: () => void }) => {
 				onDelete?.();
 			}}
 		>
-			<span className="hidden md:inline">Empty Trash</span>
+			<span className="hidden md:inline" aria-hidden="true">
+				Empty Trash
+			</span>
 			<SmartImage
 				src={trashImg}
 				alt=""
+				aria-hidden="true"
 				className="my-2 block w-8 md:hidden"
 			/>
 		</button>

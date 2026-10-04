@@ -24,6 +24,7 @@ const MobileTaskbar = () => {
 		<>
 			<MobileTaskbarPanel />
 			<motion.nav
+				aria-label="Mobile navigation"
 				className="fixed bottom-0 w-full p-0 font-bold short:px-4 short:py-2"
 				variants={{
 					unloaded: { opacity: 0, y: "100%" },
@@ -47,6 +48,10 @@ const MobileTaskbar = () => {
 					<button
 						className="flex grow justify-center short:py-2"
 						type="button"
+						aria-label={
+							menuOpen ? "Close app menu" : "Open app menu"
+						}
+						aria-expanded={menuOpen}
 						onClick={() => {
 							if (windows == 0 && menuOpen) return home();
 							toggleMenu();
@@ -54,7 +59,7 @@ const MobileTaskbar = () => {
 					>
 						<SmartImage
 							src={menuImg}
-							alt="menu"
+							alt=""
 							draggable="false"
 							className="size-12"
 						/>
@@ -62,11 +67,12 @@ const MobileTaskbar = () => {
 					<button
 						className="flex grow justify-center short:py-2"
 						type="button"
+						aria-label="Home"
 						onClick={home}
 					>
 						<SmartImage
 							src={homeImg}
-							alt="home"
+							alt=""
 							draggable="false"
 							className="size-12"
 						/>
@@ -74,11 +80,12 @@ const MobileTaskbar = () => {
 					<button
 						className="flex grow justify-center short:py-2"
 						type="button"
+						aria-label="Back"
 						onClick={back}
 					>
 						<SmartImage
 							src={backImg}
-							alt="back"
+							alt=""
 							draggable="false"
 							className="size-12"
 						/>

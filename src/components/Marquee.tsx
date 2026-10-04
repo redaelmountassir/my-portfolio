@@ -34,6 +34,7 @@ const Marquee = (props: MarqueeProps) => {
 	return (
 		<div
 			{...rest}
+			aria-hidden="true"
 			className={cn(
 				"group relative overflow-hidden whitespace-nowrap",
 				vertical

@@ -11,6 +11,7 @@ const Taskbar = () => {
 
 	return (
 		<motion.nav
+			aria-label="System taskbar"
 			className="backdrop-blur-parent fixed bottom-0 flex w-full bg-linear-to-r from-black-primary/75 from-25% to-dark-primary/75 to-70% font-bold text-white outline-2 outline-white-primary md:top-0 md:bottom-auto"
 			variants={{
 				unloaded: { opacity: 0, y: "-100%" },

@@ -30,6 +30,7 @@ const Desktop = () => {
 
 	return (
 		<motion.ul
+			aria-label="Desktop shortcuts"
 			className="pointer-events-none absolute top-0 grid size-full auto-rows-0 grid-cols-3 grid-rows-2 justify-items-center p-4 pt-20 pb-24 xs:grid-cols-5 sm:grid-cols-6! md:flex md:items-start md:pb-4 short:grid-rows-3 average:grid-rows-4 tall:grid-rows-5"
 			variants={listVariants}
 		>

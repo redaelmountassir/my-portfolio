@@ -10,7 +10,7 @@ import Menu from "./Menu";
 const Window = lazy(() => import("./window/Window"));
 
 const WindowsArea = () => {
-	const windowsAreaRef = useRef<HTMLDivElement>(null);
+	const windowsAreaRef = useRef<HTMLElement>(null);
 	const z = useRef(1);
 	const { windows, deleteWindows } = useSystemKeys(
 		"windows",
@@ -24,8 +24,9 @@ const WindowsArea = () => {
 
 	// The extra div is only there to prevent overlap with the taskbar
 	return (
-		<div
+		<section
 			ref={windowsAreaRef}
+			aria-label="Open windows"
 			className={cn(
 				"pointer-events-none absolute top-0 z-0 size-full",
 				!isMobile && "top-14 border-b-56",
@@ -57,7 +58,7 @@ const WindowsArea = () => {
 					);
 				})}
 			</AnimatePresence>
-		</div>
+		</section>
 	);
 };
 

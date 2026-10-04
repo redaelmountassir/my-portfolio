@@ -114,7 +114,8 @@ const TextEditor = () => {
 					}
 				</ScrollMarquee>
 				<div className="relative clearfix gap-6 bg-[repeating-linear-gradient(#1f0728,#1f0728_2em,#291632_2em,#291632_4em)] p-8 py-16 text-white-primary md:bg-[repeating-linear-gradient(#f5f9ff06,#f5f9ff06_2em,#f5f9ff10_2em,#f5f9ff10_4em)] md:py-32 md:pl-6">
-					<div
+					<button
+						type="button"
 						className={cn(
 							"relative w-auto cursor-pointer text-right sm:text-center",
 							getWidth() <= 800
@@ -122,15 +123,15 @@ const TextEditor = () => {
 								: "group relative mb-7 ml-8 h-full w-2/5 flicker transition duration-1000 ease-steps-2 md:float-right md:block",
 						)}
 						onClick={updateImg}
+						aria-label={`Cycle photo. Currently showing: ${frame.alt}`}
 					>
 						<Float className="group xs:inline-block">
 							<div
-								className="relative inline-block h-125 border-2 bg-black transition ease-steps-2 group-hover:grayscale-0 md:darken-left md:grayscale"
+								className="relative inline-block h-125 border-2 bg-black transition ease-steps-2 group-hover:grayscale-0 group-focus-visible:grayscale-0 md:darken-left md:grayscale"
 								style={{
 									aspectRatio: `${frame.img.width} / ${frame.img.height}`,
 								}}
-								role="img"
-								aria-label={frame.alt}
+								aria-hidden="true"
 							>
 								<PixelDissolveMedia
 									media={photos[currentImg].img}
@@ -148,10 +149,11 @@ const TextEditor = () => {
 						</Float>
 						<SmartImage
 							src={camImg}
-							alt="camera"
+							alt=""
+							aria-hidden="true"
 							className="absolute right-0 bottom-0 hidden w-24 translate-x-1/3 -rotate-45 animate-blink sm:right-40 sm:block md:right-0"
 						/>
-					</div>
+					</button>
 					<h3 className="static top-16 z-1 mb-7 w-full origin-bottom-left font-display text-7xl leading-[0.95] whitespace-nowrap uppercase xs:absolute xs:rotate-90 xs:shadow-black-primary sm:static! sm:rotate-0! sm:shadow-none">
 						<span className="hidden xs:inline">† </span>
 						<GlitchText

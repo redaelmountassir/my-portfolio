@@ -243,6 +243,13 @@ const MediaViewer = () => {
 						</div>
 					}
 				>
+					<button
+						type="button"
+						className="tab-only relative"
+						onClick={gotoNext}
+					>
+						Next project: {nextProject.name.replaceAll("_", " ")}
+					</button>
 					<NextProject
 						project={nextProject}
 						scrollContainer={scrollContainer}

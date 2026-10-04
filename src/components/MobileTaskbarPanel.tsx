@@ -46,6 +46,7 @@ const MobileTaskbar = () => {
 	const [playShutdown] = useAudio(exitSound, 0.3);
 
 	const settingsReveal = useMotionValue(0);
+	const [panelOpen, setPanelOpen] = useState(false);
 
 	const [now, setNow] = useState<Date>();
 	useInterval(() => setNow(new Date()), 1000);
@@ -79,6 +80,8 @@ const MobileTaskbar = () => {
 					),
 				}}
 				className="fixed top-0 z-1 size-full touch-none bg-black-primary/75 p-4 pt-12 text-white-primary backdrop-blur-lg short:pt-16 short:pb-12"
+				aria-hidden={!panelOpen}
+				inert={!panelOpen || undefined}
 				drag
 				dragConstraints={{ top: 0, left: 0, right: 0, bottom: 0 }}
 				dragElastic={0}
@@ -95,10 +98,9 @@ const MobileTaskbar = () => {
 				onDragEnd={() => {
 					document.documentElement.classList.remove("cursor-grab");
 					document.body.classList.remove("pointer-events-none");
-					animate(
-						settingsReveal,
-						settingsReveal.get() > 0.65 ? 1 : 0,
-					);
+					const open = settingsReveal.get() > 0.65;
+					setPanelOpen(open);
+					animate(settingsReveal, open ? 1 : 0);
 				}}
 			>
 				<motion.div
@@ -116,6 +118,7 @@ const MobileTaskbar = () => {
 							href="https://www.linkedin.com/in/reda-elmountassir"
 							target="_blank"
 							className="cursor-pointer"
+							aria-label="LinkedIn"
 						>
 							<SmartImage
 								src={linkedInImg}
@@ -309,10 +312,9 @@ const MobileTaskbar = () => {
 				onDragEnd={() => {
 					document.documentElement.classList.remove("cursor-grab");
 					document.body.classList.remove("pointer-events-none");
-					animate(
-						settingsReveal,
-						settingsReveal.get() > 0.35 ? 1 : 0,
-					);
+					const open = settingsReveal.get() > 0.35;
+					setPanelOpen(open);
+					animate(settingsReveal, open ? 1 : 0);
 				}}
 			>
 				<p>
@@ -323,13 +325,15 @@ const MobileTaskbar = () => {
 				</p>
 				<SmartImage
 					src={mobileIcons}
-					alt="Mobile icons"
+					alt=""
+					aria-hidden="true"
 					className="ml-auto h-4"
 				/>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					viewBox="0 -0.5 16 16"
 					shapeRendering="crispEdges"
+					aria-hidden="true"
 					className="h-5"
 				>
 					<path

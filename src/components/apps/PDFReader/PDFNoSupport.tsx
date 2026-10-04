@@ -35,31 +35,43 @@ const PDFNoSupport = () => {
 			<a
 				href="./resume.pdf"
 				download="resume.pdf"
+				aria-label={
+					dowloaded ? "Downloading resume" : "Download resume"
+				}
+				aria-busy={dowloaded}
 				className={cn(
-					"absolute top-1/2 left-1/2 z-1 flex h-16 w-44 -translate-x-1/2 -translate-y-1/2 items-center justify-center border-2 bg-black-primary text-lg text-white-primary transition-all ease-out hover:bg-white-primary hover:text-black-primary",
+					"absolute top-1/2 left-1/2 z-1 flex h-16 w-44 -translate-x-1/2 -translate-y-1/2 items-center justify-center border-2 bg-black-primary text-lg text-white-primary transition-all ease-out hover:bg-white-primary hover:text-black-primary focus-visible:bg-white-primary focus-visible:text-black-primary",
 					dowloaded && "size-28",
 				)}
 				onClick={() => !dowloaded && setDowloaded(true)}
 			>
 				{dowloaded ? (
-					<img src={throbberGif} alt="Throbber" className="w-16" />
+					<img
+						src={throbberGif}
+						alt=""
+						aria-hidden="true"
+						className="w-16"
+					/>
 				) : (
 					"Tap to download"
 				)}
 			</a>
 			<SmartImage
 				src={columnImg}
-				alt="greek column"
+				alt=""
+				aria-hidden="true"
 				className="absolute top-1/2 left-1/2 h-110 -translate-x-1/2 -translate-y-1/2"
 			/>
 			<SmartImage
 				src={dolphinImg}
-				alt="dolphin"
+				alt=""
+				aria-hidden="true"
 				className="absolute top-1/4 left-1/4 h-28 -translate-x-1/2 -translate-y-1/2 -rotate-45"
 			/>
 			<SmartImage
 				src={dolphinImg}
-				alt="dolphin"
+				alt=""
+				aria-hidden="true"
 				className="absolute top-3/4 left-3/4 h-36 -translate-x-1/2 -translate-y-1/2"
 			/>
 		</div>

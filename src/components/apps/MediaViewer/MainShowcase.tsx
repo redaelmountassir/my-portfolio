@@ -22,7 +22,7 @@ interface MainShowcaseProps {
 	file: File;
 	scrollContainer: AnimationScope<HTMLDivElement>;
 	inTop: boolean;
-	skipSection?: React.MouseEventHandler<HTMLDivElement>;
+	skipSection?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const MainShowcase = ({
@@ -111,19 +111,23 @@ const MainShowcase = ({
 						/>
 					</Suspense>
 					{!isMobile && <Follow />}
-					<div
+					<button
+						type="button"
+						aria-label="Scroll to project details"
 						className={cn(
 							"absolute top-6 right-6 z-2 animate-bounce cursor-pointer transition delay-1000 md:top-auto md:right-3 md:bottom-3",
 							!inTop && "pointer-events-none opacity-0 delay-0!",
 						)}
 						onClick={skipSection}
+						tabIndex={inTop ? 0 : -1}
 					>
 						<SmartImage
 							src={scrollDownImg}
-							alt="scroll down"
+							alt=""
+							aria-hidden="true"
 							className="w-4 origin-top-right scale-[3] drop-shadow-md md:origin-bottom-right md:scale-[4]"
 						/>
-					</div>
+					</button>
 				</div>
 				<h3 className="dlig ss02 pointer-events-none absolute -bottom-12 left-7 z-1 hidden overflow-visible font-display text-7xl leading-[0.95] whitespace-nowrap uppercase shadow-black-primary/25 [text-shadow:-5px_5px_5px_var(--tw-shadow-color)] md:inline">
 					{titleAnimated}

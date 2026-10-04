@@ -258,8 +258,9 @@ const ContentEditable = ({
 				>
 					<motion.div className="-translate-x-1/2 translate-y-[calc(-100%-12px)] divide-x-2 divide-white-primary border-2 bg-black-primary">
 						<button
-							className="w-8 py-1 text-center font-bold transition ease-steps-2 hover:bg-white-primary hover:text-black-primary"
+							className="w-8 py-1 text-center font-bold transition ease-steps-2 hover:bg-white-primary hover:text-black-primary focus-visible:bg-white-primary focus-visible:text-black-primary"
 							type="button"
+							aria-label="Bold"
 							onClick={e => {
 								if (!contentEditableRef.current) return;
 								e.preventDefault();
@@ -273,8 +274,9 @@ const ContentEditable = ({
 							B
 						</button>
 						<button
-							className="w-8 py-1 text-center underline transition ease-steps-2 hover:bg-white-primary hover:text-black-primary"
+							className="w-8 py-1 text-center underline transition ease-steps-2 hover:bg-white-primary hover:text-black-primary focus-visible:bg-white-primary focus-visible:text-black-primary"
 							type="button"
+							aria-label="Underline"
 							onClick={e => {
 								if (!contentEditableRef.current) return;
 								e.preventDefault();
@@ -288,8 +290,9 @@ const ContentEditable = ({
 							U
 						</button>
 						<button
-							className="w-8 py-1 text-center italic transition ease-steps-2 hover:bg-white-primary hover:text-black-primary"
+							className="w-8 py-1 text-center italic transition ease-steps-2 hover:bg-white-primary hover:text-black-primary focus-visible:bg-white-primary focus-visible:text-black-primary"
 							type="button"
+							aria-label="Italic"
 							onClick={e => {
 								if (!contentEditableRef.current) return;
 								e.preventDefault();

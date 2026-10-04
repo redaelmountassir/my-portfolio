@@ -109,6 +109,8 @@ const Dropdown = (props: DropdownProps) => {
 				{...rest}
 				ref={button}
 				type="button"
+				aria-expanded={open}
+				aria-haspopup="true"
 				onClick={e => {
 					e.preventDefault();
 					setOpen(open => !open);
@@ -131,6 +133,8 @@ const Dropdown = (props: DropdownProps) => {
 				initial="closed"
 				animate={open ? "open" : "closed"}
 				variants={dropdownVariants(direction)}
+				aria-hidden={!open}
+				inert={!open || undefined}
 			>
 				{dContent}
 			</motion.div>

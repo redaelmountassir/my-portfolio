@@ -16,11 +16,13 @@ const Modifiers = () => {
 	return (
 		<>
 			<div
+				aria-hidden="true"
 				className="pointer-events-none fixed top-0 size-full bg-black"
 				style={{ opacity: map(brightness, 0, 100, 0.8, 0) }}
 			/>
 			{useStatic && (
 				<video
+					aria-hidden="true"
 					className="pointer-events-none fixed top-0 size-full object-cover mix-blend-color-dodge"
 					muted
 					autoPlay
@@ -32,6 +34,7 @@ const Modifiers = () => {
 			)}
 			{scanlines && (
 				<motion.div
+					aria-hidden="true"
 					className="pointer-events-none fixed bottom-0 box-content size-full bg-linear-to-b from-transparent via-black bg-size-[100%_10px] bg-repeat-y pt-3 opacity-5"
 					initial={{ y: 0 }}
 					animate={{ y: 10 }}
@@ -43,7 +46,10 @@ const Modifiers = () => {
 				/>
 			)}
 			{useFlicker && (
-				<div className="pointer-events-none fixed top-0 size-full full-flicker bg-black/20" />
+				<div
+					aria-hidden="true"
+					className="pointer-events-none fixed top-0 size-full full-flicker bg-black/20"
+				/>
 			)}
 		</>
 	);

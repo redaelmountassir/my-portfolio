@@ -58,14 +58,18 @@ const Mail = () => {
 					<a
 						href="tel:2672312928"
 						target="_blank"
-						className="group block border-b-2 p-4 text-center whitespace-nowrap hover:bg-white-primary hover:text-black-primary md:pr-0 md:text-left"
+						aria-label="Call 267-231-2928"
+						className="group block border-b-2 p-4 text-center whitespace-nowrap hover:bg-white-primary hover:text-black-primary focus-visible:bg-white-primary focus-visible:text-black-primary md:pr-0 md:text-left"
 					>
 						<SmartImage
 							src={phoneImg}
-							alt="LinkedIn Logo"
-							className="inline-block h-6 transition-all ease-steps-2 group-hover:invert xs:mr-4"
+							alt=""
+							className="inline-block h-6 transition-all ease-steps-2 group-hover:invert group-focus-visible:invert xs:mr-4"
 						/>
-						<span className="mr-4 hidden xs:inline">
+						<span
+							className="mr-4 hidden xs:inline"
+							aria-hidden="true"
+						>
 							267-231-2928
 						</span>
 					</a>
@@ -74,28 +78,40 @@ const Mail = () => {
 					<a
 						href="https://www.linkedin.com/in/reda-elmountassir"
 						target="_blank"
-						className="group block border-b-2 p-4 text-center whitespace-nowrap hover:bg-white-primary hover:text-black-primary md:pr-0 md:text-left"
+						aria-label="LinkedIn"
+						className="group block border-b-2 p-4 text-center whitespace-nowrap hover:bg-white-primary hover:text-black-primary focus-visible:bg-white-primary focus-visible:text-black-primary md:pr-0 md:text-left"
 					>
 						<SmartImage
 							src={linkedInImg}
-							alt="LinkedIn Logo"
-							className="inline-block h-6 transition-all ease-steps-2 group-hover:invert xs:mr-4"
+							alt=""
+							className="inline-block h-6 transition-all ease-steps-2 group-hover:invert group-focus-visible:invert xs:mr-4"
 						/>
-						<span className="mr-4 hidden xs:inline">LinkedIn</span>
+						<span
+							className="mr-4 hidden xs:inline"
+							aria-hidden="true"
+						>
+							LinkedIn
+						</span>
 					</a>
 				</li>
 				<li className="grow">
 					<a
 						href="https://github.com/redaelmountassir"
 						target="_blank"
-						className="group block border-b-2 p-4 text-center whitespace-nowrap hover:bg-white-primary hover:text-black-primary md:pr-0 md:text-left"
+						aria-label="GitHub"
+						className="group block border-b-2 p-4 text-center whitespace-nowrap hover:bg-white-primary hover:text-black-primary focus-visible:bg-white-primary focus-visible:text-black-primary md:pr-0 md:text-left"
 					>
 						<SmartImage
 							src={gitHubImg}
-							alt="GitHub Logo"
-							className="inline-block h-6 transition-all ease-steps-2 group-hover:invert xs:mr-4"
+							alt=""
+							className="inline-block h-6 transition-all ease-steps-2 group-hover:invert group-focus-visible:invert xs:mr-4"
 						/>
-						<span className="mr-4 hidden xs:inline">GitHub</span>
+						<span
+							className="mr-4 hidden xs:inline"
+							aria-hidden="true"
+						>
+							GitHub
+						</span>
 					</a>
 				</li>
 			</ul>
@@ -134,12 +150,14 @@ const Mail = () => {
 					</ul>
 					<SmartImage
 						src={triangle2Img}
-						alt="Background graphic"
+						alt=""
+						aria-hidden="true"
 						className="absolute top-4/5 left-2 -z-1 h-52 -translate-y-1/2"
 					/>
 					<SmartImage
 						src={triangleImg}
-						alt="Background graphic"
+						alt=""
+						aria-hidden="true"
 						className="absolute top-3/4 -left-20 -z-1 h-52 -translate-y-1/2"
 					/>
 				</div>
@@ -218,7 +236,7 @@ const Mail = () => {
 				</div>
 				<div
 					id="email-container"
-					className="flex items-center bg-[linear-gradient(to_right,color-mix(in_oklab,var(--color-blue-accent)_20%,transparent),color-mix(in_oklab,var(--color-burgundy-accent)_20%,transparent)_65px)] p-2 whitespace-nowrap outline-2 outline-offset-8 outline-transparent transition-[outline-offset,outline-color] ease-steps-2 focus-within:outline-offset-0 focus-within:outline-white-primary hover:outline-offset-0 hover:outline-white-primary"
+					className="flex items-center bg-[linear-gradient(to_right,color-mix(in_oklab,var(--color-blue-accent)_20%,transparent),color-mix(in_oklab,var(--color-burgundy-accent)_20%,transparent)_65px)] p-2 whitespace-nowrap outline-2 outline-offset-8 outline-transparent transition-[outline-offset,outline-color] ease-steps-2 focus-within:outline-offset-0 focus-within:outline-pink-accent hover:outline-offset-0 hover:outline-white-primary"
 				>
 					<label className="inline-block" htmlFor="email">
 						From:
@@ -239,7 +257,7 @@ const Mail = () => {
 							"redaelmountassir0@gmail.com",
 						)
 					}
-					className="group relative flex items-center bg-[linear-gradient(to_right,color-mix(in_oklab,var(--color-blue-accent)_20%,transparent),color-mix(in_oklab,var(--color-burgundy-accent)_20%,transparent)_50px)] p-2 whitespace-nowrap outline-2 outline-offset-8 outline-transparent transition-[outline-offset,outline-color] ease-steps-2 hover:outline-offset-0 hover:outline-white-primary focus:outline-offset-0 focus:outline-white-primary"
+					className="group relative flex items-center bg-[linear-gradient(to_right,color-mix(in_oklab,var(--color-blue-accent)_20%,transparent),color-mix(in_oklab,var(--color-burgundy-accent)_20%,transparent)_50px)] p-2 whitespace-nowrap outline-2 outline-offset-8 outline-transparent transition-[outline-offset,outline-color] ease-steps-2 hover:outline-offset-0 hover:outline-white-primary focus-visible:outline-offset-0 focus-visible:outline-pink-accent"
 				>
 					<p className="inline-block">To:</p>
 					<span className="grow overflow-hidden pl-4 text-left text-ellipsis">
@@ -266,7 +284,7 @@ const Mail = () => {
 				</button>
 				<div
 					id="subject-container"
-					className="flex items-center bg-[linear-gradient(to_right,color-mix(in_oklab,var(--color-blue-accent)_20%,transparent),color-mix(in_oklab,var(--color-burgundy-accent)_20%,transparent)_65px)] p-2 whitespace-nowrap outline-2 outline-offset-8 outline-transparent transition-[outline-offset,outline-color] ease-steps-2 focus-within:outline-offset-0 focus-within:outline-white-primary hover:outline-offset-0 hover:outline-white-primary"
+					className="flex items-center bg-[linear-gradient(to_right,color-mix(in_oklab,var(--color-blue-accent)_20%,transparent),color-mix(in_oklab,var(--color-burgundy-accent)_20%,transparent)_65px)] p-2 whitespace-nowrap outline-2 outline-offset-8 outline-transparent transition-[outline-offset,outline-color] ease-steps-2 focus-within:outline-offset-0 focus-within:outline-pink-accent hover:outline-offset-0 hover:outline-white-primary"
 				>
 					<label className="inline-block" htmlFor="subject">
 						Subject:
@@ -283,7 +301,8 @@ const Mail = () => {
 					id="message-container"
 					name="message"
 					required
-					className="min-h-96 grow resize-none overflow-hidden bg-[linear-gradient(to_right,color-mix(in_oklab,var(--color-blue-accent)_20%,transparent),color-mix(in_oklab,var(--color-burgundy-accent)_20%,transparent)_50%)] p-2 outline-2 outline-offset-8 outline-transparent transition-[outline-offset,outline-color] ease-steps-2 hover:outline-offset-0 hover:outline-white-primary focus:overflow-y-auto focus:outline-offset-0 focus:outline-white-primary md:min-h-0"
+					className="min-h-96 grow resize-none overflow-hidden bg-[linear-gradient(to_right,color-mix(in_oklab,var(--color-blue-accent)_20%,transparent),color-mix(in_oklab,var(--color-burgundy-accent)_20%,transparent)_50%)] p-2 outline-2 outline-offset-8 outline-transparent transition-[outline-offset,outline-color] ease-steps-2 hover:outline-offset-0 hover:outline-white-primary focus:overflow-y-auto focus-visible:outline-offset-0 focus-visible:outline-pink-accent md:min-h-0"
+					aria-label="Message"
 				/>
 				{/* Honeypot */}
 				<input
@@ -293,20 +312,27 @@ const Mail = () => {
 					id="honeypot"
 					name="_honeypot"
 					placeholder="Your e-mail here"
+					tabIndex={-1}
+					aria-hidden="true"
 				/>
 				<button
 					id="submit"
 					type="submit"
 					value="send"
+					aria-label="Send Message"
 					className="flex items-center justify-center bg-white-primary p-2 text-black-primary shadow-[0px_2px] shadow-light-primary transition-all ease-steps-2 hover:translate-y-0.5 hover:shadow-[0_0]"
 				>
-					<span className="hidden pr-4 text-left font-bold md:block">
+					<span
+						className="hidden pr-4 text-left font-bold md:block"
+						aria-hidden="true"
+					>
 						Send Message
 					</span>
 					<SmartImage
 						ref={scope2}
 						src={sendMessageImg}
-						alt="Send Message"
+						alt=""
+						aria-hidden="true"
 						className="h-8 mix-blend-difference"
 						style={{
 							offsetPath: OFFSET_PATH,

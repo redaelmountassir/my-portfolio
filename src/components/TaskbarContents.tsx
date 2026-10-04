@@ -86,18 +86,20 @@ const TaskbarContents = () => {
 	return (
 		<>
 			<Dropdown
-				className="group h-full px-4 transition-colors ease-steps-2 hover:bg-white-primary"
+				className="group h-full px-4 transition-colors ease-steps-2 hover:bg-white-primary focus-visible:bg-white-primary"
 				dClassName="divide-y-2 divide-white-primary"
 				noPadding
+				aria-label="Start menu"
 				dContent={
 					<>
-						<div className="space-y-2 px-4 py-16">
-							<h1 className="ss01 font-display text-8xl">
-								RedaOS
-							</h1>
-							<h2 className="whitespace-nowrap">
+						<div
+							className="space-y-2 px-4 py-16"
+							aria-hidden="true"
+						>
+							<p className="ss01 font-display text-8xl">RedaOS</p>
+							<p className="whitespace-nowrap">
 								Software Version 4.0.0
-							</h2>
+							</p>
 							<p className="font-normal">
 								(c) Paradox Computers, Inc. 2022-
 								{new Date().getFullYear()}
@@ -110,8 +112,8 @@ const TaskbarContents = () => {
 						>
 							<SmartImage
 								src={linkedInImg}
-								alt="LinkedIn Logo"
-								className="mr-4 inline-block h-6 transition ease-steps-2 group-hover:invert"
+								alt=""
+								className="mr-4 inline-block h-6 transition ease-steps-2 group-hover:invert group-focus-visible:invert"
 							/>
 							LinkedIn
 						</a>
@@ -122,8 +124,8 @@ const TaskbarContents = () => {
 						>
 							<SmartImage
 								src={gitHubImg}
-								alt="GitHub Logo"
-								className="mr-4 inline-block h-6 transition ease-steps-2 group-hover:invert"
+								alt=""
+								className="mr-4 inline-block h-6 transition ease-steps-2 group-hover:invert group-focus-visible:invert"
 							/>
 							GitHub
 						</a>
@@ -134,8 +136,8 @@ const TaskbarContents = () => {
 						>
 							<SmartImage
 								src={restartImg}
-								alt="restart symbol"
-								className="mr-4 inline-block h-6 transition ease-steps-2 group-hover:invert"
+								alt=""
+								className="mr-4 inline-block h-6 transition ease-steps-2 group-hover:invert group-focus-visible:invert"
 							/>
 							Restart
 						</button>
@@ -150,8 +152,8 @@ const TaskbarContents = () => {
 						>
 							<SmartImage
 								src={shutdownImg}
-								alt="shutdown symbol"
-								className="mr-4 inline-block h-6 transition ease-steps-2 group-hover:invert"
+								alt=""
+								className="mr-4 inline-block h-6 transition ease-steps-2 group-hover:invert group-focus-visible:invert"
 							/>
 							Shut down
 						</button>
@@ -160,13 +162,14 @@ const TaskbarContents = () => {
 			>
 				<SmartImage
 					src={logoImg}
-					alt="Start Button"
-					className="group-active:glitch w-7 group-hover:invert"
+					alt=""
+					className="group-active:glitch w-7 group-hover:invert group-focus-visible:invert"
 				/>
 			</Dropdown>
 			<Dropdown
 				pClassName="ml-auto"
-				className="p-4 transition-colors ease-steps-2 hover:bg-white-primary hover:text-black-primary"
+				className="p-4 transition-colors ease-steps-2 hover:bg-white-primary hover:text-black-primary focus-visible:bg-white-primary focus-visible:text-black-primary"
+				aria-label="Visuals"
 				onPointerDown={() => setEffectsSelected(true)}
 				onPointerOut={() =>
 					effectsSelected && setEffectsSelected(false)
@@ -183,6 +186,7 @@ const TaskbarContents = () => {
 								xmlns="http://www.w3.org/2000/svg"
 								viewBox="0 -0.5 16 16"
 								shapeRendering="crispEdges"
+								aria-hidden="true"
 							>
 								<path
 									className="stroke-white-primary transition"
@@ -249,7 +253,8 @@ const TaskbarContents = () => {
 				<GlitchText animated={effectsSelected}>Visuals</GlitchText>
 			</Dropdown>
 			<Dropdown
-				className="p-4 transition-colors ease-steps-2 hover:bg-white-primary hover:text-black-primary"
+				className="p-4 transition-colors ease-steps-2 hover:bg-white-primary hover:text-black-primary focus-visible:bg-white-primary focus-visible:text-black-primary"
+				aria-label="Audio"
 				onPointerDown={() => setAudioSelected(true)}
 				onPointerOut={() => audioSelected && setAudioSelected(false)}
 				onPointerUp={() => setAudioSelected(false)}
@@ -262,52 +267,59 @@ const TaskbarContents = () => {
 						}}
 						purpose="Volume"
 					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 -0.5 16 16"
-							shapeRendering="crispEdges"
-							className="cursor-pointer"
+						<button
+							type="button"
+							aria-label={volume === 0 ? "Unmute" : "Mute"}
+							className="shrink-0"
 							onClick={() => {
 								toggleMute();
 								playBg();
 							}}
 						>
-							<path
-								className="stroke-white-primary"
-								d="M6 1h2M5 2h1M7 2h1M4 3h1M7 3h1M3 4h1M7 4h1M0 5h3M7 5h1M0 6h1M7 6h1M0 7h1M7 7h1M0 8h1M7 8h1M0 9h1M7 9h1M0 10h3M7 10h1M3 11h1M7 11h1M4 12h1M7 12h1M5 13h1M7 13h1M6 14h2"
-							/>
-							<path
-								className={cn(
-									"-translate-x-1 stroke-transparent transition",
-									volume > 0 &&
-										"translate-x-0 stroke-white-primary",
-								)}
-								d="M9 6h1M10 7h1M10 8h1M9 9h1"
-							/>
-							<path
-								className={cn(
-									"-translate-x-1 stroke-transparent transition",
-									volume > 33.3 &&
-										"translate-x-0 stroke-white-primary",
-								)}
-								d="M10 4h1M11 5h1M12 6h1M12 7h1M12 8h1M12 9h1M11 10h1M10 11h1"
-							/>
-							<path
-								className={cn(
-									"-translate-x-1 stroke-transparent transition",
-									volume > 66.6 &&
-										"translate-x-0 stroke-white-primary",
-								)}
-								d="M11 2h1M12 3h1M13 4h1M14 5h1M14 6h1M14 7h1M14 8h1M14 9h1M14 10h1M13 11h1M12 12h1M11 13h1"
-							/>
-							<path
-								className={cn(
-									"stroke-transparent transition",
-									volume == 0 && "stroke-white-primary",
-								)}
-								d="M11 6h1M15 6h1M12 7h1M14 7h1M13 8h1M12 9h1M14 9h1M11 10h1M15 10h1"
-							/>
-						</svg>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 -0.5 16 16"
+								shapeRendering="crispEdges"
+								aria-hidden="true"
+								className="h-full w-auto"
+							>
+								<path
+									className="stroke-white-primary"
+									d="M6 1h2M5 2h1M7 2h1M4 3h1M7 3h1M3 4h1M7 4h1M0 5h3M7 5h1M0 6h1M7 6h1M0 7h1M7 7h1M0 8h1M7 8h1M0 9h1M7 9h1M0 10h3M7 10h1M3 11h1M7 11h1M4 12h1M7 12h1M5 13h1M7 13h1M6 14h2"
+								/>
+								<path
+									className={cn(
+										"-translate-x-1 stroke-transparent transition",
+										volume > 0 &&
+											"translate-x-0 stroke-white-primary",
+									)}
+									d="M9 6h1M10 7h1M10 8h1M9 9h1"
+								/>
+								<path
+									className={cn(
+										"-translate-x-1 stroke-transparent transition",
+										volume > 33.3 &&
+											"translate-x-0 stroke-white-primary",
+									)}
+									d="M10 4h1M11 5h1M12 6h1M12 7h1M12 8h1M12 9h1M11 10h1M10 11h1"
+								/>
+								<path
+									className={cn(
+										"-translate-x-1 stroke-transparent transition",
+										volume > 66.6 &&
+											"translate-x-0 stroke-white-primary",
+									)}
+									d="M11 2h1M12 3h1M13 4h1M14 5h1M14 6h1M14 7h1M14 8h1M14 9h1M14 10h1M13 11h1M12 12h1M11 13h1"
+								/>
+								<path
+									className={cn(
+										"stroke-transparent transition",
+										volume == 0 && "stroke-white-primary",
+									)}
+									d="M11 6h1M15 6h1M12 7h1M14 7h1M13 8h1M12 9h1M14 9h1M11 10h1M15 10h1"
+								/>
+							</svg>
+						</button>
 					</Slider>
 				}
 			>

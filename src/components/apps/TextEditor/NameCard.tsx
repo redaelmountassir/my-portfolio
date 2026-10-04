@@ -55,7 +55,8 @@ const NameCard = () => {
 		>
 			<SmartImage
 				src={gridImg}
-				alt="Background graphic"
+				alt=""
+				aria-hidden="true"
 				className="absolute bottom-0 left-1/2 w-175 max-w-none -translate-x-1/2"
 			/>
 			<motion.div
@@ -79,7 +80,8 @@ const NameCard = () => {
 					<Float>
 						<SmartImage
 							src={triangleImg}
-							alt="Background graphic"
+							alt=""
+							aria-hidden="true"
 							className="h-125 max-w-none pb-14 md:h-155"
 						/>
 					</Float>
@@ -140,7 +142,8 @@ const NameCard = () => {
 							>
 								<SmartImage
 									src={logoXLAnimatedImg}
-									alt="Animated logo"
+									alt=""
+									aria-hidden="true"
 									className="h-32 max-w-none"
 									loading="eager"
 								/>

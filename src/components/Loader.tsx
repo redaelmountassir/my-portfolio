@@ -113,20 +113,29 @@ const Loader = ({ children, enable, ref, ...props }: LoaderProps) => {
 				animate={loaded ? "loaded" : "unloaded"}
 				initial="unloaded"
 				{...props}
-				className={cn(
-					props.className,
-					"transition delay-75",
-					!loaded && "invisible",
-				)}
+				className={cn(props.className, "transition delay-75")}
 				ref={ref}
+				aria-hidden={!loaded}
+				inert={!loaded || undefined}
 			>
-				{children}
+				<div
+					className={cn("relative size-full", !loaded && "invisible")}
+					aria-hidden={!loaded}
+					inert={!loaded || undefined}
+				>
+					{children}
+				</div>
 			</motion.main>
 			<motion.div
 				className="fixed inset-0 z-10 flex items-center justify-center bg-black-primary"
 				initial={playBoot ? "idle" : false}
 				animate={loaded ? "exit" : enable ? "boot" : "idle"}
 				variants={coverVariants}
+				aria-hidden={loaded}
+				inert={loaded || undefined}
+				role="status"
+				aria-live="polite"
+				aria-busy={!loaded}
 			>
 				<div className="flex size-128 flex-col items-center justify-center bg-radial from-black-primary from-[128px] to-transparent to-[256px]">
 					<motion.div
@@ -136,7 +145,8 @@ const Loader = ({ children, enable, ref, ...props }: LoaderProps) => {
 						<motion.div variants={spriteVariants}>
 							<SmartImage
 								src={logo_animated_img}
-								alt="Animated logo"
+								alt=""
+								aria-hidden="true"
 								className="h-32 max-w-none"
 							/>
 						</motion.div>

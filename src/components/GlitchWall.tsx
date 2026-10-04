@@ -37,6 +37,7 @@ const GlitchWall = ({ duration = 6000, enable = false }) => {
 
 	return (
 		<p
+			aria-hidden="true"
 			className="pointer-events-none absolute top-1/2 -z-1 size-full -translate-y-1/2 text-center text-3xl break-all text-purple-watermark opacity-40"
 			ref={textRef}
 		/>

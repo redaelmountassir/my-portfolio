@@ -68,6 +68,7 @@ const ScrollMarquee = ({
 	return (
 		<div
 			{...rest}
+			aria-hidden="true"
 			className={cn(
 				"group relative overflow-hidden whitespace-nowrap",
 				vertical &&

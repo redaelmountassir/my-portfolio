@@ -27,7 +27,7 @@ const Follow = () => {
 				className="pointer-events-none select-none"
 			>
 				<SmartImage
-					alt="magnifying glass"
+					alt=""
 					src={glassImg}
 					className="pointer-events-none z-1 size-20 -translate-x-1/2 -translate-y-1/2"
 				/>

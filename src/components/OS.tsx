@@ -21,7 +21,7 @@ const OS = () => {
 	const tall = useBreakpointShort();
 	const isMobile = !wide || !tall;
 	const reducedMotion = useReducedMotion();
-	const mainRef = React.useRef<HTMLDivElement>(null);
+	const mainRef = React.useRef<HTMLElement>(null);
 
 	//Updates global css properties
 	useEffect(() => {
@@ -74,6 +74,18 @@ though you didn't hear that from me...
 	return (
 		<MobileContext.Provider value={isMobile}>
 			<Head />
+			<a
+				href="#invert-layer"
+				id="skip-link"
+				className="tab-only"
+				onClick={e => {
+					e.preventDefault();
+					if (!introDone) setIntroDone(true);
+					mainRef.current?.focus();
+				}}
+			>
+				Skip to main content
+			</a>
 			<Loader
 				enable={introDone}
 				className={cn(
@@ -82,6 +94,7 @@ though you didn't hear that from me...
 				)}
 				ref={mainRef}
 				id="invert-layer"
+				tabIndex={-1}
 			>
 				<Background />
 				<Desktop />

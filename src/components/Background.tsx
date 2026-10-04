@@ -22,14 +22,14 @@ const Background = () => {
 			{odds < 0.001 ? (
 				<SmartImage
 					src={bg1Img}
-					alt="background image of sky"
+					alt=""
 					className="pointer-events-none absolute size-full object-cover"
 					draggable="false"
 				/>
 			) : (
 				<SmartImage
 					src={bg2Img}
-					alt="background image of sky"
+					alt=""
 					className="pointer-events-none absolute size-full object-cover"
 					draggable="false"
 				/>

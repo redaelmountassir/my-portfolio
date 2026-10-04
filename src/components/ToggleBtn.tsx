@@ -17,6 +17,8 @@ const ToggleBtn = ({ state, setter, children }: ToggleProps) => (
 		)}
 		onClick={() => setter(!state)}
 		type="button"
+		role="switch"
+		aria-checked={state}
 	>
 		{children}
 	</button>

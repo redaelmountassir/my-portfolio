@@ -77,6 +77,30 @@
 	[role="button"]:not(:disabled) {
 		cursor: pointer;
 	}
+
+	:focus-visible {
+		@apply outline-3 outline-pink-accent outline-solid;
+	}
+
+	.tab-only {
+		@apply absolute -m-1 size-px overflow-hidden border-0 p-0 whitespace-nowrap;
+		clip: rect(0, 0, 0, 0);
+	}
+
+	.tab-only:focus,
+	.tab-only:focus-visible {
+		@apply fixed top-4 left-4 z-999 m-0 size-auto overflow-visible bg-black-primary px-5 py-3 font-bold whitespace-normal text-white-primary outline-3 outline-pink-accent outline-solid;
+		clip: auto;
+	}
+
+	#skip-link.tab-only:focus,
+	#skip-link.tab-only:focus-visible {
+		@apply fixed top-4 left-4;
+	}
+	/* Drag/resize add this class so pointer-events-auto children still ignore input */
+	body.pointer-events-none * {
+		pointer-events: none !important;
+	}
 }
 
 @font-face {
@@ -170,8 +194,7 @@
 }
 
 @utility slider {
-	@apply my-2 ml-4 grow cursor-pointer appearance-none bg-transparent bg-linear-to-r from-pink-accent via-blue-accent via-50% to-50% bg-double p-1 outline-2 outline-white-primary;
-
+	@apply my-2 ml-4 grow cursor-pointer appearance-none bg-transparent bg-linear-to-r from-pink-accent via-blue-accent via-50% to-50% bg-double p-1 outline-2 outline-white-primary focus-visible:outline-pink-accent;
 	&::-webkit-slider-thumb {
 		@apply relative h-4 w-6 appearance-none bg-white-primary shadow-[-2px_-2px_inset] shadow-light-primary;
 	}
@@ -235,6 +258,7 @@ html.no-blur *::after {
 }
 
 @utility invisible {
+	visibility: hidden;
 	& * {
 		@apply transition-none!;
 	}

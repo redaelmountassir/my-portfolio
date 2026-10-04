@@ -36,6 +36,8 @@ const Menu = ({ windows, deleteWindows }: MenuProps) => {
 
 	return (
 		<motion.div
+			role="dialog"
+			aria-label="Open apps"
 			animate={{
 				backdropFilter: "blur(24px)",
 			}}

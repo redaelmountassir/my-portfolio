@@ -86,9 +86,12 @@ const FileExplorer = () => {
 				{`${shown.length} Items       ${shown.length * 35}KB in ${directory.name}       175KB Available`}
 			</Marquee>
 
-			<ul className="hidden-scrollbar relative z-2 flex min-w-0 flex-1 items-center justify-end overflow-x-clip border-b-2 text-white-primary md:flex-col md:items-stretch md:justify-start md:overflow-x-hidden md:border-r-2 md:border-b-0 md:bg-black-primary">
-				<div className="flex min-w-0 flex-1 justify-end overflow-hidden md:contents">
-					<div className="mr-auto flex w-max md:contents">
+			<div className="hidden-scrollbar relative z-2 flex min-w-0 flex-1 items-center justify-end overflow-x-clip border-b-2 text-white-primary md:flex-col md:items-stretch md:justify-start md:overflow-x-hidden md:border-r-2 md:border-b-0 md:bg-black-primary">
+				<nav
+					aria-label="Folder path"
+					className="flex min-w-0 flex-1 justify-end overflow-hidden md:contents"
+				>
+					<ol className="mr-auto flex w-max md:contents">
 						{parentFolders.map((folder, i) => (
 							<li
 								key={folder.name}
@@ -96,15 +99,18 @@ const FileExplorer = () => {
 							>
 								<button
 									type="button"
-									className="text-md group relative w-full p-2 text-left transition-colors ease-steps-2 md:p-4 md:hover:bg-white-primary md:hover:text-black-primary"
+									className="text-md group relative w-full p-2 text-left transition-colors ease-steps-2 focus-visible:bg-white-primary focus-visible:text-black-primary md:p-4 md:hover:bg-white-primary md:hover:text-black-primary"
 									onPointerDown={() => setSelected(i)}
 									onClick={() => replaceWindow(id, folder)}
 								>
-									<span className="absolute opacity-0 transition-opacity ease-steps-2 md:group-hover:opacity-100">
+									<span
+										aria-hidden="true"
+										className="absolute opacity-0 transition-opacity ease-steps-2 md:group-hover:opacity-100 md:group-focus-visible:opacity-100"
+									>
 										&gt;
 									</span>
 									<GlitchText
-										className="block whitespace-nowrap transition-transform ease-steps-2 group-hover:underline md:no-underline! md:group-hover:translate-x-4"
+										className="block whitespace-nowrap transition-transform ease-steps-2 group-hover:underline md:no-underline! md:group-hover:translate-x-4 md:group-focus-visible:translate-x-4"
 										animated={i === selected}
 										onComplete={() =>
 											i === selected && setSelected(-1)
@@ -113,33 +119,38 @@ const FileExplorer = () => {
 										{folder.name}
 									</GlitchText>
 								</button>
-								<span className="inline-block -translate-x-2 md:hidden">
+								<span
+									aria-hidden="true"
+									className="inline-block -translate-x-2 md:hidden"
+								>
 									►
 								</span>
 							</li>
 						))}
-						<li className="text-md shrink-0 p-2 text-left whitespace-nowrap md:mb-2 md:w-full md:bg-purple-watermark md:p-4">
+						<li
+							aria-current="page"
+							className="text-md shrink-0 p-2 text-left whitespace-nowrap md:mb-2 md:w-full md:bg-purple-watermark md:p-4"
+						>
 							{directory.name}
 						</li>
-					</div>
-				</div>
+					</ol>
+				</nav>
 				<div className="relative flex shrink-0 gap-2 p-2 md:m-2 md:mt-auto md:p-0">
 					<button
 						type="button"
 						onClick={() => setTileMode(mode => !mode)}
 						className="relative flex shrink-0 self-start border-2 whitespace-nowrap"
+						aria-label={
+							tileMode
+								? "Switch to list view"
+								: "Switch to tile view"
+						}
+						aria-pressed={tileMode}
 					>
-						<SmartImage
-							src={tileModeImg}
-							className="m-2"
-							alt="tile mode"
-						/>
-						<SmartImage
-							src={listModeImg}
-							className="m-2"
-							alt="list mode"
-						/>
+						<SmartImage src={tileModeImg} className="m-2" alt="" />
+						<SmartImage src={listModeImg} className="m-2" alt="" />
 						<div
+							aria-hidden="true"
 							className={cn(
 								"absolute -z-1 h-full w-1/2 bg-purple-watermark transition ease-out",
 								!tileMode && "translate-x-full",
@@ -150,6 +161,7 @@ const FileExplorer = () => {
 						<Dropdown
 							forcedDirection={wide ? "up" : "down"}
 							dClassName="z-2 -mt-1 whitespace-nowrap border-t-2 md:mt-0"
+							aria-label="Filter"
 							dContent={
 								<div className="flex flex-col gap-4">
 									{extensions.length > 0 && (
@@ -184,20 +196,20 @@ const FileExplorer = () => {
 								</div>
 							}
 							pClassName="shrink-0 md:flex-1"
-							className="group flex h-full shrink-0 items-center gap-3 border-2 bg-purple-watermark px-2 transition ease-steps-10 hover:bg-white-primary hover:text-black-primary md:size-full md:px-3"
+							className="group flex h-full shrink-0 items-center gap-3 border-2 bg-purple-watermark px-2 transition ease-steps-10 hover:bg-white-primary hover:text-black-primary focus-visible:bg-white-primary focus-visible:text-black-primary md:size-full md:px-3"
 						>
 							<>
 								<SmartImage
 									src={filterImg}
-									alt="filter icon"
-									className="size-4 group-hover:invert"
+									alt=""
+									className="size-4 group-hover:invert group-focus-visible:invert"
 								/>
 								<p className="hidden md:block">Filter</p>
 							</>
 						</Dropdown>
 					)}
 				</div>
-			</ul>
+			</div>
 
 			{shown.length === 0 ? (
 				<p className="relative col-span-2 my-auto w-full p-4 py-12 text-center font-bold text-white-primary">
@@ -243,7 +255,8 @@ const FileExplorer = () => {
 			)}
 			<SmartImage
 				src={sunImg}
-				alt="Background graphic"
+				alt=""
+				aria-hidden="true"
 				className="absolute right-1/2 -bottom-6 w-[125%] max-w-none translate-x-1/2 opacity-40 md:-right-32 md:bottom-[5%] md:-z-1 md:h-3/4 md:w-auto md:translate-x-0 md:opacity-100"
 			/>
 		</div>

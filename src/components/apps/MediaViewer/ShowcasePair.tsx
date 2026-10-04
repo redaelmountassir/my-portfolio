@@ -28,12 +28,14 @@ const ShowcasePair = ({
 		<div className="relative overflow-hidden border-2 bg-black-primary">
 			<SmartImage
 				src={mapImg}
-				alt="map watermark"
+				alt=""
+				aria-hidden="true"
 				className="absolute size-full object-contain"
 			/>
 			<img
 				src={handsGif}
-				alt="spinning shape"
+				alt=""
+				aria-hidden="true"
 				className="absolute size-full scale-75 object-contain"
 			/>
 		</div>

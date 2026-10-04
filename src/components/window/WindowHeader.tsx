@@ -37,40 +37,39 @@ const WindowHeader = ({
 			</h3>
 			<button
 				type="button"
-				className="group h-full w-10 shrink-0 cursor-pointer border-l-2 p-1 hover:bg-white"
+				className="group h-full w-10 shrink-0 cursor-pointer border-l-2 p-1 hover:bg-white focus-visible:bg-white"
 				onClick={onMaximize}
+				aria-label={maximized ? "Restore down" : "Maximize"}
 			>
 				{maximized ? (
 					<SmartImage
 						src={restoreDownImg}
-						title="restore down"
-						alt="restore down"
+						alt=""
 						draggable={false}
-						className="w-9 group-hover:invert"
+						className="w-9 group-hover:invert group-focus-visible:invert"
 						loading="eager"
 					/>
 				) : (
 					<SmartImage
 						src={maximizeImg}
-						title="maximize"
-						alt="maximize"
+						alt=""
 						draggable="false"
-						className="w-9 group-hover:invert"
+						className="w-9 group-hover:invert group-focus-visible:invert"
 						loading="eager"
 					/>
 				)}
 			</button>
 			<button
 				type="button"
-				className="group h-full w-10 shrink-0 cursor-pointer border-l-2 p-0.5 hover:bg-white"
+				className="group h-full w-10 shrink-0 cursor-pointer border-l-2 p-0.5 hover:bg-white focus-visible:bg-white"
 				onPointerUp={onClose}
+				aria-label="Close"
 			>
 				<SmartImage
 					src={closeImg}
-					title="close"
-					alt="close"
+					alt=""
 					draggable="false"
-					className="w-9 group-hover:invert"
+					className="w-9 group-hover:invert group-focus-visible:invert"
 					loading="eager"
 				/>
 			</button>
