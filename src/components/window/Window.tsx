@@ -13,6 +13,7 @@ import React, {
 	useRef,
 	useState,
 } from "react";
+import { flushSync } from "react-dom";
 import { useShallow } from "zustand/react/shallow";
 import { useMobileStore, useSystemKeys } from "../../store";
 import { MobileContext } from "../../store/MobileContext";
@@ -64,6 +65,22 @@ const Window = ({
 	const y = useMotionValue(initialLocation.y);
 	const controls = useDragControls();
 	const windowRef = useRef<HTMLDivElement>(null);
+	// Drag constraints rebase x/y when the element resizes. That fires on
+	// maximize and collapses the restored position to the top-left, so keep
+	// them off until the size change has been observed.
+	const rememberedPosition = useRef(initialLocation);
+	const [dragConstraintsOn, setDragConstraintsOn] = useState(true);
+	const constraintsFrame = useRef(0);
+	const pendingGrab = useRef<PointerEvent | null>(null);
+	const releaseGrab = useRef<(() => void) | null>(null);
+
+	useEffect(
+		() => () => {
+			cancelAnimationFrame(constraintsFrame.current);
+			releaseGrab.current?.();
+		},
+		[],
+	);
 
 	const { deleteWindow: deleteReq, setWindowMaximized } = useSystemKeys(
 		"deleteWindow",
@@ -103,6 +120,49 @@ const Window = ({
 	disableInteraction = disableInteraction || clickProtection;
 	const isFullscreen = isMobile || maximized;
 
+	const enterMaximized = () => {
+		cancelAnimationFrame(constraintsFrame.current);
+		releaseGrab.current?.();
+		rememberedPosition.current = { x: x.get(), y: y.get() };
+		setDragConstraintsOn(false);
+		setMaximized(true);
+		setWindowMaximized(true);
+	};
+
+	const leaveMaximized = (next: Point, grab?: PointerEvent) => {
+		x.set(next.x);
+		y.set(next.y);
+		rememberedPosition.current = next;
+		setMaximized(false);
+		setWindowMaximized(false);
+		releaseGrab.current?.();
+		pendingGrab.current = grab ?? null;
+
+		if (grab) {
+			const cancelGrab = () => {
+				pendingGrab.current = null;
+				window.removeEventListener("pointerup", cancelGrab);
+				window.removeEventListener("pointercancel", cancelGrab);
+				if (releaseGrab.current === cancelGrab)
+					releaseGrab.current = null;
+			};
+			releaseGrab.current = cancelGrab;
+			window.addEventListener("pointerup", cancelGrab);
+			window.addEventListener("pointercancel", cancelGrab);
+		}
+
+		cancelAnimationFrame(constraintsFrame.current);
+		constraintsFrame.current = requestAnimationFrame(() => {
+			const event = pendingGrab.current;
+			releaseGrab.current?.();
+			// Re-apply after the resize observer from leaving fullscreen.
+			x.set(next.x);
+			y.set(next.y);
+			flushSync(() => setDragConstraintsOn(true));
+			if (event) controls.start(event);
+		});
+	};
+
 	return (
 		<InternalWindowDataContext.Provider
 			value={{
@@ -115,7 +175,7 @@ const Window = ({
 				drag={!isMobile}
 				dragListener={false}
 				dragControls={controls}
-				dragConstraints={area}
+				dragConstraints={dragConstraintsOn ? area : undefined}
 				dragElastic={0.2}
 				dragTransition={{ power: 0.2, timeConstant: 200 }}
 				onDragStart={() => {
@@ -182,16 +242,45 @@ const Window = ({
 			>
 				{!isMobile && (
 					<WindowHeader
-						onGrab={e => controls.start(e)}
+						onGrab={e => {
+							// Default behavior
+							if (!maximized) return controls.start(e);
+
+							// Leaves maximized in a position relative to where the cursor was holding
+							const headerRect =
+								e.currentTarget.getBoundingClientRect();
+							const areaRect =
+								area?.current?.getBoundingClientRect();
+							const ratio =
+								(e.clientX - headerRect.left) /
+								headerRect.width;
+							leaveMaximized(
+								{
+									x:
+										e.clientX -
+										(areaRect?.left ?? 0) -
+										ratio * width.get(),
+									y: headerRect.top - (areaRect?.top ?? 0),
+								},
+								e.nativeEvent,
+							);
+						}}
 						onClose={() => {
+							// Fullscreen is pinned at the origin. Keep the
+							// close animation there instead of the restored spot.
+							if (maximized) {
+								x.set(0);
+								y.set(0);
+							}
 							setMaximized(false);
 							setWindowMaximized(false);
 							deleteReq(id);
 						}}
-						onMaximize={() => {
-							setMaximized(maximized => !maximized);
-							setWindowMaximized(!maximized);
-						}}
+						onMaximize={() =>
+							maximized
+								? leaveMaximized(rememberedPosition.current)
+								: enterMaximized()
+						}
 						maximized={maximized}
 						title={windowTitle}
 					/>

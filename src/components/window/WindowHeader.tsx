@@ -3,7 +3,6 @@ import React from "react";
 import closeImg from "../../assets/images/close.png";
 import maximizeImg from "../../assets/images/maximize.png";
 import restoreDownImg from "../../assets/images/restore_down.png";
-import { cn } from "../../utils";
 import SmartImage from "../SmartImage";
 
 interface WindowHeaderProps {
@@ -26,18 +25,19 @@ const WindowHeader = ({
 			initial={{ y: "-105%" }}
 			animate={{ y: 0 }}
 			transition={{ delay: 1.25, ease: "easeOut", type: "tween" }}
-			onPointerDown={maximized ? undefined : onGrab}
-			className={cn(
-				"flex h-10 w-full touch-none items-center border-b-2 border-white-primary text-white",
-				!maximized && "cursor-grab",
-			)}
+			onPointerDown={e => {
+				if (e.target instanceof Element && e.target.closest("button"))
+					return;
+				onGrab(e);
+			}}
+			className="flex h-10 w-full cursor-grab touch-none items-center border-b-2 border-white-primary text-white"
 		>
 			<h3 className="grow overflow-hidden px-1 text-center text-lg text-ellipsis whitespace-nowrap select-none">
 				{title}
 			</h3>
 			<button
 				type="button"
-				className="group h-full w-10 shrink-0 border-l-2 border-white-primary p-1 hover:bg-white"
+				className="group h-full w-10 shrink-0 cursor-pointer border-l-2 border-white-primary p-1 hover:bg-white"
 				onClick={onMaximize}
 			>
 				{maximized ? (
@@ -62,7 +62,7 @@ const WindowHeader = ({
 			</button>
 			<button
 				type="button"
-				className="group h-full w-10 shrink-0 border-l-2 p-0.5 hover:bg-white"
+				className="group h-full w-10 shrink-0 cursor-pointer border-l-2 p-0.5 hover:bg-white"
 				onPointerUp={onClose}
 			>
 				<SmartImage
