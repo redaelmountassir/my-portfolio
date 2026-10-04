@@ -226,7 +226,7 @@ const MediaViewer = () => {
 				{restShowcases.map(showcase => (
 					<div
 						key={showcase}
-						className="relative m-4 mt-0 border-2 border-white-primary bg-black-primary"
+						className="relative m-4 mt-0 border-2 bg-black-primary"
 					>
 						<MediaFrame
 							project={file.name}

@@ -86,7 +86,7 @@ const FileExplorer = () => {
 				{`${shown.length} Items       ${shown.length * 35}KB in ${directory.name}       175KB Available`}
 			</Marquee>
 
-			<ul className="hidden-scrollbar relative z-2 flex min-w-0 flex-1 items-center justify-end overflow-x-clip border-b-2 border-white-primary text-white-primary md:flex-col md:items-stretch md:justify-start md:overflow-x-hidden md:border-r-2 md:border-b-0 md:bg-black-primary">
+			<ul className="hidden-scrollbar relative z-2 flex min-w-0 flex-1 items-center justify-end overflow-x-clip border-b-2 text-white-primary md:flex-col md:items-stretch md:justify-start md:overflow-x-hidden md:border-r-2 md:border-b-0 md:bg-black-primary">
 				<div className="flex min-w-0 flex-1 justify-end overflow-hidden md:contents">
 					<div className="mr-auto flex w-max md:contents">
 						{parentFolders.map((folder, i) => (
@@ -127,7 +127,7 @@ const FileExplorer = () => {
 					<button
 						type="button"
 						onClick={() => setTileMode(mode => !mode)}
-						className="relative flex shrink-0 self-start border-2 border-white-primary whitespace-nowrap"
+						className="relative flex shrink-0 self-start border-2 whitespace-nowrap"
 					>
 						<SmartImage
 							src={tileModeImg}

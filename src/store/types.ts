@@ -116,6 +116,7 @@ export interface SettingsStore {
 	useStatic: boolean;
 	useFlicker: boolean;
 	scanlines: boolean;
+	blur: boolean;
 	fancyText: boolean;
 	volume: number;
 	lightModeText: string;
@@ -126,6 +127,7 @@ export interface SettingsStore {
 	set3D(val: boolean): void;
 	setStatic(val: boolean): void;
 	setScanlines(val: boolean): void;
+	setBlur(val: boolean): void;
 	setFancyText(val: boolean): void;
 	setFlicker(val: boolean): void;
 	setVolume(val: number): void;

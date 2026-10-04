@@ -93,7 +93,7 @@ const Menu = ({ windows, deleteWindows }: MenuProps) => {
 			<button
 				type="button"
 				className={cn(
-					"p-2 text-pink-accent outline-2 outline-pink-accent transition-opacity ease-steps-2",
+					"p-2 text-yellow-accent outline-2 outline-yellow-accent transition-opacity ease-steps-2",
 					windows.length === 0 && "cursor-not-allowed opacity-25",
 				)}
 				onClick={deleteWindows}

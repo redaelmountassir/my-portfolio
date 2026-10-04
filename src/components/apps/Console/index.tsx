@@ -228,6 +228,7 @@ cat: prints out the contents of a text file
 			default:
 				executed.text = `'${parts[0]}' is not a valid command. Use 'help' to check what commands are available.`;
 				executed.mod = "Error";
+				console.log("Are you even trying?");
 				break;
 		}
 		return executed;

@@ -36,7 +36,7 @@ const PDFNoSupport = () => {
 				href="./resume.pdf"
 				download="resume.pdf"
 				className={cn(
-					"absolute top-1/2 left-1/2 z-1 flex h-16 w-44 -translate-x-1/2 -translate-y-1/2 items-center justify-center border-2 border-white-primary bg-black-primary text-lg text-white-primary transition-all ease-out hover:bg-white-primary hover:text-black-primary",
+					"absolute top-1/2 left-1/2 z-1 flex h-16 w-44 -translate-x-1/2 -translate-y-1/2 items-center justify-center border-2 bg-black-primary text-lg text-white-primary transition-all ease-out hover:bg-white-primary hover:text-black-primary",
 					dowloaded && "size-28",
 				)}
 				onClick={() => !dowloaded && setDowloaded(true)}

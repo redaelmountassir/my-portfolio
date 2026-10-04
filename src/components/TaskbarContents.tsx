@@ -26,6 +26,8 @@ const TaskbarContents = () => {
 		setStatic,
 		scanlines,
 		setScanlines,
+		blur,
+		setBlur,
 		useFlicker,
 		setFlicker,
 		volume,
@@ -219,6 +221,9 @@ const TaskbarContents = () => {
 						</Toggle>
 						<Toggle state={scanlines} setter={setScanlines}>
 							Scanlines
+						</Toggle>
+						<Toggle state={blur} setter={setBlur}>
+							Blur
 						</Toggle>
 						<Toggle state={fancyText} setter={setFancyText}>
 							Fancy Text

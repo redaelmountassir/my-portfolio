@@ -92,7 +92,7 @@ const MainShowcase = ({
 				<div
 					ref={mainShowcaseRef}
 					className={cn(
-						"absolute size-full cursor-none border-2 border-white-primary transition-colors duration-300 ease-out",
+						"absolute size-full cursor-none border-2 transition-colors duration-300 ease-out",
 						animating && "border-transparent",
 					)}
 				>
@@ -130,7 +130,7 @@ const MainShowcase = ({
 				</h3>
 			</div>
 			<div className="w-full min-w-0 flex-1">
-				<div className="mb-4 min-h-[55vh] w-full border-2 border-white-primary bg-black-primary p-4 py-6">
+				<div className="mb-4 min-h-[55vh] w-full border-2 bg-black-primary p-4 py-6">
 					<h3 className="mb-2 text-center font-display text-6xl">
 						<SmartImage
 							src={infoImg}
@@ -193,7 +193,7 @@ const MainShowcase = ({
 				<img
 					src={shapeGif}
 					alt=""
-					className="h-28 w-full border-2 border-white-primary bg-black-primary object-contain p-4 py-1"
+					className="h-28 w-full border-2 bg-black-primary object-contain p-4 py-1"
 				/>
 			</div>
 		</div>

@@ -118,7 +118,7 @@ const Dropdown = (props: DropdownProps) => {
 			</button>
 			<motion.div
 				className={cn(
-					"absolute -z-1 border-2 border-white-primary bg-linear-to-r from-black-primary/75 to-dark-primary/75 bg-fixed backdrop-blur-sm",
+					"absolute -z-1 border-2 bg-linear-to-r from-black-primary/75 to-dark-primary/75 bg-fixed backdrop-blur-sm",
 					direction === "down" && "top-full border-t-0",
 					direction === "up" && "bottom-full border-b-0",
 					align === "left" && "left-0",

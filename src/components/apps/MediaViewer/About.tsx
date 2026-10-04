@@ -25,11 +25,11 @@ const About = ({
 			flexMode
 			scrollStrength={0.0025}
 			innerClass="w-full content-center mb-8 font-bold uppercase tracking-[1em]"
-			className="relative h-auto! w-10 shrink-0 border-2 border-white-primary bg-white-primary text-black-primary"
+			className="relative h-auto! w-10 shrink-0 border-2 bg-white-primary text-black-primary"
 		>
 			{title} ♦♣♠♥
 		</ScrollMarquee>
-		<div className="relative flex grow flex-wrap gap-4 overflow-hidden border-2 border-white-primary bg-black-primary p-24 px-6 text-white-primary md:p-32 md:px-6">
+		<div className="relative flex grow flex-wrap gap-4 overflow-hidden border-2 bg-black-primary p-24 px-6 text-white-primary md:p-32 md:px-6">
 			<GlitchText
 				onScroll
 				scrollRoot={scrollContainer}

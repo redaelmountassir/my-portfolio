@@ -89,6 +89,7 @@ export const useSettingsStore = create<
 			use3D: true,
 			useStatic: false,
 			scanlines: true,
+			blur: true,
 			useFlicker: false,
 			volume: 0,
 			fancyText: true,
@@ -117,6 +118,10 @@ export const useSettingsStore = create<
 			set3D: val => set({ use3D: val }),
 			setStatic: val => set({ useStatic: val }),
 			setScanlines: val => set({ scanlines: val }),
+			setBlur: val => {
+				document.documentElement.classList.toggle("no-blur", !val);
+				set({ blur: val });
+			},
 			setFancyText: val => {
 				document.documentElement.style.fontFamily = val
 					? ""
@@ -152,6 +157,15 @@ export const useSettingsStore = create<
 				localStorage.setItem("introDone", "false");
 			},
 		}),
-		{ name: "settings" },
+		{
+			name: "settings",
+			onRehydrateStorage: () => state => {
+				if (!state) return;
+				document.documentElement.classList.toggle(
+					"no-blur",
+					state.blur === false,
+				);
+			},
+		},
 	),
 );

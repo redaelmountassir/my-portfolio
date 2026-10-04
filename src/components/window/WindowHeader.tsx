@@ -30,14 +30,14 @@ const WindowHeader = ({
 					return;
 				onGrab(e);
 			}}
-			className="flex h-10 w-full cursor-grab touch-none items-center border-b-2 border-white-primary text-white"
+			className="flex h-10 w-full cursor-grab touch-none items-center border-b-2 text-white"
 		>
 			<h3 className="grow overflow-hidden px-1 text-center text-lg text-ellipsis whitespace-nowrap select-none">
 				{title}
 			</h3>
 			<button
 				type="button"
-				className="group h-full w-10 shrink-0 cursor-pointer border-l-2 border-white-primary p-1 hover:bg-white"
+				className="group h-full w-10 shrink-0 cursor-pointer border-l-2 p-1 hover:bg-white"
 				onClick={onMaximize}
 			>
 				{maximized ? (

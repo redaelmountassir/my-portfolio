@@ -12,7 +12,7 @@ interface ToggleProps {
 const ToggleBtn = ({ state, setter, children }: ToggleProps) => (
 	<button
 		className={cn(
-			"ease-steps-2 size-full border-2 border-white-primary bg-black-primary transition-colors",
+			"size-full border-2 border-white-primary bg-black-primary transition-colors ease-steps-2",
 			state && "bg-white-primary text-black-primary",
 		)}
 		onClick={() => setter(!state)}

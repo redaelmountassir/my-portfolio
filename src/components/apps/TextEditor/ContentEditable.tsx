@@ -256,7 +256,7 @@ const ContentEditable = ({
 					onMouseDown={e => e.preventDefault()}
 					onBlur={() => display.set("none")}
 				>
-					<motion.div className="-translate-x-1/2 translate-y-[calc(-100%-12px)] divide-x-2 divide-white-primary border-2 border-white-primary bg-black-primary">
+					<motion.div className="-translate-x-1/2 translate-y-[calc(-100%-12px)] divide-x-2 divide-white-primary border-2 bg-black-primary">
 						<button
 							className="w-8 py-1 text-center font-bold transition ease-steps-2 hover:bg-white-primary hover:text-black-primary"
 							type="button"

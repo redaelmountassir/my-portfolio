@@ -25,15 +25,14 @@ const MobileTaskbar = () => {
 		setStatic,
 		scanlines,
 		setScanlines,
+		blur,
+		setBlur,
 		useFlicker,
 		setFlicker,
 		volume,
 		setVolume,
 		fancyText,
 		setFancyText,
-		lightModeText,
-		lightMode,
-		setLightMode,
 		fullscreen,
 		setFullscreen,
 		skipLoader,
@@ -178,11 +177,11 @@ const MobileTaskbar = () => {
 					<ToggleBtn setter={setScanlines} state={scanlines}>
 						Scanlines
 					</ToggleBtn>
+					<ToggleBtn setter={setBlur} state={blur}>
+						Blur
+					</ToggleBtn>
 					<ToggleBtn setter={setFlicker} state={useFlicker}>
 						Flicker
-					</ToggleBtn>
-					<ToggleBtn setter={setLightMode} state={lightMode}>
-						{lightModeText}
 					</ToggleBtn>
 					<ToggleBtn setter={setFancyText} state={fancyText}>
 						Fancy Text
