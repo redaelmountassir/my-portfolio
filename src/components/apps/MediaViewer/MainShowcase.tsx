@@ -115,7 +115,7 @@ const MainShowcase = ({
 						type="button"
 						aria-label="Scroll to project details"
 						className={cn(
-							"absolute top-6 right-6 z-2 animate-bounce cursor-pointer transition delay-1000 md:top-auto md:right-3 md:bottom-3",
+							"absolute top-6 right-6 z-2 animate-bounce cursor-pointer transition delay-1000 motion-reduce:animate-none motion-reduce:transition-none md:top-auto md:right-3 md:bottom-3",
 							!inTop && "pointer-events-none opacity-0 delay-0!",
 						)}
 						onClick={skipSection}
@@ -124,28 +124,27 @@ const MainShowcase = ({
 						<SmartImage
 							src={scrollDownImg}
 							alt=""
-							aria-hidden="true"
 							className="w-4 origin-top-right scale-[3] drop-shadow-md md:origin-bottom-right md:scale-[4]"
 						/>
 					</button>
 				</div>
-				<h3 className="dlig ss02 pointer-events-none absolute -bottom-12 left-7 z-1 hidden overflow-visible font-display text-7xl leading-[0.95] whitespace-nowrap uppercase shadow-black-primary/25 [text-shadow:-5px_5px_5px_var(--tw-shadow-color)] md:inline">
+				<h2 className="dlig ss02 pointer-events-none absolute -bottom-12 left-7 z-1 hidden overflow-visible font-display text-7xl leading-[0.95] whitespace-nowrap uppercase shadow-black-primary/25 [text-shadow:-5px_5px_5px_var(--tw-shadow-color)] md:inline">
 					{titleAnimated}
-				</h3>
+				</h2>
 			</div>
 			<div className="w-full min-w-0 flex-1">
 				<div className="mb-4 min-h-[55vh] w-full border-2 bg-black-primary p-4 py-6">
-					<h3 className="mb-2 text-center font-display text-6xl">
+					<h2 className="mb-2 text-center font-display text-6xl">
 						<SmartImage
 							src={infoImg}
 							className="mr-4 inline-block h-12 align-top"
 							alt=""
 						/>
 						Info
-					</h3>
+					</h2>
 					<ul className="mb-8 min-w-0 divide-y-2">
 						<li className="flex flex-col justify-between gap-2 py-4 md:flex-row">
-							<h4>Categories</h4>
+							<h3>Categories</h3>
 							<div className="text-light-primary md:text-right">
 								{projectData.categories.map(cat => (
 									<p key={cat}>{cat}</p>
@@ -153,7 +152,7 @@ const MainShowcase = ({
 							</div>
 						</li>
 						<li className="flex flex-col justify-between gap-2 py-4 md:flex-row">
-							<h4>Roles</h4>
+							<h3>Roles</h3>
 							<div className="text-light-primary md:text-right">
 								{projectData.roles.map(role => (
 									<p key={role}>{role}</p>
@@ -161,14 +160,14 @@ const MainShowcase = ({
 							</div>
 						</li>
 						<li className="flex flex-col justify-between gap-2 py-4 md:flex-row">
-							<h4>Date</h4>
+							<h3>Date</h3>
 							<div className="text-light-primary md:text-right">
 								{projectData.date.toLocaleDateString()}
 							</div>
 						</li>
 						{projectData.org && (
 							<li className="flex flex-col justify-between gap-2 py-4 md:flex-row">
-								<h4>Organization</h4>
+								<h3>Organization</h3>
 								<div className="text-light-primary md:text-right">
 									{projectData.org}
 								</div>
@@ -176,7 +175,7 @@ const MainShowcase = ({
 						)}
 						{projectData.loc && (
 							<li className="flex flex-col justify-between gap-2 py-4 md:flex-row">
-								<h4>Location</h4>
+								<h3>Location</h3>
 								{projectData.loc.link === "#" ? (
 									<span className="flex-1 overflow-hidden text-ellipsis text-light-primary md:text-right">
 										{projectData.loc.text}

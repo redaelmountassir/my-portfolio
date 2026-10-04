@@ -150,11 +150,10 @@ const TextEditor = () => {
 						<SmartImage
 							src={camImg}
 							alt=""
-							aria-hidden="true"
-							className="absolute right-0 bottom-0 hidden w-24 translate-x-1/3 -rotate-45 animate-blink sm:right-40 sm:block md:right-0"
+							className="absolute right-0 bottom-0 hidden w-24 translate-x-1/3 -rotate-45 animate-blink motion-reduce:animate-none sm:right-40 sm:block md:right-0"
 						/>
 					</button>
-					<h3 className="static top-16 z-1 mb-7 w-full origin-bottom-left font-display text-7xl leading-[0.95] whitespace-nowrap uppercase xs:absolute xs:rotate-90 xs:shadow-black-primary sm:static! sm:rotate-0! sm:shadow-none">
+					<h2 className="static top-16 z-1 mb-7 w-full origin-bottom-left font-display text-7xl leading-[0.95] whitespace-nowrap uppercase xs:absolute xs:rotate-90 xs:shadow-black-primary sm:static! sm:rotate-0! sm:shadow-none">
 						<span className="hidden xs:inline">† </span>
 						<GlitchText
 							onScroll
@@ -163,7 +162,7 @@ const TextEditor = () => {
 						>
 							ABOUT
 						</GlitchText>
-					</h3>
+					</h2>
 					<ContentEditable
 						className="mb-12 min-h-96 resize-none border-y-0 border-r-0 bg-transparent leading-8 outline-hidden [caret-shape:block] md:mb-0 md:ml-5 md:border-l-2 md:pl-7"
 						value={text}

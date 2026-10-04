@@ -19,7 +19,7 @@ const Tag = ({ children, bg, className }: TagProps) => {
 	return (
 		<span
 			className={cn(
-				"ease-steps-2 p-2 py-1 whitespace-nowrap outline-2 outline-white-primary transition hover:scale-125 hover:bg-white-primary! hover:text-black-primary",
+				"ease-steps-2 p-2 py-1 whitespace-nowrap outline-2 outline-white-primary transition hover:scale-125 hover:bg-white-primary! hover:text-black-primary motion-reduce:transition-none motion-reduce:hover:scale-100",
 				bg &&
 					(bg == "random"
 						? randBg

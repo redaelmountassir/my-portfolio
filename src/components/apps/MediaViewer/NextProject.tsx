@@ -37,14 +37,14 @@ const NextProject = ({
 				>
 					next →
 				</GlitchText>
-				<h3 className="dlig ss02 font-display text-5xl leading-[0.95] whitespace-pre uppercase xs:text-7xl">
+				<h2 className="dlig ss02 font-display text-5xl leading-[0.95] whitespace-pre uppercase xs:text-7xl">
 					{" "}
 					{project.name
 						.split("_")
 						.map((str, i) =>
 							(i + 1) % 2 == 0 ? `\n• ${str}` : str,
 						)}
-				</h3>
+				</h2>
 			</div>
 		</div>
 	</div>

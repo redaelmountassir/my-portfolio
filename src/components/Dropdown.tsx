@@ -103,6 +103,18 @@ const Dropdown = (props: DropdownProps) => {
 		};
 	}, [forcedAlignment, forcedDirection]);
 
+	useEffect(() => {
+		const onKey = (e: KeyboardEvent) => {
+			if (!open) return;
+			if (e.key !== "Escape") return;
+			e.stopPropagation();
+			setOpen(false);
+			button.current?.focus();
+		};
+		document.addEventListener("keydown", onKey);
+		return () => document.removeEventListener("keydown", onKey);
+	}, []);
+
 	return (
 		<div className={cn("relative select-none", pClassName)} ref={dropdown}>
 			<button

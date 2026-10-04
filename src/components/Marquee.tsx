@@ -27,6 +27,7 @@ const Marquee = (props: MarqueeProps) => {
 		"inline-block",
 		vertical ? "animate-pan-vertical min-h-full" : "animate-pan min-w-full",
 		pauseOnHover && "group-hover:animate-pause",
+		"motion-reduce:animate-none",
 		innerClass,
 	);
 	const timingFunc = steps ? `steps(${steps})` : undefined;

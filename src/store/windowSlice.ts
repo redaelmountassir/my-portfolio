@@ -1,6 +1,7 @@
 import type { StateCreator } from "zustand";
 import { useMobileStore, useSettingsStore } from ".";
 import windowOpenAudio from "../assets/audio/open_window.mp3";
+import { announce } from "../utils/a11y";
 import { randRange } from "../utils";
 import {
 	isFile,
@@ -79,6 +80,7 @@ export const createWindowSlice: StateCreator<
 		};
 		useMobileStore.getState().showWindow(newWindow);
 		if (!blockSound) get().playSound();
+		announce(`Opened ${sysObj.name}`);
 		set(state => ({
 			lastId: id + 1,
 			windows: [...state.windows, newWindow],
@@ -88,12 +90,15 @@ export const createWindowSlice: StateCreator<
 		get().playSound(true);
 		set(state => {
 			const windows = [...state.windows];
+			const index = get().findWindow(windows, ref);
+			const name = windows[index]?.sysObj.name;
 			if (
 				(typeof ref === "number" ? ref : ref.id) ===
 				useMobileStore.getState().windowOpen?.id
 			)
 				useMobileStore.setState({ windowOpen: undefined });
-			windows.splice(get().findWindow(windows, ref), 1);
+			windows.splice(index, 1);
+			if (name) announce(`Closed ${name}`);
 			return windows.length ? { windows } : { windows, lastId: 0 };
 		});
 	},
@@ -113,6 +118,7 @@ export const createWindowSlice: StateCreator<
 	},
 	deleteWindows() {
 		useMobileStore.setState({ windowOpen: undefined });
+		announce("Closed all windows");
 		set(_ => ({ windows: [], lastId: 0, windowMaximized: false }));
 	},
 });

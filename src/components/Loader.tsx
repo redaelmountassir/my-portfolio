@@ -2,6 +2,7 @@ import {
 	animate,
 	motion,
 	steps,
+	useReducedMotion,
 	type HTMLMotionProps,
 	type Variants,
 } from "motion/react";
@@ -69,6 +70,7 @@ interface LoaderProps extends HTMLMotionProps<"main"> {
 
 const Loader = ({ children, enable, ref, ...props }: LoaderProps) => {
 	const skipLoader = useSettingsStore(state => state.skipLoader);
+	const reducedMotion = useReducedMotion();
 	const [loaded, setLoaded] = useState(skipLoader && enable);
 	// initial only applies on mount. A later visit already has enable=true,
 	// so start at idle or the boot transition never runs.
@@ -146,14 +148,13 @@ const Loader = ({ children, enable, ref, ...props }: LoaderProps) => {
 							<SmartImage
 								src={logo_animated_img}
 								alt=""
-								aria-hidden="true"
 								className="h-32 max-w-none"
 							/>
 						</motion.div>
 					</motion.div>
 					<p className="text-light-primary">Definitely Loading...</p>
 				</div>
-				<GlitchWall enable={enable && !loaded} />
+				<GlitchWall enable={enable && !loaded && !reducedMotion} />
 			</motion.div>
 		</>
 	);

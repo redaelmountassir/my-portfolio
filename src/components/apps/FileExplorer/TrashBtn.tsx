@@ -31,7 +31,6 @@ const TrashBtn = ({ onDelete }: { onDelete?: () => void }) => {
 			<SmartImage
 				src={trashImg}
 				alt=""
-				aria-hidden="true"
 				className="my-2 block w-8 md:hidden"
 			/>
 		</button>

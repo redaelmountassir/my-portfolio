@@ -29,13 +29,11 @@ const ShowcasePair = ({
 			<SmartImage
 				src={mapImg}
 				alt=""
-				aria-hidden="true"
 				className="absolute size-full object-contain"
 			/>
 			<img
 				src={handsGif}
 				alt=""
-				aria-hidden="true"
 				className="absolute size-full scale-75 object-contain"
 			/>
 		</div>

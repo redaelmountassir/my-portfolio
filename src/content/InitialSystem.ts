@@ -59,7 +59,8 @@ const InitialSystem: Directory = {
 ☻☺
 ☺☻
 ☻☺
-☺☻`,
+☺☻
+☺☺`,
 			ext: "txt",
 		},
 	],

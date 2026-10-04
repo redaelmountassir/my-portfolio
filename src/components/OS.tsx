@@ -11,6 +11,7 @@ import Background from "./Background";
 import Desktop from "./Desktop";
 import Head from "./Head";
 import Intro from "./Intro";
+import LiveRegion from "./LiveRegion";
 import Loader from "./Loader";
 import Modifiers from "./Modifiers";
 import Taskbar from "./Taskbar";
@@ -74,18 +75,7 @@ though you didn't hear that from me...
 	return (
 		<MobileContext.Provider value={isMobile}>
 			<Head />
-			<a
-				href="#invert-layer"
-				id="skip-link"
-				className="tab-only"
-				onClick={e => {
-					e.preventDefault();
-					if (!introDone) setIntroDone(true);
-					mainRef.current?.focus();
-				}}
-			>
-				Skip to main content
-			</a>
+			<LiveRegion />
 			<Loader
 				enable={introDone}
 				className={cn(
@@ -94,7 +84,6 @@ though you didn't hear that from me...
 				)}
 				ref={mainRef}
 				id="invert-layer"
-				tabIndex={-1}
 			>
 				<Background />
 				<Desktop />

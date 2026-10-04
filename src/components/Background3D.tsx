@@ -95,8 +95,7 @@ const Background3D = () => {
 	const windowMaximized = maximized && !isMobile;
 	// Motion window drag contends with WebGL; backdrop-blur chrome then
 	// samples torn frames and the sun stripes look like they glitch.
-	const pauseFrames =
-		windowCovering || windowMaximized || windowInteracting;
+	const pauseFrames = windowCovering || windowMaximized || windowInteracting;
 
 	return (
 		<Canvas
@@ -111,7 +110,7 @@ const Background3D = () => {
 			gl={createRenderer}
 			onCreated={onCreated}
 			camera={{ fov: 50, position: [0, 0, 6], near: 1, far: 2000 }}
-			className="isolate transform-[translateZ(0)]"
+			className="isolate translate-z-0"
 		>
 			<directionalLight
 				position={[0, 50, 50]}

@@ -8,6 +8,7 @@ import sendMessageImg from "../../../assets/images/send_message.png";
 import triangle2Img from "../../../assets/images/triangle_gradient.png";
 import triangleImg from "../../../assets/images/triangle_outline_blue.png";
 import { cn } from "../../../utils";
+import { announce } from "../../../utils/a11y";
 import SmartImage from "../../SmartImage";
 
 const OFFSET_PATH =
@@ -117,10 +118,10 @@ const Mail = () => {
 			</ul>
 			{width >= 600 && (
 				<div className="relative hidden flex-1 flex-col overflow-hidden border-r-2 md:flex">
-					<h3 className="min-h-14.75 border-b-2 p-4 text-center font-bold">
+					<h2 className="min-h-14.75 border-b-2 p-4 text-center font-bold">
 						Inbox
-					</h3>
-					<ul className="grow overflow-y-auto">
+					</h2>
+					<ul className="grow overflow-y-auto" aria-hidden="true">
 						{"Let's Build Something Together"
 							.split(" ")
 							.map((val, i) => (
@@ -136,7 +137,8 @@ const Mail = () => {
 											newInbox[i] = !inbox[i];
 											setInbox(newInbox);
 										}}
-										aria-label={`Select ${val}`}
+										tabIndex={-1}
+										aria-hidden="true"
 										className="size-3 shrink-0 cursor-pointer appearance-none border-2 border-burgundy-accent checked:bg-burgundy-accent"
 									/>
 									<span className="flex-1 overflow-hidden text-ellipsis">
@@ -151,13 +153,11 @@ const Mail = () => {
 					<SmartImage
 						src={triangle2Img}
 						alt=""
-						aria-hidden="true"
 						className="absolute top-4/5 left-2 -z-1 h-52 -translate-y-1/2"
 					/>
 					<SmartImage
 						src={triangleImg}
 						alt=""
-						aria-hidden="true"
 						className="absolute top-3/4 -left-20 -z-1 h-52 -translate-y-1/2"
 					/>
 				</div>
@@ -185,7 +185,10 @@ const Mail = () => {
 							{ duration: 0.2 },
 						);
 					});
-					if (incomplete) return;
+					if (incomplete) {
+						announce("Please complete the form");
+						return;
+					}
 
 					emailjs
 						.sendForm("service_qli1ok3", "template_gssdksr", form, {
@@ -193,6 +196,7 @@ const Mail = () => {
 						})
 						.then(
 							() => {
+								announce("Message sent");
 								animate2(
 									scope2.current,
 									{
@@ -218,6 +222,7 @@ const Mail = () => {
 								);
 							},
 							err => {
+								announce("Failed to send message");
 								animate(
 									"#warning",
 									{ y: ["-100%", "0%", "0%", "-100%"] },
@@ -332,7 +337,6 @@ const Mail = () => {
 						ref={scope2}
 						src={sendMessageImg}
 						alt=""
-						aria-hidden="true"
 						className="h-8 mix-blend-difference"
 						style={{
 							offsetPath: OFFSET_PATH,

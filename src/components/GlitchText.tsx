@@ -1,4 +1,4 @@
-import { inView } from "motion/react";
+import { inView, useReducedMotion } from "motion/react";
 import React, { useEffect, useRef } from "react";
 import { randomChar } from "../utils";
 
@@ -12,7 +12,6 @@ interface GlitchTextProps {
 	decay?: boolean;
 	decayRate?: number;
 	onComplete?: () => void;
-	"aria-hidden"?: boolean | "true" | "false";
 }
 
 const GlitchText = ({
@@ -25,11 +24,11 @@ const GlitchText = ({
 	decay = true,
 	decayRate = 1,
 	onComplete,
-	"aria-hidden": ariaHidden,
 }: GlitchTextProps) => {
 	const text = useRef<HTMLSpanElement>(null);
 	const interval = useRef(-1);
 	const iterations = useRef(0);
+	const reducedMotion = useReducedMotion();
 
 	useEffect(
 		() => {
@@ -37,6 +36,11 @@ const GlitchText = ({
 			clearInterval(interval.current);
 			let timeout = -1;
 			const begin = () => {
+				if (reducedMotion) {
+					text.current && (text.current.textContent = children);
+					onComplete?.();
+					return;
+				}
 				if (interval.current !== -1) return;
 				interval.current = setInterval(() => {
 					if (!text.current) return;
@@ -80,11 +84,13 @@ const GlitchText = ({
 				clearTimeout(timeout);
 			};
 		},
-		onLoad || onScroll ? [text.current] : [animated, text.current],
+		onLoad || onScroll
+			? [text.current, reducedMotion]
+			: [animated, text.current, reducedMotion],
 	);
 
 	return (
-		<span className={className} ref={text} aria-hidden={ariaHidden}>
+		<span className={className} ref={text} aria-hidden="true">
 			{children}
 		</span>
 	);

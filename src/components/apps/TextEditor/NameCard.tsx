@@ -3,6 +3,7 @@ import {
 	motion,
 	useAnimationFrame,
 	useMotionValue,
+	useReducedMotion,
 } from "motion/react";
 import { useContext, useRef } from "react";
 import { lerp } from "three/src/math/MathUtils.js";
@@ -22,6 +23,7 @@ const easeSteps = (count: number) => (progress: number) =>
 
 const NameCard = () => {
 	const isMobile = useContext(MobileContext);
+	const reducedMotion = useReducedMotion();
 	const pos = useRef(0);
 	const lastRot = useRef(0);
 	const rotateY = useMotionValue(0);
@@ -29,7 +31,7 @@ const NameCard = () => {
 	const containerRef = useRef<HTMLDivElement>(null);
 
 	useAnimationFrame((_, delta) => {
-		if (isMobile) return;
+		if (isMobile || reducedMotion) return;
 		lastRot.current = rotateY.get();
 		let newY = lerp(lastRot.current, pos.current * 45, delta * 0.01);
 		if (Math.abs(newY) < 0.001) newY = 0;
@@ -56,7 +58,6 @@ const NameCard = () => {
 			<SmartImage
 				src={gridImg}
 				alt=""
-				aria-hidden="true"
 				className="absolute bottom-0 left-1/2 w-175 max-w-none -translate-x-1/2"
 			/>
 			<motion.div
@@ -81,7 +82,6 @@ const NameCard = () => {
 						<SmartImage
 							src={triangleImg}
 							alt=""
-							aria-hidden="true"
 							className="h-125 max-w-none pb-14 md:h-155"
 						/>
 					</Float>
@@ -143,7 +143,6 @@ const NameCard = () => {
 								<SmartImage
 									src={logoXLAnimatedImg}
 									alt=""
-									aria-hidden="true"
 									className="h-32 max-w-none"
 									loading="eager"
 								/>

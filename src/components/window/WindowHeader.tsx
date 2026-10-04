@@ -32,9 +32,9 @@ const WindowHeader = ({
 			}}
 			className="flex h-10 w-full cursor-grab touch-none items-center border-b-2 text-white"
 		>
-			<h3 className="grow overflow-hidden px-1 text-center text-lg text-ellipsis whitespace-nowrap select-none">
+			<h1 className="grow overflow-hidden px-1 text-center text-lg text-ellipsis whitespace-nowrap select-none">
 				{title}
-			</h3>
+			</h1>
 			<button
 				type="button"
 				className="group h-full w-10 shrink-0 cursor-pointer border-l-2 p-1 hover:bg-white focus-visible:bg-white"
@@ -62,7 +62,7 @@ const WindowHeader = ({
 			<button
 				type="button"
 				className="group h-full w-10 shrink-0 cursor-pointer border-l-2 p-0.5 hover:bg-white focus-visible:bg-white"
-				onPointerUp={onClose}
+				onClick={onClose}
 				aria-label="Close"
 			>
 				<SmartImage

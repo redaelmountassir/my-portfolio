@@ -1,5 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import { animate, useMotionValue } from "motion/react";
+import { animate, useMotionValue, useReducedMotion } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { cn } from "../utils";
@@ -48,6 +48,8 @@ const PixelDissolveMedia = ({
 		dissolved ?? false,
 	);
 	const progress = useMotionValue(0);
+	const reducedMotion = useReducedMotion();
+	const dissolveDuration = reducedMotion ? 0 : duration;
 	const onCompleteRef = useRef(onComplete);
 	onCompleteRef.current = onComplete;
 	const onDisplayRef = useRef(onDisplay);
@@ -194,7 +196,7 @@ const PixelDissolveMedia = ({
 
 		let cancelled = false;
 		const controls = animate(progress, targetProgress, {
-			duration,
+			duration: dissolveDuration,
 			ease: t => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t),
 			onComplete: () => {
 				if (!cancelled) handleAnimationComplete();
@@ -208,7 +210,7 @@ const PixelDissolveMedia = ({
 	}, [
 		internalDissolved,
 		texture,
-		duration,
+		dissolveDuration,
 		progress,
 		disolveFactor,
 		handleAnimationComplete,

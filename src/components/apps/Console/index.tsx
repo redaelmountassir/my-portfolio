@@ -265,10 +265,11 @@ cat: prints out the contents of a text file
 					!settings.use3D ||
 					!settings.useStatic ||
 					!settings.scanlines ||
+					settings.blur ||
 					settings.fancyText ||
-					settings.useFlicker ||
-					!settings.lightMode ||
-					settings.fullscreen ||
+					!settings.flicker ||
+					settings.lightMode ||
+					!settings.fullscreen ||
 					document.documentElement.style.cursor === ""
 				)
 					return "Not quite!";
@@ -407,7 +408,7 @@ In the interim, enjoy this cat!
 			/>
 			<LocationText location={location} />
 			{input.replaceAll("\n", "\n$ ")}
-			<span className="invisible hidden animate-blink font-bold peer-focus:visible md:inline">
+			<span className="invisible hidden animate-blink font-bold peer-focus:visible motion-reduce:animate-none md:inline">
 				_
 			</span>
 			<span className="md:hidden">Not supported on mobile ☹</span>

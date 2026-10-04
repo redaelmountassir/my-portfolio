@@ -1,4 +1,4 @@
-import { motion, useAnimationFrame, useMotionValue } from "motion/react";
+import { motion, useAnimationFrame, useMotionValue, useReducedMotion } from "motion/react";
 import React from "react";
 import { SimplexNoise } from "three/addons/math/SimplexNoise.js";
 
@@ -19,8 +19,10 @@ const Float = ({
 	const noiseY = new SimplexNoise();
 	const x = useMotionValue(0);
 	const y = useMotionValue(0);
+	const reducedMotion = useReducedMotion();
 
 	useAnimationFrame(time => {
+		if (reducedMotion) return;
 		time *= speed;
 		let xNoise =
 			(noiseX.noise(time, 0) + noiseX.noise(time, 100) * 0.5) / 1.5;

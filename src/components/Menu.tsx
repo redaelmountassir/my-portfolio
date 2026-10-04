@@ -1,8 +1,10 @@
 import { AnimatePresence, motion, useAnimationFrame } from "motion/react";
 import { useEffect, useRef } from "react";
 import { clamp } from "three/src/math/MathUtils.js";
+import { useMobileStore } from "../store";
 import type { WindowData } from "../store/types";
 import { cn } from "../utils";
+import { trapTab } from "../utils/a11y";
 import Icon from "./Icon";
 import Window from "./window/Window";
 
@@ -13,12 +15,37 @@ interface MenuProps {
 
 const Menu = ({ windows, deleteWindows }: MenuProps) => {
 	const windowsArea = useRef<HTMLDivElement>(null);
+	const menuRef = useRef<HTMLDivElement>(null);
+	const restoreFocus = useRef(
+		document.activeElement instanceof HTMLElement
+			? document.activeElement
+			: null,
+	);
+	const toggleMenu = useMobileStore(state => state.toggleMenu);
 	const scroll = useRef({ amount: 0, changed: false });
 
 	useEffect(() => {
 		if (!windowsArea.current) return;
 		windowsArea.current.scrollTo(windowsArea.current.scrollWidth, 0);
 	}, []);
+
+	useEffect(() => {
+		const menu = menuRef.current;
+		menu?.focus();
+		const onKey = (e: KeyboardEvent) => {
+			if (e.key === "Escape") {
+				e.preventDefault();
+				toggleMenu();
+				return;
+			}
+			if (menu) trapTab(menu, e);
+		};
+		menu?.addEventListener("keydown", onKey);
+		return () => {
+			menu?.removeEventListener("keydown", onKey);
+			restoreFocus.current?.focus();
+		};
+	}, [toggleMenu]);
 
 	useAnimationFrame(() => {
 		if (!scroll.current.changed) return;
@@ -36,6 +63,8 @@ const Menu = ({ windows, deleteWindows }: MenuProps) => {
 
 	return (
 		<motion.div
+			ref={menuRef}
+			tabIndex={-1}
 			role="dialog"
 			aria-label="Open apps"
 			animate={{

@@ -73,6 +73,12 @@ const Window = ({
 	const constraintsFrame = useRef(0);
 	const pendingGrab = useRef<PointerEvent | null>(null);
 	const releaseGrab = useRef<(() => void) | null>(null);
+	const restoreFocus = useRef<HTMLElement | null>(
+		sysObj.htmlElement ??
+			(document.activeElement instanceof HTMLElement
+				? document.activeElement
+				: null),
+	);
 
 	useEffect(
 		() => () => {
@@ -119,6 +125,16 @@ const Window = ({
 	}, []);
 	disableInteraction = disableInteraction || clickProtection;
 	const isFullscreen = isMobile || maximized;
+
+	useEffect(() => {
+		if (disableInteraction) return;
+		const frame = requestAnimationFrame(() => windowRef.current?.focus());
+		return () => {
+			cancelAnimationFrame(frame);
+			const restore = restoreFocus.current;
+			if (restore?.isConnected) restore.focus();
+		};
+	}, [disableInteraction, id]);
 
 	const enterMaximized = () => {
 		cancelAnimationFrame(constraintsFrame.current);
@@ -209,6 +225,10 @@ const Window = ({
 						: undefined
 				}
 				onPointerDown={updateZ}
+				onFocus={() => {
+					if (!disableInteraction) updateZ();
+				}}
+				tabIndex={-1}
 				onPointerUp={
 					isMobile
 						? () => {
@@ -227,6 +247,7 @@ const Window = ({
 					isMoving ? "invisible" : "md:backdrop-blur-sm",
 					disableInteraction && "disable-child-interaction",
 				)}
+				inert={disableInteraction || undefined}
 				style={{
 					minWidth: minDimensions.w,
 					minHeight: minDimensions.h,
@@ -240,6 +261,7 @@ const Window = ({
 							: "",
 				}}
 			>
+				{isMobile && <h1 className="sr-only">{windowTitle}</h1>}
 				{!isMobile && (
 					<WindowHeader
 						onGrab={e => {

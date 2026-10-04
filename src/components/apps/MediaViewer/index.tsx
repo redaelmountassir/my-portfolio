@@ -178,7 +178,7 @@ const MediaViewer = () => {
 			</div>
 			<div
 				ref={scrollContainer}
-				className="relative flex-1 overflow-x-hidden overflow-y-auto [overflow-anchor:none]"
+				className="relative flex-1 overflow-x-hidden overflow-y-auto text-white-primary [overflow-anchor:none]"
 			>
 				<div
 					className="mx-4 h-[150%] min-h-250 text-white-primary md:mt-12"

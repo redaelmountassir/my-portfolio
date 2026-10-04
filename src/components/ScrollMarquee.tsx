@@ -3,6 +3,7 @@ import {
 	MotionValue,
 	useAnimationFrame,
 	useMotionValue,
+	useReducedMotion,
 	useScroll,
 	useSpring,
 	useVelocity,
@@ -45,7 +46,9 @@ const ScrollMarquee = ({
 	const x = useMotionValue("0%");
 	const secondX = useMotionValue("100%");
 	const data = useRef({ timeSince: 0, val: 0 });
+	const reducedMotion = useReducedMotion();
 	useAnimationFrame((_, delta) => {
+		if (reducedMotion) return;
 		data.current.val =
 			mod(
 				data.current.val +

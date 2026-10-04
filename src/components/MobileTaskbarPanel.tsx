@@ -1,5 +1,5 @@
 import { animate, motion, useMotionValue, useTransform } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { clamp } from "three/src/math/MathUtils.js";
 import bgMusic from "../assets/audio/background.mp3";
 import exitSound from "../assets/audio/shutdown.mp3";
@@ -8,8 +8,9 @@ import linkedInImg from "../assets/images/linkedIn.png";
 import mobileIcons from "../assets/images/mobile_icon.png";
 import restartImg from "../assets/images/restart.png";
 import shutdownImg from "../assets/images/shutdown.png";
-import { useSettingsStore } from "../store";
+import { SETTING_DETAILS, useSettingsStore } from "../store";
 import { cn, useAudio, useInterval } from "../utils";
+import { getFocusable, trapTab } from "../utils/a11y";
 import Battery from "./Battery";
 import Slider from "./Slider";
 import SmartImage from "./SmartImage";
@@ -27,7 +28,7 @@ const MobileTaskbar = () => {
 		setScanlines,
 		blur,
 		setBlur,
-		useFlicker,
+		flicker,
 		setFlicker,
 		volume,
 		setVolume,
@@ -47,6 +48,31 @@ const MobileTaskbar = () => {
 
 	const settingsReveal = useMotionValue(0);
 	const [panelOpen, setPanelOpen] = useState(false);
+	const panelRef = useRef<HTMLDivElement>(null);
+	const openBtnRef = useRef<HTMLButtonElement>(null);
+
+	const setOpen = (open: boolean) => {
+		setPanelOpen(open);
+		animate(settingsReveal, open ? 1 : 0);
+	};
+
+	useEffect(() => {
+		if (!panelOpen) return;
+		const panel = panelRef.current;
+		if (!panel) return;
+		getFocusable(panel)[0]?.focus();
+		const onKey = (e: KeyboardEvent) => {
+			if (e.key === "Escape") {
+				e.preventDefault();
+				setOpen(false);
+				openBtnRef.current?.focus();
+				return;
+			}
+			trapTab(panel, e);
+		};
+		panel.addEventListener("keydown", onKey);
+		return () => panel.removeEventListener("keydown", onKey);
+	}, [panelOpen]);
 
 	const [now, setNow] = useState<Date>();
 	useInterval(() => setNow(new Date()), 1000);
@@ -72,7 +98,20 @@ const MobileTaskbar = () => {
 
 	return (
 		<>
+			<button
+				ref={openBtnRef}
+				type="button"
+				className="tab-only"
+				aria-expanded={panelOpen}
+				aria-controls="mobile-settings"
+				tabIndex={panelOpen ? -1 : 0}
+				onClick={() => setOpen(true)}
+			>
+				Open settings
+			</button>
 			<motion.div
+				id="mobile-settings"
+				ref={panelRef}
 				style={{
 					opacity: settingsReveal,
 					pointerEvents: useTransform(settingsReveal, val =>
@@ -113,6 +152,16 @@ const MobileTaskbar = () => {
 						gridTemplateRows: "auto repeat(5, 1fr) auto auto",
 					}}
 				>
+					<button
+						type="button"
+						className="tab-only"
+						onClick={() => {
+							setOpen(false);
+							openBtnRef.current?.focus();
+						}}
+					>
+						Close settings
+					</button>
 					<div className="flex justify-end gap-4 short:col-span-2">
 						<a
 							href="https://www.linkedin.com/in/reda-elmountassir"
@@ -164,35 +213,67 @@ const MobileTaskbar = () => {
 							/>
 						</button>
 					</div>
-					<h3 className="col-start-1 row-start-1 font-bold short:col-span-2 short:row-start-auto short:my-5 short:font-display short:text-5xl short:font-normal average:my-6 average:text-7xl tall:my-10">
+					<p className="col-start-1 row-start-1 font-bold short:col-span-2 short:row-start-auto short:my-5 short:font-display short:text-5xl short:font-normal average:my-6 average:text-7xl tall:my-10">
 						{now?.toLocaleDateString([], {
 							day: "2-digit",
 							month: "short",
 							year: "numeric",
 						})}
-					</h3>
-					<ToggleBtn setter={set3D} state={use3D}>
+					</p>
+					<ToggleBtn
+						setter={set3D}
+						state={use3D}
+						title={SETTING_DETAILS.use3D}
+					>
 						3D Background
 					</ToggleBtn>
-					<ToggleBtn setter={setStatic} state={useStatic}>
+					<ToggleBtn
+						setter={setStatic}
+						state={useStatic}
+						title={SETTING_DETAILS.useStatic}
+					>
 						Static
 					</ToggleBtn>
-					<ToggleBtn setter={setScanlines} state={scanlines}>
+					<ToggleBtn
+						setter={setScanlines}
+						state={scanlines}
+						title={SETTING_DETAILS.scanlines}
+					>
 						Scanlines
 					</ToggleBtn>
-					<ToggleBtn setter={setBlur} state={blur}>
+					<ToggleBtn
+						setter={setBlur}
+						state={blur}
+						title={SETTING_DETAILS.blur}
+					>
 						Blur
 					</ToggleBtn>
-					<ToggleBtn setter={setFlicker} state={useFlicker}>
+					<ToggleBtn
+						setter={setFlicker}
+						state={flicker}
+						title={SETTING_DETAILS.flicker}
+					>
 						Flicker
 					</ToggleBtn>
-					<ToggleBtn setter={setFancyText} state={fancyText}>
+					<ToggleBtn
+						setter={setFancyText}
+						state={fancyText}
+						title={SETTING_DETAILS.fancyText}
+					>
 						Fancy Text
 					</ToggleBtn>
-					<ToggleBtn setter={setFullscreen} state={fullscreen}>
+					<ToggleBtn
+						setter={setFullscreen}
+						state={fullscreen}
+						title={SETTING_DETAILS.fullscreen}
+					>
 						Fullscreen
 					</ToggleBtn>
-					<ToggleBtn setter={setSkipLoader} state={skipLoader}>
+					<ToggleBtn
+						setter={setSkipLoader}
+						state={skipLoader}
+						title={SETTING_DETAILS.skipLoader}
+					>
 						Skip Load
 					</ToggleBtn>
 					<Slider
@@ -323,12 +404,7 @@ const MobileTaskbar = () => {
 						minute: "2-digit",
 					}) ?? "Loading..."}
 				</p>
-				<SmartImage
-					src={mobileIcons}
-					alt=""
-					aria-hidden="true"
-					className="ml-auto h-4"
-				/>
+				<SmartImage src={mobileIcons} alt="" className="ml-auto h-4" />
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					viewBox="0 -0.5 16 16"

@@ -32,7 +32,8 @@ const Battery = (props: BatteryProps) => {
 				<path
 					className={cn(
 						levelScaled > i && "stroke-current",
-						levelScaled < i + 0.5 && "animate-pulse",
+						levelScaled < i + 0.5 &&
+							"animate-pulse motion-reduce:animate-none",
 					)}
 					key={path}
 					d={path}

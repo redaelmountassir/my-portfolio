@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import React, { useState } from "react";
 import bg1Img from "../assets/images/background_1.jpg";
 import bg2Img from "../assets/images/background_2.jpg";
@@ -16,9 +16,10 @@ const PALM_CLIP =
 const Background = () => {
 	const use3D = useSettingsStore(state => state.use3D);
 	const [odds] = useState(Math.random);
+	const reducedMotion = useReducedMotion();
 
 	return (
-		<>
+		<div aria-hidden="true" className="absolute inset-0">
 			{odds < 0.001 ? (
 				<SmartImage
 					src={bg1Img}
@@ -49,12 +50,16 @@ const Background = () => {
 				<>
 					<motion.div
 						initial={{ x: 0 }}
-						animate={{ x: -95 }}
-						transition={{
-							repeat: Infinity,
-							duration: 2,
-							ease: "linear",
-						}}
+						animate={reducedMotion ? { x: 0 } : { x: -95 }}
+						transition={
+							reducedMotion
+								? { duration: 0 }
+								: {
+										repeat: Infinity,
+										duration: 2,
+										ease: "linear",
+									}
+						}
 						className="absolute bottom-0 left-0 box-content h-36 w-full bg-[url('/bg_imgs/tile.png')] bg-contain pl-24"
 					/>
 					<SmartImage
@@ -68,7 +73,7 @@ const Background = () => {
 						alt=""
 						draggable="false"
 						className={cn(
-							"absolute -bottom-10 -left-32 w-96 origin-[35%_bottom] rotate-6 transition-transform duration-1000 ease-in-out hover:rotate-12 md:-left-5",
+							"absolute -bottom-10 -left-32 w-96 origin-[35%_bottom] rotate-6 transition-transform duration-1000 ease-in-out hover:rotate-12 motion-reduce:transition-none motion-reduce:hover:rotate-6 md:-left-5",
 							PALM_CLIP,
 						)}
 					/>
@@ -83,7 +88,7 @@ const Background = () => {
 						alt=""
 						draggable="false"
 						className={cn(
-							"invisible absolute -right-10 -bottom-24 w-96 origin-[35%_bottom] scale-75 -scale-x-100 -rotate-12 transition-transform duration-1000 ease-in-out hover:-rotate-6 md:visible",
+							"invisible absolute -right-10 -bottom-24 w-96 origin-[35%_bottom] scale-75 -scale-x-100 -rotate-12 transition-transform duration-1000 ease-in-out hover:-rotate-6 motion-reduce:transition-none motion-reduce:hover:-rotate-12 md:visible",
 							PALM_CLIP,
 						)}
 					/>
@@ -92,13 +97,13 @@ const Background = () => {
 						alt=""
 						draggable="false"
 						className={cn(
-							"absolute -right-36 -bottom-10 w-96 origin-[35%_bottom] -scale-x-100 rotate-12 transition-transform duration-1000 ease-in-out hover:rotate-6",
+							"absolute -right-36 -bottom-10 w-96 origin-[35%_bottom] -scale-x-100 rotate-12 transition-transform duration-1000 ease-in-out hover:rotate-6 motion-reduce:transition-none motion-reduce:hover:rotate-12",
 							PALM_CLIP,
 						)}
 					/>
 				</>
 			)}
-		</>
+		</div>
 	);
 };
 

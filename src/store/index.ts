@@ -7,6 +7,22 @@ import { createDirectorySlice } from "./directorySlice";
 import type { MobileStore, SettingsStore, SystemState } from "./types";
 import { createWindowSlice } from "./windowSlice";
 
+export const SETTING_DETAILS = {
+	use3D: "Activates a 3D background which can cause battery to drain faster.",
+	useStatic: "Applies a glitchy overlay to the screen.",
+	scanlines: "Applies an overlay of horizontal lines.",
+	blur: "Activates background blurs which can cause visual artifacts and drain battery.",
+	flicker:
+		"Rapid changes in brightness, likely not ideal for those with epilepsy.",
+	fancyText:
+		"Uses built-in sans-serif fonts instead of the stylized pixelated font.",
+	lightMode: "A joke setting, turn on if you dare.",
+	fullscreen:
+		"Fullscreens the entire experience. Not equivalent to pressing F11.",
+	skipLoader:
+		"Skips the initial loading screen. Loading is not made any faster.",
+} as const;
+
 const LIGHT_MODE_TEXT = [
 	"Light Mode?",
 	"Why?",
@@ -79,24 +95,35 @@ export const useMobileStore = create<MobileStore>(set => ({
 		),
 }));
 
+const prefersReducedMotion = () =>
+	typeof window !== "undefined" &&
+	window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const isMobileViewport = () =>
+	typeof window !== "undefined" &&
+	(!window.matchMedia("(min-width: 768px)").matches ||
+		!window.matchMedia("(min-height: 500px)").matches);
+
 export const useSettingsStore = create<
 	SettingsStore,
 	[["zustand/persist", SettingsStore]]
 >(
 	persist(
-		(set, get) => ({
+		(set, get) => {
+			const reducedMotion = prefersReducedMotion();
+			return {
 			brightness: 100,
-			use3D: true,
+			use3D: !(isMobileViewport() || reducedMotion),
 			useStatic: false,
 			scanlines: true,
 			blur: true,
-			useFlicker: false,
+			flicker: false,
 			volume: 0,
 			fancyText: true,
 			lightModeText: LIGHT_MODE_TEXT[0],
 			lightMode: false,
 			fullscreen: false,
-			skipLoader: false,
+			skipLoader: reducedMotion,
 			setLightMode(val) {
 				const nextIndex = Math.min(
 					LIGHT_MODE_TEXT.indexOf(get().lightModeText) + 1,
@@ -112,7 +139,9 @@ export const useSettingsStore = create<
 				});
 				const invertLayer = document.getElementById("invert-layer");
 				if (invertLayer)
-					invertLayer.style.filter = get().lightMode ? "invert(1)" : "";
+					invertLayer.style.filter = get().lightMode
+						? "invert(1)"
+						: "";
 			},
 			setBrightness: val => set({ brightness: clamp(0, 100, val) }),
 			set3D: val => set({ use3D: val }),
@@ -128,7 +157,7 @@ export const useSettingsStore = create<
 					: 'ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
 				set({ fancyText: val });
 			},
-			setFlicker: val => set({ useFlicker: val }),
+			setFlicker: val => set({ flicker: val }),
 			setVolume: val => set({ volume: clamp(0, 100, val) }),
 			setSkipLoader: val => set({ skipLoader: val }),
 			setFullscreen: val => {
@@ -156,7 +185,8 @@ export const useSettingsStore = create<
 				document.documentElement.style.overflow = "hidden";
 				localStorage.setItem("introDone", "false");
 			},
-		}),
+		};
+		},
 		{
 			name: "settings",
 			onRehydrateStorage: () => state => {

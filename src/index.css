@@ -79,7 +79,12 @@
 	}
 
 	:focus-visible {
-		@apply outline-3 outline-pink-accent outline-solid;
+		@apply z-5 ring-3 ring-pink-accent ring-offset-[-1px] outline-3 outline-pink-accent outline-solid;
+	}
+
+	.sr-only {
+		@apply absolute -m-1 size-px overflow-hidden border-0 p-0 whitespace-nowrap;
+		clip: rect(0, 0, 0, 0);
 	}
 
 	.tab-only {
@@ -93,10 +98,15 @@
 		clip: auto;
 	}
 
-	#skip-link.tab-only:focus,
-	#skip-link.tab-only:focus-visible {
-		@apply fixed top-4 left-4;
+	.animate-pan,
+	.animate-pan-vertical,
+	.animate-blink,
+	.animate-bounce,
+	.animate-pulse,
+	.animate-left-to-right {
+		@apply motion-reduce:animate-none;
 	}
+
 	/* Drag/resize add this class so pointer-events-auto children still ignore input */
 	body.pointer-events-none * {
 		pointer-events: none !important;
@@ -265,7 +275,7 @@ html.no-blur *::after {
 }
 
 @utility full-flicker {
-	@apply animate-[full-flicker_0.12s_infinite];
+	@apply animate-[full-flicker_0.12s_infinite] motion-reduce:animate-none;
 
 	& > .flicker {
 		@apply animate-none;
@@ -273,7 +283,7 @@ html.no-blur *::after {
 }
 
 @utility flicker {
-	@apply animate-[flicker_0.12s_infinite];
+	@apply animate-[flicker_0.12s_infinite] motion-reduce:animate-none;
 
 	.full-flicker > & {
 		@apply animate-none;

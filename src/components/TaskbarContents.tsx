@@ -6,7 +6,7 @@ import linkedInImg from "../assets/images/linkedIn.png";
 import logoImg from "../assets/images/logo/logo_plain.png";
 import restartImg from "../assets/images/restart.png";
 import shutdownImg from "../assets/images/shutdown.png";
-import { useSettingsStore } from "../store";
+import { SETTING_DETAILS, useSettingsStore } from "../store";
 import { cn, useAudio } from "../utils";
 import Battery from "./Battery";
 import Dropdown from "./Dropdown";
@@ -28,7 +28,7 @@ const TaskbarContents = () => {
 		setScanlines,
 		blur,
 		setBlur,
-		useFlicker,
+		flicker,
 		setFlicker,
 		volume,
 		setVolume,
@@ -217,31 +217,67 @@ const TaskbarContents = () => {
 								))}
 							</svg>
 						</Slider>
-						<Toggle state={use3D} setter={set3D}>
+						<Toggle
+							state={use3D}
+							setter={set3D}
+							title={SETTING_DETAILS.use3D}
+						>
 							3D (Slower)
 						</Toggle>
-						<Toggle state={useStatic} setter={setStatic}>
+						<Toggle
+							state={useStatic}
+							setter={setStatic}
+							title={SETTING_DETAILS.useStatic}
+						>
 							Static
 						</Toggle>
-						<Toggle state={scanlines} setter={setScanlines}>
+						<Toggle
+							state={scanlines}
+							setter={setScanlines}
+							title={SETTING_DETAILS.scanlines}
+						>
 							Scanlines
 						</Toggle>
-						<Toggle state={blur} setter={setBlur}>
+						<Toggle
+							state={blur}
+							setter={setBlur}
+							title={SETTING_DETAILS.blur}
+						>
 							Blur
 						</Toggle>
-						<Toggle state={fancyText} setter={setFancyText}>
+						<Toggle
+							state={fancyText}
+							setter={setFancyText}
+							title={SETTING_DETAILS.fancyText}
+						>
 							Fancy Text
 						</Toggle>
-						<Toggle state={useFlicker} setter={setFlicker}>
+						<Toggle
+							state={flicker}
+							setter={setFlicker}
+							title={SETTING_DETAILS.flicker}
+						>
 							Flicker
 						</Toggle>
-						<Toggle state={lightMode} setter={setLightMode}>
+						<Toggle
+							state={lightMode}
+							setter={setLightMode}
+							title={SETTING_DETAILS.lightMode}
+						>
 							{lightModeText}
 						</Toggle>
-						<Toggle state={fullscreen} setter={setFullscreen}>
+						<Toggle
+							state={fullscreen}
+							setter={setFullscreen}
+							title={SETTING_DETAILS.fullscreen}
+						>
 							Fullscreen
 						</Toggle>
-						<Toggle state={skipLoader} setter={setSkipLoader}>
+						<Toggle
+							state={skipLoader}
+							setter={setSkipLoader}
+							title={SETTING_DETAILS.skipLoader}
+						>
 							Skip Load
 						</Toggle>
 						<Toggle state={hardmode} setter={setHardmode}>

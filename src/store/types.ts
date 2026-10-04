@@ -117,7 +117,7 @@ export interface SettingsStore {
 	brightness: number;
 	use3D: boolean;
 	useStatic: boolean;
-	useFlicker: boolean;
+	flicker: boolean;
 	scanlines: boolean;
 	blur: boolean;
 	fancyText: boolean;

@@ -10,7 +10,7 @@ const ProjectTitle = ({
 	scrollContainer: RefObject<HTMLElement | null>;
 	headingRef: RefObject<HTMLHeadingElement | null>;
 }) => (
-	<h3
+	<h2
 		ref={headingRef}
 		className="dlig ss02 mb-10 bg-white-primary p-4 pb-1 text-center font-display text-6xl leading-[0.95] text-white-primary uppercase xs:pb-0 xs:text-7xl md:hidden"
 	>
@@ -23,7 +23,7 @@ const ProjectTitle = ({
 			{title}
 		</GlitchText>
 		{title}
-	</h3>
+	</h2>
 );
 
 export default ProjectTitle;

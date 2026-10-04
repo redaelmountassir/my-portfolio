@@ -11,7 +11,10 @@ const PDFNoSupport = () => {
 
 	return (
 		<div className="relative size-full overflow-hidden bg-black-primary">
-			<h3 className="dlig ss02 pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-7xl text-white-primary">
+			<p
+				aria-hidden="true"
+				className="dlig ss02 pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-7xl text-white-primary"
+			>
 				{Array.from({ length: 11 }, (_, i) => (
 					<motion.span
 						key={i}
@@ -31,7 +34,7 @@ const PDFNoSupport = () => {
 						DOWNLOAD
 					</motion.span>
 				))}
-			</h3>
+			</p>
 			<a
 				href="./resume.pdf"
 				download="resume.pdf"
@@ -49,7 +52,6 @@ const PDFNoSupport = () => {
 					<img
 						src={throbberGif}
 						alt=""
-						aria-hidden="true"
 						className="w-16"
 					/>
 				) : (
@@ -59,19 +61,16 @@ const PDFNoSupport = () => {
 			<SmartImage
 				src={columnImg}
 				alt=""
-				aria-hidden="true"
 				className="absolute top-1/2 left-1/2 h-110 -translate-x-1/2 -translate-y-1/2"
 			/>
 			<SmartImage
 				src={dolphinImg}
 				alt=""
-				aria-hidden="true"
 				className="absolute top-1/4 left-1/4 h-28 -translate-x-1/2 -translate-y-1/2 -rotate-45"
 			/>
 			<SmartImage
 				src={dolphinImg}
 				alt=""
-				aria-hidden="true"
 				className="absolute top-3/4 left-3/4 h-36 -translate-x-1/2 -translate-y-1/2"
 			/>
 		</div>

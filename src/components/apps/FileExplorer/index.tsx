@@ -256,7 +256,6 @@ const FileExplorer = () => {
 			<SmartImage
 				src={sunImg}
 				alt=""
-				aria-hidden="true"
 				className="absolute right-1/2 -bottom-6 w-[125%] max-w-none translate-x-1/2 opacity-40 md:-right-32 md:bottom-[5%] md:-z-1 md:h-3/4 md:w-auto md:translate-x-0 md:opacity-100"
 			/>
 		</div>
