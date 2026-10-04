@@ -88,8 +88,15 @@ const Background3D = () => {
 		useMobileStore(
 			state => state.windowOpen !== undefined || state.menuOpen,
 		) && isMobile;
-	const { windowMaximized: maximized } = useSystemKeys("windowMaximized");
+	const { windowMaximized: maximized, windowInteracting } = useSystemKeys(
+		"windowMaximized",
+		"windowInteracting",
+	);
 	const windowMaximized = maximized && !isMobile;
+	// Motion window drag contends with WebGL; backdrop-blur chrome then
+	// samples torn frames and the sun stripes look like they glitch.
+	const pauseFrames =
+		windowCovering || windowMaximized || windowInteracting;
 
 	return (
 		<Canvas
@@ -100,10 +107,11 @@ const Background3D = () => {
 					to disable it.
 				</p>
 			}
-			frameloop={windowCovering || windowMaximized ? "demand" : "always"}
+			frameloop={pauseFrames ? "demand" : "always"}
 			gl={createRenderer}
 			onCreated={onCreated}
 			camera={{ fov: 50, position: [0, 0, 6], near: 1, far: 2000 }}
+			className="isolate transform-[translateZ(0)]"
 		>
 			<directionalLight
 				position={[0, 50, 50]}

@@ -72,6 +72,9 @@ export interface WindowSlice {
 	windowAudio?: HTMLAudioElement;
 	windowMaximized: boolean;
 	setWindowMaximized(windowMaximized: boolean): void;
+	/** True while a desktop window is dragged/resized — pauses the 3D frameloop. */
+	windowInteracting: boolean;
+	setWindowInteracting(windowInteracting: boolean): void;
 	playSound(reverse?: boolean): void;
 	findWindow(windows: WindowData[], ref: number | WindowData): number;
 	addWindow(

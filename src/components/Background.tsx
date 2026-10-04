@@ -61,7 +61,7 @@ const Background = () => {
 						src={triangleImg}
 						alt=""
 						draggable="false"
-						className="absolute top-1/2 left-1/2 w-96 -translate-x-1/2 -translate-y-[62%] drop-shadow-[0_0_35px_#b1d7ef] filter"
+						className="absolute top-1/2 left-1/2 w-96 -translate-x-1/2 translate-y-[-62%] drop-shadow-[0_0_35px_#b1d7ef] filter"
 					/>
 					<SmartImage
 						src={palmImg}

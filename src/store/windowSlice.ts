@@ -45,6 +45,10 @@ export const createWindowSlice: StateCreator<
 		// Only for three js optimization has no impact on the maximization of any window
 		set({ windowMaximized });
 	},
+	windowInteracting: false,
+	setWindowInteracting(windowInteracting) {
+		set({ windowInteracting });
+	},
 	playSound(lower = false) {
 		const globalVol = useSettingsStore.getState().volume * 0.01;
 		if (globalVol === 0) return;

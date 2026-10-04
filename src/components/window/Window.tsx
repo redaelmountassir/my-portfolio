@@ -297,8 +297,28 @@ const Window = ({
 				{!isMobile && (
 					<>
 						<Resizers
-							onResizeStart={() => setIsMoving(true)}
-							onResizeEnd={() => setIsMoving(false)}
+							onResizeStart={() => {
+								// Same rebase issue as maximize: size changes
+								// under dragConstraints fight west/north x/y.
+								cancelAnimationFrame(constraintsFrame.current);
+								setDragConstraintsOn(false);
+								setIsMoving(true);
+							}}
+							onResizeEnd={() => {
+								const next = { x: x.get(), y: y.get() };
+								rememberedPosition.current = next;
+								setIsMoving(false);
+								cancelAnimationFrame(constraintsFrame.current);
+								constraintsFrame.current = requestAnimationFrame(
+									() => {
+										x.set(next.x);
+										y.set(next.y);
+										flushSync(() =>
+											setDragConstraintsOn(true),
+										);
+									},
+								);
+							}}
 							onResize={({ delta }, cardinal) => {
 								const westResize = () => {
 									//Prevents negative dragging
