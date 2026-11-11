@@ -79,7 +79,7 @@ though you didn't hear that from me...
 			<Loader
 				enable={introDone}
 				className={cn(
-					"relative h-(--vh-full,100vh) w-screen overflow-hidden bg-black-primary",
+					"relative h-(--vh-full,100vh) w-screen overflow-hidden bg-black-primary select-none",
 					isMobile && "use-scrollbar",
 				)}
 				ref={mainRef}

@@ -8,6 +8,7 @@ import SmartImage from "../../SmartImage";
 interface ShowcaseProps {
 	project: string;
 	src: string;
+	caption?: string;
 	className?: string;
 	autoHeight?: boolean;
 	animation?:
@@ -21,13 +22,14 @@ interface ShowcaseProps {
 const Showcase = ({
 	project,
 	src,
+	caption,
 	className,
 	autoHeight = false,
 	animation = undefined,
 	decorativeCursor = false,
 }: ShowcaseProps) => {
 	const classes = cn(
-		"flicker relative z-1 scale-by-height object-cover size-full!",
+		"relative z-1 scale-by-height object-cover size-full!",
 		autoHeight && "h-auto!",
 		className,
 	);
@@ -50,8 +52,8 @@ const Showcase = ({
 		<motion.div
 			ref={revealRef}
 			className={cn(
-				"size-full",
-				decorativeCursor && "relative cursor-none",
+				"group relative size-full overflow-hidden",
+				decorativeCursor && "cursor-none",
 			)}
 			{...(customAnim
 				? animation
@@ -88,6 +90,16 @@ const Showcase = ({
 					alt={`Showcase for ${project.replaceAll("_", " ")}`}
 					className={classes}
 				/>
+			)}
+			{caption && (
+				<p
+					className={cn(
+						"pointer-events-none absolute inset-x-0 bottom-0 z-2 bg-black/70 px-3 py-2 text-sm text-white opacity-0 transition-opacity ease-steps-2",
+						"group-focus-within:opacity-100 group-hover:opacity-100",
+					)}
+				>
+					{caption}
+				</p>
 			)}
 			{decorativeCursor && <Follow />}
 		</motion.div>

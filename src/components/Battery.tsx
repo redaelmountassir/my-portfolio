@@ -12,8 +12,7 @@ const PATHS = [
 	"M11 5h2M11 6h2M11 7h2M11 8h2M11 9h2M11 10h2",
 ];
 
-const Battery = (props: BatteryProps) => {
-	const { level, ...rest } = props;
+const Battery = ({ level, ...rest }: BatteryProps) => {
 	const levelScaled = level * PATHS.length;
 
 	return (

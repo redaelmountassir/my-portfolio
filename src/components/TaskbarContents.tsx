@@ -217,6 +217,21 @@ const TaskbarContents = () => {
 								))}
 							</svg>
 						</Slider>
+						<a
+							href="/portfolio/"
+							className="group mb-4 block p-1 text-center font-medium outline-2 outline-white-primary transition ease-steps-10 hover:bg-white-primary hover:text-black-primary"
+							title="View the portfolio in a more standard/recognizable website format."
+						>
+							<span
+								aria-hidden
+								className="opacity-0 transition ease-steps-10 group-hover:opacity-100"
+							>
+								{"> "}
+							</span>
+							<span className="relative inline-block -translate-x-2 transition ease-steps-10 group-hover:translate-x-0">
+								Switch to Simple View
+							</span>
+						</a>
 						<Toggle
 							state={use3D}
 							setter={set3D}

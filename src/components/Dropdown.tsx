@@ -1,4 +1,4 @@
-import { type Variants, motion, steps } from "motion/react";
+import { type Variants, motion, steps, useReducedMotion } from "motion/react";
 import React, { useEffect, useRef, useState } from "react";
 import { cn } from "../utils";
 
@@ -13,39 +13,32 @@ interface DropdownProps extends React.ComponentPropsWithoutRef<"button"> {
 	forcedAlignment?: Alignment;
 	forcedDirection?: Direction;
 	noPadding?: boolean;
+	openByDefault?: boolean;
 }
 
 const dropdownVariants = (direction: Direction): Variants => ({
 	open: {
 		clipPath: "inset(0 0 0% 0)",
-		transition: {
-			ease: steps(5),
-			type: "tween",
-		},
 	},
 	closed: {
 		clipPath:
 			direction === "down" ? "inset(0 0 100% 0)" : "inset(100% 0 0 0)",
-		transition: {
-			ease: steps(5),
-			type: "tween",
-		},
 	},
 });
 
-const Dropdown = (props: DropdownProps) => {
-	const {
-		children,
-		dContent,
-		forcedAlignment,
-		forcedDirection,
-		noPadding,
-		pClassName,
-		dClassName,
-		...rest
-	} = props;
-
-	const [open, setOpen] = useState(false);
+const Dropdown = ({
+	children,
+	dContent,
+	forcedAlignment,
+	forcedDirection,
+	noPadding,
+	pClassName,
+	dClassName,
+	openByDefault,
+	...rest
+}: DropdownProps) => {
+	const reduceMotion = useReducedMotion();
+	const [open, setOpen] = useState(openByDefault ?? false);
 	const button = useRef<HTMLButtonElement>(null);
 	const dropdown = useRef<HTMLDivElement>(null);
 	const [align, setAlign] = useState<Alignment>(forcedAlignment ?? "left");
@@ -145,6 +138,10 @@ const Dropdown = (props: DropdownProps) => {
 				initial="closed"
 				animate={open ? "open" : "closed"}
 				variants={dropdownVariants(direction)}
+				transition={{
+					ease: steps(reduceMotion ? 3 : 5),
+					type: "tween",
+				}}
 				aria-hidden={!open}
 				inert={!open || undefined}
 			>

@@ -52,10 +52,9 @@ const MobileTaskbar = () => {
 							menuOpen ? "Close app menu" : "Open app menu"
 						}
 						aria-expanded={menuOpen}
-						onClick={() => {
-							if (windows == 0 && menuOpen) return home();
-							toggleMenu();
-						}}
+						onClick={() =>
+							windows == 0 && menuOpen ? home() : toggleMenu()
+						}
 					>
 						<SmartImage
 							src={menuImg}

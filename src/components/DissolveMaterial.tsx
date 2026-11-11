@@ -1,39 +1,9 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import type { MotionValue } from "motion/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import * as THREE from "three";
-
-const fragmentShader = `
-  uniform sampler2D uTexture;
-  uniform float uProgress;
-  uniform float uSeed;
-  uniform float uPixelGranularity;
-  uniform float uAspect;
-  
-  varying vec2 vUv;
-  
-  // Improved random/noise function with seed
-  float random(vec2 st) {
-    return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * (43758.5453 + uSeed * 1000.0));
-  }
-  
-  void main() {
-    vec4 texColor = texture2D(uTexture, vUv);
-
-    // Columns across the image; rows follow aspect so each block is square.
-    float columns = max(uPixelGranularity, 1.0);
-    float rows = max(columns / max(uAspect, 0.001), 1.0);
-    vec2 cell = floor(vUv * vec2(columns, rows));
-    float noise = random(cell);
-    
-    // Discard pixels based on noise and progress
-    if (noise < uProgress) {
-      discard;
-    }
-    
-    gl_FragColor = texColor;
-  }
-`;
+import fragmentShader from "../assets/shaders/dissolve.frag";
+import { fittedPlaneSize, type ObjectFit } from "./MediaMesh";
 
 const vertexShader = `
   varying vec2 vUv;
@@ -50,35 +20,59 @@ const DissolveMaterial = ({
 	texture,
 	progress,
 	seed,
-	pixelGranularity,
+	blockSize,
 	aspect,
+	objectFit,
 	isVideo,
 }: {
 	texture: TextureContent;
 	progress: MotionValue<number>;
 	seed: number;
-	pixelGranularity: number;
+	blockSize: number;
 	aspect: number;
+	objectFit: ObjectFit;
 	isVideo: boolean;
 }) => {
 	const materialRef = useRef<THREE.ShaderMaterial>(null);
 	const invalidate = useThree(state => state.invalidate);
+	const width = useThree(state => state.size.width);
+	const height = useThree(state => state.size.height);
+
+	const syncPixels = (viewWidth: number, viewHeight: number) => {
+		const material = materialRef.current;
+		if (!material || viewWidth <= 0 || viewHeight <= 0) return;
+		const [planeWidth, planeHeight] = fittedPlaneSize(
+			viewWidth,
+			viewHeight,
+			aspect,
+			objectFit,
+		);
+		(material.uniforms.uPlaneSize.value as THREE.Vector2).set(
+			planeWidth,
+			planeHeight,
+		);
+		material.uniforms.uPixelSize.value = Math.max(blockSize, 1);
+	};
 
 	// Motion updates the value outside React, so each change has to request a frame.
 	useEffect(() => {
 		invalidate();
 		return progress.on("change", () => invalidate());
-	}, [progress, invalidate, texture, seed, pixelGranularity, aspect]);
+	}, [progress, invalidate, texture, seed, blockSize, aspect, objectFit]);
 
-	useFrame(() => {
+	useLayoutEffect(() => {
+		syncPixels(width, height);
+		invalidate();
+	}, [width, height, aspect, objectFit, blockSize, invalidate]);
+
+	useFrame(state => {
 		const material = materialRef.current;
 		if (!material) return;
 
+		syncPixels(state.size.width, state.size.height);
 		material.uniforms.uTexture.value = texture;
 		material.uniforms.uProgress.value = progress.get();
 		material.uniforms.uSeed.value = seed;
-		material.uniforms.uPixelGranularity.value = pixelGranularity;
-		material.uniforms.uAspect.value = aspect;
 
 		if (isVideo && texture instanceof THREE.VideoTexture) {
 			const video = texture.image;
@@ -97,8 +91,8 @@ const DissolveMaterial = ({
 				uTexture: { value: texture },
 				uProgress: { value: progress.get() },
 				uSeed: { value: seed },
-				uPixelGranularity: { value: pixelGranularity },
-				uAspect: { value: aspect },
+				uPlaneSize: { value: new THREE.Vector2(1, 1) },
+				uPixelSize: { value: 1 },
 			}}
 			transparent
 			depthWrite={false}

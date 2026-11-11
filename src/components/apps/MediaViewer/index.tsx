@@ -13,11 +13,12 @@ import {
 	useRef,
 	useState,
 } from "react";
+import { projectFiles } from "../../../content/projectsLoader";
 import { useSystemKeys } from "../../../store";
 import { MobileContext } from "../../../store/MobileContext";
-import { isMediaFile } from "../../../store/types";
+import { isMediaFile, type MediaFile } from "../../../store/types";
 import Throbber from "../../Throbber";
-import { InternalWindowDataContext } from "../../window/Window";
+import { InternalWindowDataContext } from "../../window/context";
 import About from "./About";
 import MainShowcase from "./MainShowcase";
 import MediaFrame from "./MediaFrame";
@@ -25,8 +26,17 @@ import NextProject from "./NextProject";
 import ProjectTitle from "./ProjectTitle";
 import ShowcasePair from "./ShowcasePair";
 
-const MediaViewer = () => {
+interface MediaViewerProps {
+	file?: MediaFile;
+	onNext?: (next: MediaFile) => void;
+}
+
+const MediaViewer = ({
+	file: fileProp,
+	onNext: onNextProp,
+}: MediaViewerProps = {}) => {
 	const windowData = useContext(InternalWindowDataContext);
+	const onNext = onNextProp ?? windowData?.onNext;
 	const isMobile = useContext(MobileContext);
 	const { traverse, replaceWindow } = useSystemKeys(
 		"traverse",
@@ -36,12 +46,14 @@ const MediaViewer = () => {
 	const sysObj = windowData?.sysObj;
 	const id = windowData?.id;
 	const setTitle = windowData?.setTitle;
-	const file = isMediaFile(sysObj) ? sysObj : null;
+	const file = fileProp ?? (isMediaFile(sysObj) ? sysObj : null);
 	const projectData = file?.value;
 	const title = file?.name.replaceAll("_", " ") ?? "";
 
-	const parent = file ? traverse(file)?.at(-1) : undefined;
-	const projects = parent?.children.filter(isMediaFile) ?? [];
+	const parent = fileProp || !file ? undefined : traverse(file)?.at(-1);
+	const projects = fileProp
+		? projectFiles.filter(isMediaFile)
+		: (parent?.children.filter(isMediaFile) ?? []);
 	const index = projects.findIndex(obj => obj.name === file?.name);
 	const nextProject =
 		projects.length > 0
@@ -86,14 +98,17 @@ const MediaViewer = () => {
 	const phase = useRef<"watch" | "loading" | "settle">("watch");
 	const nextRef = useRef(nextProject);
 	nextRef.current = nextProject;
+	const onNextRef = useRef(onNext);
+	onNextRef.current = onNext;
 	const swapTimer = useRef<number>(undefined);
 
 	const gotoNext = () => {
 		const upcoming = nextRef.current;
+		const advance = onNextRef.current;
 		if (
 			phase.current === "loading" ||
 			!upcoming ||
-			id === undefined ||
+			(!advance && id === undefined) ||
 			!loadingRef.current ||
 			!scrollContainer.current
 		)
@@ -115,7 +130,8 @@ const MediaViewer = () => {
 		setInTop(true);
 		window.clearTimeout(swapTimer.current);
 		swapTimer.current = window.setTimeout(() => {
-			replaceWindow(id, upcoming);
+			if (advance) advance(upcoming);
+			else if (id !== undefined) replaceWindow(id, upcoming);
 		}, 2000);
 	};
 
@@ -158,7 +174,8 @@ const MediaViewer = () => {
 		return () => el.removeEventListener("scroll", onScroll);
 	}, [file?.name]);
 
-	if (!file || !projectData || !nextProject || id === undefined) return;
+	if (!file || !projectData || !nextProject) return;
+	if (!fileProp && id === undefined) return;
 
 	const [firstPair, restShowcases] =
 		projectData.showcases.length < 3
@@ -178,7 +195,7 @@ const MediaViewer = () => {
 			</div>
 			<div
 				ref={scrollContainer}
-				className="relative flex-1 overflow-x-hidden overflow-y-auto text-white-primary [overflow-anchor:none]"
+				className="relative min-h-0 flex-1 overflow-x-hidden overflow-y-auto text-white-primary [overflow-anchor:none]"
 			>
 				<div
 					className="mx-4 h-[150%] min-h-250 text-white-primary md:mt-12"
@@ -225,12 +242,13 @@ const MediaViewer = () => {
 				)}
 				{restShowcases.map(showcase => (
 					<div
-						key={showcase}
+						key={showcase.src}
 						className="relative m-4 mt-0 border-2 bg-black-primary"
 					>
 						<MediaFrame
 							project={file.name}
-							src={showcase}
+							src={showcase.src}
+							caption={showcase.caption}
 							scrollContainer={scrollContainer}
 							decorativeCursor={!isMobile}
 						/>

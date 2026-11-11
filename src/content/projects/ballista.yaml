@@ -1,23 +1,23 @@
 ---
 org: University of Pennsylvania
 roles:
-  - Designer
+    - Designer
 date: "2026-04-23"
-categories:
-  - CAD Design
 tags:
-  - SolidWorks
-  - Laser Cutting
-  - 3D Printing
-  - Acrylic
-  - Mechanical Design
+    - SolidWorks
+    - Laser Cutting
+    - 3D Printing
+    - Acrylic
+    - CAD
+categories:
+    - Mechanical Design
 description:
-  A ballista built for an introductory course to Computer Aided Design at the University of Pennsylvania.
-  The ballista uses rubber bands to launch projectiles, small balls, at the opposing team's wall. Solidworks was
-  used to design the ballista, and majority of the parts were laser cut acrylic. The ball carriage was 3D printed
-  for its unique design. I worked in a team of 3, but designed most of the parts myself.
+    A ballista built for an introductory course to Computer Aided Design at the University of Pennsylvania.
+    The ballista uses rubber bands to launch projectiles, small balls, at the opposing team's wall. Solidworks was
+    used to design the ballista, and majority of the parts were laser cut acrylic. The ball carriage was 3D printed
+    for its unique design. I worked in a team of 3, but designed most of the parts myself.
 showcases:
-  - 360.mp4
-  - shooting.jpg
-  - cad.png
-  - shooting.mp4
+    - 360.mp4
+    - shooting.jpg
+    - cad.png
+    - shooting.mp4

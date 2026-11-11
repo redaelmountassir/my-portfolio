@@ -24,7 +24,7 @@ import GlitchText from "../../GlitchText";
 import PixelDissolveMedia from "../../PixelDissolveMedia";
 import ScrollMarquee from "../../ScrollMarquee";
 import SmartImage from "../../SmartImage";
-import { InternalWindowDataContext } from "../../window/Window";
+import { InternalWindowDataContext } from "../../window/context";
 import ContentEditable from "./ContentEditable";
 import NameCard from "./NameCard";
 
@@ -44,7 +44,7 @@ const photos = [
 	{ img: cenoteImg, alt: "Jumping into a Mexican cenote" },
 	{
 		img: chichenItzaImg,
-		alt: "One of the wonders of the world: chichen itza",
+		alt: "One of the wonders of the world: Chichén Itzá",
 	},
 	{ img: cupcakesImg, alt: "My cupcakes" },
 	{ img: donkeyImg, alt: "Me riding a donkey" },
@@ -58,7 +58,7 @@ const photos = [
 	{ img: philly3Img, alt: "I love Philly" },
 	{ img: quebecImg, alt: "Quebec, Canada" },
 	{ img: rabatImg, alt: "Rabat, Morocco" },
-	{ img: soccerImg, alt: "My favorite sport soccer" },
+	{ img: soccerImg, alt: "My favorite sport: soccer" },
 ];
 
 const TextEditor = () => {

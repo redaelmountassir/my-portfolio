@@ -105,7 +105,7 @@ const MainShowcase = ({
 					>
 						<MainShowcaseMedia
 							project={file.name}
-							src={projectData.showcases[0]}
+							src={projectData.showcases[0].src}
 							dissolved={dissolved}
 							onDissolveComplete={onDissolveComplete}
 						/>

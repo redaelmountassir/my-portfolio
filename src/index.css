@@ -164,6 +164,17 @@
 		overflow: hidden;
 	}
 
+	html.portfolio-scroll {
+		overflow: auto;
+		scroll-padding-top: 3.5rem;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		html.portfolio-scroll {
+			scroll-behavior: smooth;
+		}
+	}
+
 	.ss01 {
 		--retro-fancy-ss01: "ss01" on;
 	}
@@ -398,6 +409,7 @@ html.no-blur *::after {
 		-moz-user-drag: none;
 		-o-user-drag: none;
 		user-drag: none;
+		@apply select-none;
 	}
 }
 

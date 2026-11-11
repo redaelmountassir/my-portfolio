@@ -54,7 +54,7 @@ const loadProjects = (): Record<string, ProjectYaml> => {
 
 const toProjectFiles = (projects: Record<string, ProjectYaml>): File[] =>
 	Object.entries(projects).map(([name, value]) => {
-		const isVid = /\.mp4$/i.test(value.showcases[0] ?? "");
+		const isVid = /\.mp4$/i.test(value.showcases[0]?.src ?? "");
 		return { name, value, ext: isVid ? "mp4" : "png" };
 	});
 

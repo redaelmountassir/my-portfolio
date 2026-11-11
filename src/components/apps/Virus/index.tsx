@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import bonziBuddyImg from "../../../assets/images/bonzi_buddy.gif";
 import { useSystemKeys } from "../../../store";
 import { pickRand, randomChar } from "../../../utils";
-import { InternalWindowDataContext } from "../../window/Window";
+import { InternalWindowDataContext } from "../../window/context";
 
 const TITLES = [
 	"Uh oh",

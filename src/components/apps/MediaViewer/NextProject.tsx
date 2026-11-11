@@ -23,9 +23,9 @@ const NextProject = ({
 			onClick={onClick}
 		>
 			<Showcase
-				key={`${project.name}:${project.value.showcases[0]}`}
+				key={`${project.name}:${project.value.showcases[0].src}`}
 				project={project.name}
-				src={project.value.showcases[0]}
+				src={project.value.showcases[0].src}
 				animation={{ style: { clipPath } }}
 			/>
 			<div className="absolute top-0 flex size-full flex-col justify-center gap-4 bg-black-primary/45 px-8 pb-12">
@@ -38,7 +38,6 @@ const NextProject = ({
 					next →
 				</GlitchText>
 				<h2 className="dlig ss02 font-display text-5xl leading-[0.95] whitespace-pre uppercase xs:text-7xl">
-					{" "}
 					{project.name
 						.split("_")
 						.map((str, i) =>

@@ -10,7 +10,7 @@ interface MediaMeshProps {
 	children?: ReactNode;
 }
 
-const fittedPlaneSize = (
+export const fittedPlaneSize = (
 	viewportWidth: number,
 	viewportHeight: number,
 	contentAspectRatio: number,

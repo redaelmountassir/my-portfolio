@@ -9,18 +9,17 @@ interface MarqueeProps extends React.ComponentPropsWithoutRef<"div"> {
 	steps?: number;
 }
 
-const Marquee = (props: MarqueeProps) => {
-	const {
-		children,
-		className = "",
-		innerClass = "",
-		panTime = 10,
-		pauseOnHover = true,
-		vertical = false,
-		steps,
-		style,
-		...rest
-	} = props;
+const Marquee = ({
+	children,
+	className = "",
+	innerClass = "",
+	panTime = 10,
+	pauseOnHover = true,
+	vertical = false,
+	steps,
+	style,
+	...rest
+}: MarqueeProps) => {
 	const durationStr = `${panTime}s`;
 	const delayStr = `-${panTime * 0.5}s`;
 	const fullInnerClass = cn(

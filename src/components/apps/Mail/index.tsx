@@ -1,6 +1,6 @@
 import emailjs from "@emailjs/browser";
 import { anticipate, easeInOut, useAnimate } from "motion/react";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useContext, useLayoutEffect, useRef, useState } from "react";
 import gitHubImg from "../../../assets/images/github.png";
 import linkedInImg from "../../../assets/images/linkedIn.png";
 import phoneImg from "../../../assets/images/phone.png";
@@ -10,6 +10,7 @@ import triangleImg from "../../../assets/images/triangle_outline_blue.png";
 import { cn } from "../../../utils";
 import { announce } from "../../../utils/a11y";
 import SmartImage from "../../SmartImage";
+import { InternalWindowDataContext } from "../../window/context";
 
 const OFFSET_PATH =
 	'path("M32 0C67-38 296.4-106.9 251.4-151.9 189.5-213.8 83.4 81.6 16.4 57.6.4 47.6 9.4 23.6 32 0")';
@@ -17,6 +18,7 @@ const OFFSET_ANCHOR = "top right";
 const OFFSET_ROT = "auto 45deg";
 
 const Mail = () => {
+	const embedded = useContext(InternalWindowDataContext)?.embedded;
 	const rootRef = useRef<HTMLDivElement>(null);
 	const [width, setWidth] = useState(0);
 
@@ -46,7 +48,10 @@ const Mail = () => {
 	return (
 		<div
 			ref={rootRef}
-			className="flex flex-1 flex-col overflow-hidden pb-16 text-white-primary md:flex-row md:pb-0"
+			className={cn(
+				"flex flex-1 flex-col overflow-hidden text-white-primary md:flex-row md:pb-0",
+				!embedded && "pb-16",
+			)}
 		>
 			<ul
 				className={cn(

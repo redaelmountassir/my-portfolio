@@ -1,0 +1,18 @@
+---
+roles:
+    - Designer
+date: "2026-10-08"
+tags:
+    - SolidWorks
+    - CAD
+categories:
+    - Mechanical Design
+description: "Here are several CAD models never physically realized, but representative of various skills and tools."
+showcases:
+    - showcase_1.mp4
+    - src: displacement.png
+      caption: FEA displacement analysis
+    - src: stress.png
+      caption: FEA stress analysis
+    - src: assembly_drawing.png
+      caption: Assembly drawing

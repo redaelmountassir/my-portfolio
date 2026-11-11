@@ -18,6 +18,16 @@ export type WindowType =
 export type Path = string[];
 export type SystemState = WindowSlice & DirectorySlice;
 
+const showcaseItemSchema = z
+	.union([
+		z.string(),
+		z.object({
+			src: z.string(),
+			caption: z.string().optional(),
+		}),
+	])
+	.transform(item => (typeof item === "string" ? { src: item } : item));
+
 // Essentially media === projects
 export const mediaSchema = z.object({
 	loc: z
@@ -32,10 +42,11 @@ export const mediaSchema = z.object({
 	categories: z.array(z.string()),
 	tags: z.array(z.string()),
 	description: z.string(),
-	showcases: z.array(z.string()),
+	showcases: z.array(showcaseItemSchema),
 });
 
 export type Media = z.infer<typeof mediaSchema>;
+export type ShowcaseItem = Media["showcases"][number];
 
 export interface Directory {
 	name: string;

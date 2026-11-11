@@ -1,6 +1,7 @@
 import type { RefObject } from "react";
 import handsGif from "../../../assets/images/hands.gif";
 import mapImg from "../../../assets/images/map_watermark.png";
+import type { ShowcaseItem } from "../../../store/types";
 import Marquee from "../../Marquee";
 import SmartImage from "../../SmartImage";
 import MediaFrame from "./MediaFrame";
@@ -12,7 +13,7 @@ const ShowcasePair = ({
 	decorativeCursor,
 }: {
 	project: string;
-	showcases: string[];
+	showcases: ShowcaseItem[];
 	scrollContainer: RefObject<HTMLElement | null>;
 	decorativeCursor: boolean;
 }) => (
@@ -20,7 +21,8 @@ const ShowcasePair = ({
 		<div className="relative min-h-0 border-2 bg-black-primary">
 			<MediaFrame
 				project={project}
-				src={showcases[1]}
+				src={showcases[1].src}
+				caption={showcases[1].caption}
 				scrollContainer={scrollContainer}
 				decorativeCursor={decorativeCursor}
 			/>
@@ -48,7 +50,8 @@ const ShowcasePair = ({
 		<div className="relative min-h-0 border-2 bg-black-primary md:col-start-2 md:row-span-3 md:row-start-1">
 			<MediaFrame
 				project={project}
-				src={showcases[0]}
+				src={showcases[0].src}
+				caption={showcases[0].caption}
 				scrollContainer={scrollContainer}
 				decorativeCursor={decorativeCursor}
 			/>

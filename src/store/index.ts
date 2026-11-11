@@ -12,10 +12,8 @@ export const SETTING_DETAILS = {
 	useStatic: "Applies a glitchy overlay to the screen.",
 	scanlines: "Applies an overlay of horizontal lines.",
 	blur: "Activates background blurs which can cause visual artifacts and drain battery.",
-	flicker:
-		"Rapid changes in brightness, likely not ideal for those with epilepsy.",
-	fancyText:
-		"Uses built-in sans-serif fonts instead of the stylized pixelated font.",
+	flicker: "Flashes rapidly. Avoid if you are sensitive to flicker.",
+	fancyText: "Disabling replaces the pixel font with a plain sans-serif",
 	lightMode: "A joke setting, turn on if you dare.",
 	fullscreen:
 		"Fullscreens the entire experience. Not equivalent to pressing F11.",
@@ -58,7 +56,7 @@ const LIGHT_MODE_TEXT = [
 	"2.....",
 	"1",
 	"LET THERE BE LIGHT",
-	"Exactly what where you expecting",
+	"Exactly what were you expecting",
 	"Now ur gonna try again???",
 	"Fine",
 	"Light Mode",
@@ -112,80 +110,80 @@ export const useSettingsStore = create<
 		(set, get) => {
 			const reducedMotion = prefersReducedMotion();
 			return {
-			brightness: 100,
-			use3D: !(isMobileViewport() || reducedMotion),
-			useStatic: false,
-			scanlines: true,
-			blur: true,
-			flicker: false,
-			volume: 0,
-			fancyText: true,
-			lightModeText: LIGHT_MODE_TEXT[0],
-			lightMode: false,
-			fullscreen: false,
-			skipLoader: reducedMotion,
-			setLightMode(val) {
-				const nextIndex = Math.min(
-					LIGHT_MODE_TEXT.indexOf(get().lightModeText) + 1,
-					LIGHT_MODE_TEXT.length - 1,
-				);
-				const nextText = LIGHT_MODE_TEXT[nextIndex];
-				set({
-					lightModeText: nextText,
-					lightMode:
-						(nextIndex === LIGHT_MODE_TEXT.length - 1 ||
-							nextText === "LET THERE BE LIGHT") &&
-						val,
-				});
-				const invertLayer = document.getElementById("invert-layer");
-				if (invertLayer)
-					invertLayer.style.filter = get().lightMode
-						? "invert(1)"
-						: "";
-			},
-			setBrightness: val => set({ brightness: clamp(0, 100, val) }),
-			set3D: val => set({ use3D: val }),
-			setStatic: val => set({ useStatic: val }),
-			setScanlines: val => set({ scanlines: val }),
-			setBlur: val => {
-				document.documentElement.classList.toggle("no-blur", !val);
-				set({ blur: val });
-			},
-			setFancyText: val => {
-				document.documentElement.style.fontFamily = val
-					? ""
-					: 'ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
-				set({ fancyText: val });
-			},
-			setFlicker: val => set({ flicker: val }),
-			setVolume: val => set({ volume: clamp(0, 100, val) }),
-			setSkipLoader: val => set({ skipLoader: val }),
-			setFullscreen: val => {
-				if (!screenfull.isEnabled) return;
-				val ? screenfull.request() : screenfull.exit();
-			},
-			initFullscreen() {
-				if (!screenfull.isEnabled) return;
-				set({ fullscreen: screenfull.isFullscreen });
-				screenfull.on("change", () =>
-					set({ fullscreen: screenfull.isFullscreen }),
-				);
+				brightness: 100,
+				use3D: !(isMobileViewport() || reducedMotion),
+				useStatic: false,
+				scanlines: true,
+				blur: true,
+				flicker: false,
+				volume: 0,
+				fancyText: true,
+				lightModeText: LIGHT_MODE_TEXT[0],
+				lightMode: false,
+				fullscreen: false,
+				skipLoader: reducedMotion,
+				setLightMode(val) {
+					const nextIndex = Math.min(
+						LIGHT_MODE_TEXT.indexOf(get().lightModeText) + 1,
+						LIGHT_MODE_TEXT.length - 1,
+					);
+					const nextText = LIGHT_MODE_TEXT[nextIndex];
+					set({
+						lightModeText: nextText,
+						lightMode:
+							(nextIndex === LIGHT_MODE_TEXT.length - 1 ||
+								nextText === "LET THERE BE LIGHT") &&
+							val,
+					});
+					const invertLayer = document.getElementById("invert-layer");
+					if (invertLayer)
+						invertLayer.style.filter = get().lightMode
+							? "invert(1)"
+							: "";
+				},
+				setBrightness: val => set({ brightness: clamp(0, 100, val) }),
+				set3D: val => set({ use3D: val }),
+				setStatic: val => set({ useStatic: val }),
+				setScanlines: val => set({ scanlines: val }),
+				setBlur: val => {
+					document.documentElement.classList.toggle("no-blur", !val);
+					set({ blur: val });
+				},
+				setFancyText: val => {
+					document.documentElement.style.fontFamily = val
+						? ""
+						: 'ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
+					set({ fancyText: val });
+				},
+				setFlicker: val => set({ flicker: val }),
+				setVolume: val => set({ volume: clamp(0, 100, val) }),
+				setSkipLoader: val => set({ skipLoader: val }),
+				setFullscreen: val => {
+					if (!screenfull.isEnabled) return;
+					val ? screenfull.request() : screenfull.exit();
+				},
+				initFullscreen() {
+					if (!screenfull.isEnabled) return;
+					set({ fullscreen: screenfull.isFullscreen });
+					screenfull.on("change", () =>
+						set({ fullscreen: screenfull.isFullscreen }),
+					);
 
-				document.addEventListener("keydown", e => {
-					// Throws an error but works god knows y
-					if (e.key !== "F11") return;
-					screenfull.toggle();
-					e.preventDefault();
-				});
-			},
-			restart: () => location.reload(),
-			shutdown() {
-				document.documentElement.style.animation =
-					"shutdown 0.5s forwards ease-in-out";
-				document.documentElement.style.overflow = "hidden";
-				localStorage.setItem("introDone", "false");
-			},
-		};
+					document.addEventListener("keydown", e => {
+						// Throws an error but works god knows y
+						if (e.key !== "F11") return;
+						screenfull.toggle();
+						e.preventDefault();
+					});
+				},
+				restart: () => location.reload(),
+				shutdown() {
+					document.documentElement.style.animation =
+						"shutdown 0.5s forwards ease-in-out";
+					document.documentElement.style.overflow = "hidden";
+					localStorage.setItem("introDone", "false");
+				},
+			};
 		},
 		{
 			name: "settings",

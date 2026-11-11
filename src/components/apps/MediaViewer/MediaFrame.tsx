@@ -8,6 +8,7 @@ const MediaFrame = ({
 }: {
 	project: string;
 	src: string;
+	caption?: string;
 	scrollContainer: RefObject<HTMLElement | null>;
 	decorativeCursor?: boolean;
 }) => (

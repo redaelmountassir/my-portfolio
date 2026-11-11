@@ -19,7 +19,7 @@ const MainShowcaseMedia = ({
 	const asset = use(readProjectAsset(project, src));
 
 	return (
-		<div className="relative z-1 size-full flicker">
+		<div className="relative z-1 size-full">
 			<PixelDissolveMedia
 				media={asset}
 				dissolved={dissolved}

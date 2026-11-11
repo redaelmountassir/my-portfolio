@@ -41,7 +41,7 @@ const Shortcut = ({ sysObj, overrideClick, tile = true }: ShortcutProps) => {
 			/>
 			<p
 				className={cn(
-					"max-w-[175%] p-2 leading-none wrap-break-word text-white-primary transition-all ease-steps-2 select-none",
+					"max-w-[175%] p-2 leading-none wrap-break-word text-white-primary transition-all ease-steps-2 select-none text-shadow-lg md:text-shadow-none",
 					tile
 						? "text-center text-sm shadow-black-primary md:shadow-[inset_0_0_40px] md:group-active:shadow-none"
 						: "flex-1 overflow-hidden text-left text-base text-nowrap text-ellipsis",

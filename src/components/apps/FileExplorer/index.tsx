@@ -11,7 +11,7 @@ import GlitchText from "../../GlitchText";
 import Marquee from "../../Marquee";
 import Shortcut from "../../Shortcut";
 import SmartImage from "../../SmartImage";
-import { InternalWindowDataContext } from "../../window/Window";
+import { InternalWindowDataContext } from "../../window/context";
 import FilterOptions, { useOptionSelection } from "./FilterOptions";
 import TrashBtn from "./TrashBtn";
 
@@ -215,7 +215,7 @@ const FileExplorer = () => {
 				<p className="relative col-span-2 my-auto w-full p-4 py-12 text-center font-bold text-white-primary">
 					{children.length === 0
 						? isTrash
-							? "Your trashcan is empty"
+							? "Trash is empty"
 							: "This folder is empty"
 						: "No items match the current filter"}
 				</p>

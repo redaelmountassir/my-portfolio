@@ -6,10 +6,10 @@ import {
 	type Point,
 } from "motion/react";
 import React, {
-	createContext,
 	Suspense,
 	useContext,
 	useEffect,
+	useLayoutEffect,
 	useRef,
 	useState,
 } from "react";
@@ -17,10 +17,11 @@ import { flushSync } from "react-dom";
 import { useShallow } from "zustand/react/shallow";
 import { useMobileStore, useSystemKeys } from "../../store";
 import { MobileContext } from "../../store/MobileContext";
-import type { WindowData } from "../../store/types";
+import type { MediaFile, WindowData } from "../../store/types";
 import { cn } from "../../utils";
 import { calcOrigin, type Dimensions } from "../../utils/window";
 import Throbber from "../Throbber";
+import { InternalWindowDataContext } from "./context";
 import Outline from "./Outline";
 import Resizers from "./Resizers";
 import WindowBody from "./WindowBody";
@@ -35,16 +36,10 @@ interface WindowProps {
 	minDimensions?: Dimensions;
 	disableInteraction?: boolean;
 	disableNavCompensation?: boolean;
+	/** Flow layout for the scrolling portfolio page. No drag, resize, or OS actions. */
+	embedded?: boolean;
+	onNext?: (next: MediaFile) => void;
 }
-
-export interface InternalWindowData extends WindowData {
-	setTitle: React.Dispatch<React.SetStateAction<string>>;
-	getWidth: () => number;
-}
-
-export const InternalWindowDataContext = createContext<
-	InternalWindowData | undefined
->(undefined);
 
 const Window = ({
 	windowData,
@@ -55,6 +50,8 @@ const Window = ({
 	minDimensions = { w: 200, h: 100 },
 	disableInteraction = false,
 	disableNavCompensation = false,
+	embedded = false,
+	onNext,
 }: WindowProps) => {
 	const { sysObj, id } = windowData;
 	const [isMoving, setIsMoving] = useState(false);
@@ -93,6 +90,26 @@ const Window = ({
 		"setWindowMaximized",
 	);
 	const [windowTitle, setTitle] = useState(sysObj.name);
+	const [embeddedWidth, setEmbeddedWidth] = useState(() =>
+		typeof window === "undefined" ? initialDimensions.w : window.innerWidth,
+	);
+
+	useLayoutEffect(() => {
+		if (!embedded) return;
+		const el = windowRef.current;
+		if (!el) return;
+		const apply = (measured: number) => {
+			const next = Math.round(measured);
+			setEmbeddedWidth(current => (current === next ? current : next));
+		};
+		apply(el.clientWidth);
+		const observer = new ResizeObserver(entries => {
+			const next = entries[0]?.contentRect.width;
+			if (next != null) apply(next);
+		});
+		observer.observe(el);
+		return () => observer.disconnect();
+	}, [embedded]);
 
 	const isMobile = useContext(MobileContext);
 	const [menuOpen, toggleMenu, showWindow] = useMobileStore(
@@ -123,18 +140,18 @@ const Window = ({
 		}, 500);
 		return () => clearTimeout(timeout);
 	}, []);
-	disableInteraction = disableInteraction || clickProtection;
-	const isFullscreen = isMobile || maximized;
+	const locked = embedded ? false : disableInteraction || clickProtection;
+	const isFullscreen = !embedded && (isMobile || maximized);
 
 	useEffect(() => {
-		if (disableInteraction) return;
+		if (embedded || locked) return;
 		const frame = requestAnimationFrame(() => windowRef.current?.focus());
 		return () => {
 			cancelAnimationFrame(frame);
 			const restore = restoreFocus.current;
 			if (restore?.isConnected) restore.focus();
 		};
-	}, [disableInteraction, id]);
+	}, [embedded, locked, id]);
 
 	const enterMaximized = () => {
 		cancelAnimationFrame(constraintsFrame.current);
@@ -184,11 +201,18 @@ const Window = ({
 			value={{
 				...windowData,
 				setTitle,
-				getWidth: () => (maximized ? window.innerWidth : width.get()),
+				getWidth: () =>
+					embedded
+						? embeddedWidth
+						: maximized
+							? window.innerWidth
+							: width.get(),
+				embedded,
+				onNext,
 			}}
 		>
 			<motion.section
-				drag={!isMobile}
+				drag={!embedded && !isMobile}
 				dragListener={false}
 				dragControls={controls}
 				dragConstraints={dragConstraintsOn ? area : undefined}
@@ -204,8 +228,16 @@ const Window = ({
 					document.documentElement.classList.remove("cursor-grab");
 					document.body.classList.remove("pointer-events-none");
 				}}
-				initial={isMobile ? { opacity: 0 } : { scale: 0 }}
-				animate={isMobile ? { opacity: 1 } : { scale: 1 }}
+				initial={
+					embedded ? false : isMobile ? { opacity: 0 } : { scale: 0 }
+				}
+				animate={
+					embedded
+						? undefined
+						: isMobile
+							? { opacity: 1 }
+							: { scale: 1 }
+				}
 				exit={
 					isMobile
 						? { opacity: 0, pointerEvents: "none" }
@@ -217,7 +249,7 @@ const Window = ({
 					ease: steps(7),
 				}}
 				onClick={
-					disableInteraction
+					locked
 						? e => {
 								e.preventDefault();
 								e.stopPropagation();
@@ -225,9 +257,7 @@ const Window = ({
 						: undefined
 				}
 				onPointerDown={updateZ}
-				onFocus={() => {
-					if (!disableInteraction) updateZ();
-				}}
+				onFocus={() => !locked && updateZ()}
 				tabIndex={-1}
 				onPointerUp={
 					isMobile
@@ -238,32 +268,50 @@ const Window = ({
 						: undefined
 				}
 				ref={windowRef}
-				className={cn(
-					"pointer-events-auto absolute top-0 flex max-h-full max-w-full flex-col bg-black-primary from-black-primary/75 from-25% to-dark-primary/75 to-70% shadow-[10px_10px_0_0] shadow-black-primary/25 md:bg-transparent md:bg-linear-to-r",
-					isFullscreen ? "size-full! transform-none!" : "touch-none",
-					isFullscreen &&
-						!disableNavCompensation &&
-						"border-t-40 border-t-black-primary short:border-t-56 short:md:border-0",
-					isMoving ? "invisible" : "md:backdrop-blur-sm",
-					disableInteraction && "disable-child-interaction",
-				)}
-				inert={disableInteraction || undefined}
-				style={{
-					minWidth: minDimensions.w,
-					minHeight: minDimensions.h,
-					x,
-					y,
-					width,
-					height,
-					transformOrigin:
-						sysObj.htmlElement && windowRef.current
-							? calcOrigin(windowRef.current, sysObj.htmlElement)
-							: "",
-				}}
+				className={
+					embedded
+						? "pointer-events-auto relative flex size-full min-h-0 flex-col overflow-hidden border-2 border-white-primary bg-linear-to-r from-black-primary/80 from-25% to-dark-primary/80 to-70%"
+						: cn(
+								"pointer-events-auto absolute top-0 flex max-h-full max-w-full flex-col bg-black-primary from-black-primary/75 from-25% to-dark-primary/75 to-70% shadow-[10px_10px_0_0] shadow-black-primary/25 md:bg-transparent md:bg-linear-to-r",
+								isFullscreen
+									? "size-full! transform-none!"
+									: "touch-none",
+								isFullscreen &&
+									!disableNavCompensation &&
+									"border-t-40 border-t-black-primary short:border-t-56 short:md:border-0",
+								isMoving ? "invisible" : "md:backdrop-blur-sm",
+								locked && "disable-child-interaction",
+							)
+				}
+				inert={locked || undefined}
+				style={
+					embedded
+						? undefined
+						: {
+								minWidth: minDimensions.w,
+								minHeight: minDimensions.h,
+								x,
+								y,
+								width,
+								height,
+								transformOrigin:
+									sysObj.htmlElement && windowRef.current
+										? calcOrigin(
+												windowRef.current,
+												sysObj.htmlElement,
+											)
+										: "",
+							}
+				}
 			>
-				{isMobile && <h1 className="sr-only">{windowTitle}</h1>}
-				{!isMobile && (
+				{isMobile && !embedded && (
+					<h1 className="sr-only">{windowTitle}</h1>
+				)}
+				{(!isMobile || embedded) && (
 					<WindowHeader
+						showControls={!embedded}
+						draggable={!embedded}
+						immediate={embedded}
 						onGrab={e => {
 							// Default behavior
 							if (!maximized) return controls.start(e);
@@ -316,9 +364,8 @@ const Window = ({
 				>
 					<WindowBody />
 				</Suspense>
-				{!isMobile && (
-					<>
-						<Resizers
+				{!isMobile && !embedded && (
+					<Resizers
 							onResizeStart={() => {
 								// Same rebase issue as maximize: size changes
 								// under dragConstraints fight west/north x/y.
@@ -331,15 +378,14 @@ const Window = ({
 								rememberedPosition.current = next;
 								setIsMoving(false);
 								cancelAnimationFrame(constraintsFrame.current);
-								constraintsFrame.current = requestAnimationFrame(
-									() => {
+								constraintsFrame.current =
+									requestAnimationFrame(() => {
 										x.set(next.x);
 										y.set(next.y);
 										flushSync(() =>
 											setDragConstraintsOn(true),
 										);
-									},
-								);
+									});
 							}}
 							onResize={({ delta }, cardinal) => {
 								const westResize = () => {
@@ -403,9 +449,8 @@ const Window = ({
 								}
 							}}
 						/>
-						<Outline ghost={isMoving} />
-					</>
 				)}
+				{!embedded && !isMobile && <Outline ghost={isMoving} />}
 			</motion.section>
 		</InternalWindowDataContext.Provider>
 	);

@@ -19,7 +19,8 @@ interface PixelDissolveProps {
 	duration?: number;
 	onComplete?: () => void;
 	onDisplay?: (media: MediaSource) => void;
-	pixelGranularity?: number;
+	// On-screen size of one dissolve block, in CSS pixels.
+	blockSize?: number;
 	disolveFactor?: number;
 	dissolved?: boolean;
 	objectFit?: ObjectFit;
@@ -32,7 +33,7 @@ const PixelDissolveMedia = ({
 	duration = 2,
 	onComplete,
 	onDisplay,
-	pixelGranularity = 18,
+	blockSize = 32,
 	disolveFactor = 1,
 	dissolved,
 	objectFit = "cover",
@@ -96,11 +97,7 @@ const PixelDissolveMedia = ({
 
 		let cancelled = false;
 
-		const adopt = (
-			next: TextureContent,
-			ratio: number,
-			video: boolean,
-		) => {
+		const adopt = (next: TextureContent, ratio: number, video: boolean) => {
 			if (cancelled) {
 				next.dispose();
 				return;
@@ -136,14 +133,12 @@ const PixelDissolveMedia = ({
 			const onLoadedMetadata = () => {
 				const videoTexture = new THREE.VideoTexture(video);
 				videoTexture.colorSpace = THREE.NoColorSpace;
-				adopt(
-					videoTexture,
-					video.videoWidth / video.videoHeight,
-					true,
-				);
+				adopt(videoTexture, video.videoWidth / video.videoHeight, true);
 				video
 					.play()
-					.catch(error => console.warn("Video autoplay failed:", error));
+					.catch(error =>
+						console.warn("Video autoplay failed:", error),
+					);
 			};
 
 			video.addEventListener("loadedmetadata", onLoadedMetadata);
@@ -159,11 +154,7 @@ const PixelDissolveMedia = ({
 		const textureLoader = new THREE.TextureLoader();
 		textureLoader.load(shownMedia.src, loaded => {
 			loaded.colorSpace = THREE.NoColorSpace;
-			adopt(
-				loaded,
-				loaded.image.width / loaded.image.height,
-				false,
-			);
+			adopt(loaded, loaded.image.width / loaded.image.height, false);
 		});
 
 		return () => {
@@ -245,8 +236,9 @@ const PixelDissolveMedia = ({
 							texture={texture}
 							progress={progress}
 							seed={seed}
-							pixelGranularity={pixelGranularity}
+							blockSize={blockSize}
 							aspect={contentAspectRatio}
+							objectFit={objectFit}
 							isVideo={isVideo}
 						/>
 					</MediaMesh>
