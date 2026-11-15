@@ -123,7 +123,7 @@ const MainShowcase = ({
 						<SmartImage
 							src={scrollDownImg}
 							alt=""
-							className="w-4 origin-top-right scale-[3] drop-shadow-md md:origin-bottom-right md:scale-[4]"
+							className="w-12 origin-top-right drop-shadow-md md:origin-bottom-right md:w-16"
 						/>
 					</button>
 				</div>

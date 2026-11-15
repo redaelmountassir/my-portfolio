@@ -78,7 +78,7 @@ const Portfolio = () => {
 				<Background symbol={SECTION_SYMBOLS_MAP[active]} />
 			</div>
 			<Nav active={active} />
-			<main className="text-white-primary">
+			<main className="text-white-primary overflow-x-hidden">
 				<Hero />
 				<Projects />
 				<About />

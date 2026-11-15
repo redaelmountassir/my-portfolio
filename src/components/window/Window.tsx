@@ -198,7 +198,14 @@ const Window = ({
 					document.body.classList.remove("pointer-events-none");
 				}}
 				initial={isMobile ? { opacity: 0 } : { scale: 0 }}
-				animate={isMobile ? { opacity: 1 } : { scale: 1 }}
+				animate={
+					isMobile
+						? { opacity: 1 }
+						: {
+								scale: 1,
+								opacity: maximized ? [0.7, 1] : 1,
+							}
+				}
 				exit={
 					isMobile
 						? { opacity: 0, pointerEvents: "none" }
@@ -208,6 +215,7 @@ const Window = ({
 					duration: 0.3,
 					type: "tween",
 					ease: steps(7),
+					opacity: { duration: 0.35, ease: "easeOut" },
 				}}
 				onClick={
 					locked

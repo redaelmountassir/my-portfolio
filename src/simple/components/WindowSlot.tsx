@@ -27,13 +27,20 @@ const WindowSlot = ({
 	closed?: boolean;
 	onClose?: () => void;
 }) => {
+	type Bounds = Pick<DOMRect, "top" | "left" | "width" | "height">;
+
 	const [closed, setClosed] = useState(false);
 	const [closing, setClosing] = useState(false);
 	const [maximized, setMaximized] = useState(false);
+	const [portalized, setPortalized] = useState(false);
+	const [openingBounds, setOpeningBounds] = useState<Bounds | null>(null);
+	const [restoredBounds, setRestoredBounds] = useState<Bounds | null>(null);
 	const [width, setWidth] = useState(() =>
 		typeof window === "undefined" ? 0 : window.innerWidth,
 	);
 	const frameRef = useRef<HTMLElement>(null);
+	const slotRef = useRef<HTMLDivElement>(null);
+	const shouldLockViewport = !closed && (maximized || portalized);
 
 	useLayoutEffect(() => {
 		const frame = frameRef.current;
@@ -52,7 +59,7 @@ const WindowSlot = ({
 	}, [closed, externallyClosed, maximized]);
 
 	useLayoutEffect(() => {
-		if (!maximized) return;
+		if (!shouldLockViewport) return;
 
 		const root = document.documentElement;
 		const previousOverflow = root.style.overflow;
@@ -61,31 +68,60 @@ const WindowSlot = ({
 		return () => {
 			root.style.overflow = previousOverflow;
 		};
-	}, [maximized]);
+	}, [shouldLockViewport]);
 
 	if (closed || externallyClosed) return null;
 
 	const frame = (
 		<motion.section
 			ref={frameRef}
-			initial={false}
-			animate={closing ? { scale: 0 } : { scale: 1 }}
+			initial={
+				portalized && openingBounds
+					? {
+							top: openingBounds.top,
+							left: openingBounds.left,
+							width: openingBounds.width,
+							height: openingBounds.height,
+						}
+					: false
+			}
+			animate={{
+				...(portalized
+					? {
+							top: maximized ? 0 : restoredBounds?.top,
+							left: maximized ? 0 : restoredBounds?.left,
+							width: maximized
+								? typeof window === "undefined"
+									? 0
+									: window.innerWidth
+								: restoredBounds?.width,
+							height: maximized
+								? typeof window === "undefined"
+									? 0
+									: window.innerHeight
+								: restoredBounds?.height,
+						}
+					: {}),
+				scale: closing ? 0 : 1,
+			}}
 			transition={{
 				duration: 0.3,
 				type: "tween",
 				ease: steps(7),
 			}}
 			onAnimationComplete={() => {
-				if (!closing) return;
-				setClosed(true);
-				onClose?.();
+				if (closing) {
+					setClosed(true);
+					onClose?.();
+					return;
+				}
+				if (portalized && !maximized) setPortalized(false);
 			}}
 			inert={maximized ? inert || undefined : undefined}
 			aria-hidden={maximized ? ariaHidden || undefined : undefined}
 			className={cn(
-				"pointer-events-auto relative bg-black-primary flex size-full min-h-0 flex-col overflow-hidden border-2 border-white-primary  from-black-primary/80 from-25% to-dark-primary/80 to-70%",
-				maximized ?
-					"fixed inset-0 z-50" : "bg-linear-to-r",
+				"pointer-events-auto bg-black-primary flex size-full min-h-0 flex-col overflow-hidden border-2 border-white-primary  from-black-primary/80 from-25% to-dark-primary/80 to-70%",
+				portalized ? "fixed z-50" : "relative bg-linear-to-r",
 			)}
 			style={{ transformOrigin: "center" }}
 		>
@@ -94,7 +130,20 @@ const WindowSlot = ({
 					if (!closing) setClosing(true);
 				}}
 				onMaximize={() => {
-					if (!closing) setMaximized(current => !current);
+					if (closing) return;
+					if (maximized) {
+						const bounds = slotRef.current?.getBoundingClientRect();
+						if (!bounds) return;
+						setRestoredBounds(bounds);
+						setMaximized(false);
+						return;
+					}
+
+					const bounds = frameRef.current?.getBoundingClientRect();
+					if (!bounds) return;
+					setOpeningBounds(bounds);
+					setPortalized(true);
+					setMaximized(true);
 				}}
 				maximized={maximized}
 				title=""
@@ -130,6 +179,7 @@ const WindowSlot = ({
 
 	return (
 		<div
+			ref={slotRef}
 			id={id}
 			inert={inert || undefined}
 			aria-hidden={ariaHidden || undefined}
@@ -140,7 +190,7 @@ const WindowSlot = ({
 			)}
 			style={backfaceHidden ? { backfaceVisibility: "hidden" } : undefined}
 		>
-			{maximized && typeof document !== "undefined"
+			{portalized && typeof document !== "undefined"
 				? createPortal(content, document.body)
 				: content}
 		</div>
