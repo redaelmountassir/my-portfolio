@@ -47,7 +47,7 @@ const NameCard = () => {
 	return (
 		<div
 			ref={containerRef}
-			className="relative h-200 w-full overflow-hidden"
+			className="relative min-h-128 h-[75dvh] w-full overflow-hidden"
 			onPointerMove={e => {
 				if (!containerRef.current || isMobile) return;
 				const bounds = containerRef.current.getBoundingClientRect();

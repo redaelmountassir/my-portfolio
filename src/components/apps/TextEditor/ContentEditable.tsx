@@ -1,4 +1,4 @@
-import { motion, useMotionValue } from "motion/react";
+import { motion, resize, useMotionValue } from "motion/react";
 import React, { useContext, useEffect, useRef } from "react";
 import { MobileContext } from "../../../store/MobileContext";
 
@@ -203,11 +203,11 @@ const ContentEditable = ({
 		};
 		document.addEventListener("selectionchange", update);
 		document.addEventListener("scroll", update, true);
-		window.addEventListener("resize", update);
+		const stop = resize(update);
 		return () => {
 			document.removeEventListener("selectionchange", update);
 			document.removeEventListener("scroll", update, true);
-			window.removeEventListener("resize", update);
+			stop();
 		};
 	}, [x, y]);
 

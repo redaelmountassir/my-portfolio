@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { MobileContext } from "../../../store/MobileContext";
-import { InternalWindowDataContext } from "../../window/context";
+import { InternalWindowDataContext } from "../../window/windowContext";
 import PDFNoSupport from "./PDFNoSupport";
 
 const PDFReader = () => {

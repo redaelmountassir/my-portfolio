@@ -1,14 +1,23 @@
-import { useCallback, useEffect, useState } from "react";
-import Background3D from "../components/Background3D";
+import { useEffect, useState } from "react";
+import type { SymbolName } from "../components/3D/Symbols";
+import Background from "../components/Background";
 import { MobileContext } from "../store/MobileContext";
-import type { MediaFile } from "../store/types";
 import { useBreakpointMD, useBreakpointShort } from "../utils";
-import AboutSection from "./portfolio/AboutSection";
-import ContactSection from "./portfolio/ContactSection";
-import { projectAnchor, SECTIONS, type SectionId } from "./portfolio/data";
-import HeroSection from "./portfolio/HeroSection";
-import PortfolioNav from "./portfolio/PortfolioNav";
-import ProjectsSection from "./portfolio/ProjectsSection";
+import Modifiers from "../components/Modifiers";
+import About from "./components/About";
+import Contact from "./components/Contact";
+import { SECTIONS, type SectionId } from "./components/data";
+import Hero from "./components/Hero";
+import Nav from "./components/Nav";
+import Projects from "./components/Projects";
+import { resize } from "motion/react";
+
+const SECTION_SYMBOLS_MAP = {
+	top: "logo",
+	projects: "computer",
+	about: "bust",
+	contact: "phone",
+} satisfies Record<SectionId, SymbolName>;
 
 const Portfolio = () => {
 	const wide = useBreakpointMD();
@@ -22,8 +31,7 @@ const Portfolio = () => {
 				"--vh-full",
 				`${window.innerHeight}px`,
 			);
-		window.addEventListener("resize", updateVH);
-		window.addEventListener("orientationchange", updateVH);
+		const stop = resize(updateVH);
 		updateVH();
 
 		let frame = 0;
@@ -38,6 +46,15 @@ const Portfolio = () => {
 						current = section.id;
 				}
 				setActive(prev => (prev === current ? prev : current));
+				const hash = current === "top" ? "" : `#${current}`;
+				if (window.location.hash !== hash) {
+					history.replaceState(
+						null,
+						"",
+						hash ||
+							`${window.location.pathname}${window.location.search}`,
+					);
+				}
 			});
 		};
 		onScroll();
@@ -45,22 +62,11 @@ const Portfolio = () => {
 
 		return () => {
 			cancelAnimationFrame(frame);
-			window.removeEventListener("resize", updateVH);
-			window.removeEventListener("orientationchange", updateVH);
+
 			window.removeEventListener("scroll", onScroll);
+			stop();
 			document.documentElement.style.removeProperty("--vh-full");
 		};
-	}, []);
-
-	const showProject = useCallback((next: MediaFile) => {
-		const behavior = window.matchMedia("(prefers-reduced-motion: reduce)")
-			.matches
-			? "auto"
-			: "smooth";
-		document.getElementById(projectAnchor(next.name))?.scrollIntoView({
-			behavior,
-			block: "start",
-		});
 	}, []);
 
 	return (
@@ -69,15 +75,16 @@ const Portfolio = () => {
 				aria-hidden="true"
 				className="pointer-events-none fixed inset-0 -z-10"
 			>
-				<Background3D />
+				<Background symbol={SECTION_SYMBOLS_MAP[active]} />
 			</div>
-			<PortfolioNav active={active} />
+			<Nav active={active} />
 			<main className="text-white-primary">
-				<HeroSection />
-				<ProjectsSection onNext={showProject} />
-				<AboutSection />
-				<ContactSection />
+				<Hero />
+				<Projects />
+				<About />
+				<Contact />
 			</main>
+			<Modifiers />
 		</MobileContext.Provider>
 	);
 };

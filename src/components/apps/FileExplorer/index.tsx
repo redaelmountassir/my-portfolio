@@ -11,7 +11,7 @@ import GlitchText from "../../GlitchText";
 import Marquee from "../../Marquee";
 import Shortcut from "../../Shortcut";
 import SmartImage from "../../SmartImage";
-import { InternalWindowDataContext } from "../../window/context";
+import { InternalWindowDataContext } from "../../window/windowContext";
 import FilterOptions, { useOptionSelection } from "./FilterOptions";
 import TrashBtn from "./TrashBtn";
 

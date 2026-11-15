@@ -27,7 +27,7 @@ const WindowHeader = ({
 	draggable = true,
 	immediate = false,
 }: WindowHeaderProps) => (
-	<div className="overflow-hidden">
+	<div className="relative z-10 overflow-hidden">
 		<motion.div
 			initial={immediate ? false : { y: "-105%" }}
 			animate={immediate ? undefined : { y: 0 }}

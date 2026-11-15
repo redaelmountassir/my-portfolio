@@ -1,7 +1,6 @@
 import { motion, type AnimationScope } from "motion/react";
 import React, {
 	Suspense,
-	useCallback,
 	useContext,
 	useEffect,
 	useRef,
@@ -41,7 +40,7 @@ const MainShowcase = ({
 	const dissolvedRef = useRef(dissolved);
 	dissolvedRef.current = dissolved;
 
-	const onDissolveComplete = useCallback(() => {
+	const onDissolveComplete = () => {
 		if (!dissolvedRef.current) {
 			setAnimating(false);
 			return;
@@ -52,7 +51,7 @@ const MainShowcase = ({
 		if (el) el.style.position = next ? "absolute" : "relative";
 		layoutInTopRef.current = next;
 		setDissolved(false);
-	}, []);
+	};
 
 	useEffect(() => {
 		desiredInTopRef.current = inTop;
@@ -98,7 +97,7 @@ const MainShowcase = ({
 				>
 					<Suspense
 						fallback={
-							<div className="absolute top-0 size-full bg-black-primary">
+							<div className="absolute outline-2 top-0 size-full bg-black-primary">
 								<Throbber />
 							</div>
 						}

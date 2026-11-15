@@ -1,7 +1,7 @@
 import GlitchText from "../../components/GlitchText";
 
 const SectionTitle = ({ children }: { children: string }) => (
-	<h2 className="font-display text-3xl leading-[0.95] uppercase md:text-4xl">
+	<h2 className="font-display text-3xl leading-[0.95] uppercase md:text-6xl">
 		<span className="sr-only">{children}</span>
 		<GlitchText onScroll decayRate={0.5}>
 			{children}

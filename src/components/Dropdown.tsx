@@ -1,4 +1,4 @@
-import { type Variants, motion, steps, useReducedMotion } from "motion/react";
+import { type Variants, motion, resize, steps, useReducedMotion } from "motion/react";
 import React, { useEffect, useRef, useState } from "react";
 import { cn } from "../utils";
 
@@ -8,8 +8,8 @@ type Direction = "up" | "down";
 interface DropdownProps extends React.ComponentPropsWithoutRef<"button"> {
 	pClassName?: string;
 	dClassName?: string;
-	children: React.ReactElement;
-	dContent: React.ReactElement;
+	children: React.ReactNode;
+	dContent: React.ReactNode;
 	forcedAlignment?: Alignment;
 	forcedDirection?: Direction;
 	noPadding?: boolean;
@@ -76,7 +76,7 @@ const Dropdown = ({
 		};
 
 		place();
-		window.addEventListener("resize", place);
+		const stop = resize(place);
 
 		const clickOut = (e: PointerEvent) => {
 			if (
@@ -91,7 +91,7 @@ const Dropdown = ({
 
 		document.addEventListener("pointerdown", clickOut);
 		return () => {
-			window.removeEventListener("resize", place);
+stop();
 			document.removeEventListener("pointerdown", clickOut);
 		};
 	}, [forcedAlignment, forcedDirection]);

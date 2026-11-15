@@ -1,16 +1,16 @@
 import emailjs from "@emailjs/browser";
-import { anticipate, easeInOut, useAnimate } from "motion/react";
+import { anticipate, easeInOut, resize, useAnimate } from "motion/react";
 import { useContext, useLayoutEffect, useRef, useState } from "react";
-import gitHubImg from "../../../assets/images/github.png";
-import linkedInImg from "../../../assets/images/linkedIn.png";
-import phoneImg from "../../../assets/images/phone.png";
-import sendMessageImg from "../../../assets/images/send_message.png";
-import triangle2Img from "../../../assets/images/triangle_gradient.png";
-import triangleImg from "../../../assets/images/triangle_outline_blue.png";
-import { cn } from "../../../utils";
-import { announce } from "../../../utils/a11y";
-import SmartImage from "../../SmartImage";
-import { InternalWindowDataContext } from "../../window/context";
+import gitHubImg from "../../assets/images/github.png";
+import linkedInImg from "../../assets/images/linkedIn.png";
+import phoneImg from "../../assets/images/phone.png";
+import sendMessageImg from "../../assets/images/send_message.png";
+import triangle2Img from "../../assets/images/triangle_gradient.png";
+import triangleImg from "../../assets/images/triangle_outline_blue.png";
+import { cn } from "../../utils";
+import { announce } from "../../utils/a11y";
+import SmartImage from "../SmartImage";
+import { InternalWindowDataContext } from "../window/windowContext";
 
 const OFFSET_PATH =
 	'path("M32 0C67-38 296.4-106.9 251.4-151.9 189.5-213.8 83.4 81.6 16.4 57.6.4 47.6 9.4 23.6 32 0")';
@@ -32,12 +32,10 @@ const Mail = () => {
 			setWidth(current => (current === next ? current : next));
 		};
 
-		const observer = new ResizeObserver(entries => {
-			const next = entries[0]?.contentRect.width;
+		return resize(el, el => {
+			const next = el.clientWidth;
 			if (next != null) apply(next);
 		});
-		observer.observe(el);
-		return () => observer.disconnect();
 	}, []);
 
 	const [scope, animate] = useAnimate();
@@ -246,10 +244,10 @@ const Mail = () => {
 				</div>
 				<div
 					id="email-container"
-					className="flex items-center bg-[linear-gradient(to_right,color-mix(in_oklab,var(--color-blue-accent)_20%,transparent),color-mix(in_oklab,var(--color-burgundy-accent)_20%,transparent)_65px)] p-2 whitespace-nowrap outline-2 outline-offset-8 outline-transparent transition-[outline-offset,outline-color] ease-steps-2 focus-within:outline-offset-0 focus-within:outline-pink-accent hover:outline-offset-0 hover:outline-white-primary"
+					className="flex items-center bg-[linear-gradient(to_right,color-mix(in_oklab,var(--color-blue-accent)_20%,transparent),color-mix(in_oklab,var(--color-burgundy-accent)_20%,transparent)_65px)] p-2 whitespace-nowrap outline-2 outline-offset-8 outline-transparent transition-[outline-offset,outline-color] ease-steps-2 focus-within:outline-offset-0 focus-within:outline-pink-accent! hover:outline-offset-0 hover:outline-white-primary"
 				>
-					<label className="inline-block" htmlFor="email">
-						From:
+					<label className="inline-block pr-4" htmlFor="email">
+						From: 
 					</label>
 					<input
 						id="email"
@@ -257,7 +255,7 @@ const Mail = () => {
 						type="email"
 						required
 						autoComplete="off"
-						className="grow overflow-hidden bg-transparent pl-4 text-ellipsis outline-hidden"
+						className="grow overflow-hidden bg-transparent text-ellipsis outline-hidden"
 					/>
 				</div>
 				<button
@@ -267,7 +265,7 @@ const Mail = () => {
 							"redaelmountassir0@gmail.com",
 						)
 					}
-					className="group relative flex items-center bg-[linear-gradient(to_right,color-mix(in_oklab,var(--color-blue-accent)_20%,transparent),color-mix(in_oklab,var(--color-burgundy-accent)_20%,transparent)_50px)] p-2 whitespace-nowrap outline-2 outline-offset-8 outline-transparent transition-[outline-offset,outline-color] ease-steps-2 hover:outline-offset-0 hover:outline-white-primary focus-visible:outline-offset-0 focus-visible:outline-pink-accent"
+					className="group relative flex items-center bg-[linear-gradient(to_right,color-mix(in_oklab,var(--color-blue-accent)_20%,transparent),color-mix(in_oklab,var(--color-burgundy-accent)_20%,transparent)_50px)] p-2 whitespace-nowrap outline-2 outline-offset-8 outline-transparent transition-[outline-offset,outline-color] ease-steps-2 hover:outline-offset-0 hover:outline-white-primary focus-visible:outline-offset-0 focus-visible:outline-pink-accent!"
 				>
 					<p className="inline-block">To:</p>
 					<span className="grow overflow-hidden pl-4 text-left text-ellipsis">
@@ -294,9 +292,9 @@ const Mail = () => {
 				</button>
 				<div
 					id="subject-container"
-					className="flex items-center bg-[linear-gradient(to_right,color-mix(in_oklab,var(--color-blue-accent)_20%,transparent),color-mix(in_oklab,var(--color-burgundy-accent)_20%,transparent)_65px)] p-2 whitespace-nowrap outline-2 outline-offset-8 outline-transparent transition-[outline-offset,outline-color] ease-steps-2 focus-within:outline-offset-0 focus-within:outline-pink-accent hover:outline-offset-0 hover:outline-white-primary"
+					className="flex items-center bg-[linear-gradient(to_right,color-mix(in_oklab,var(--color-blue-accent)_20%,transparent),color-mix(in_oklab,var(--color-burgundy-accent)_20%,transparent)_65px)] p-2 whitespace-nowrap outline-2 outline-offset-8 outline-transparent transition-[outline-offset,outline-color] ease-steps-2 focus-within:outline-offset-0 focus-within:outline-pink-accent! hover:outline-offset-0 hover:outline-white-primary"
 				>
-					<label className="inline-block" htmlFor="subject">
+					<label className="inline-block pr-4" htmlFor="subject">
 						Subject:
 					</label>
 					<input
@@ -304,14 +302,14 @@ const Mail = () => {
 						name="subject"
 						type="text"
 						required
-						className="grow overflow-hidden bg-transparent pl-4 text-ellipsis outline-hidden"
+						className="grow overflow-hidden bg-transparent text-ellipsis outline-hidden"
 					/>
 				</div>
 				<textarea
 					id="message-container"
 					name="message"
 					required
-					className="min-h-96 grow resize-none overflow-hidden bg-[linear-gradient(to_right,color-mix(in_oklab,var(--color-blue-accent)_20%,transparent),color-mix(in_oklab,var(--color-burgundy-accent)_20%,transparent)_50%)] p-2 outline-2 outline-offset-8 outline-transparent transition-[outline-offset,outline-color] ease-steps-2 hover:outline-offset-0 hover:outline-white-primary focus:overflow-y-auto focus-visible:outline-offset-0 focus-visible:outline-pink-accent md:min-h-0"
+					className="min-h-96 grow resize-none overflow-hidden bg-[linear-gradient(to_right,color-mix(in_oklab,var(--color-blue-accent)_20%,transparent),color-mix(in_oklab,var(--color-burgundy-accent)_20%,transparent)_50%)] p-2 outline-2 outline-offset-8 outline-transparent transition-[outline-offset,outline-color] ease-steps-2 hover:outline-offset-0 hover:outline-white-primary focus:overflow-y-auto focus-visible:outline-offset-0 focus-visible:outline-pink-accent! md:min-h-0"
 					aria-label="Message"
 				/>
 				{/* Honeypot */}

@@ -1,4 +1,3 @@
-import { clamp } from "motion/react";
 import screenfull from "screenfull";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
@@ -6,6 +5,7 @@ import { useShallow } from "zustand/react/shallow";
 import { createDirectorySlice } from "./directorySlice";
 import type { MobileStore, SettingsStore, SystemState } from "./types";
 import { createWindowSlice } from "./windowSlice";
+import { clamp } from "three/src/math/MathUtils.js";
 
 export const SETTING_DETAILS = {
 	use3D: "Activates a 3D background which can cause battery to drain faster.",
@@ -141,7 +141,7 @@ export const useSettingsStore = create<
 							? "invert(1)"
 							: "";
 				},
-				setBrightness: val => set({ brightness: clamp(0, 100, val) }),
+				setBrightness: val => set({ brightness: clamp(val, 0, 100) }),
 				set3D: val => set({ use3D: val }),
 				setStatic: val => set({ useStatic: val }),
 				setScanlines: val => set({ scanlines: val }),
@@ -156,7 +156,7 @@ export const useSettingsStore = create<
 					set({ fancyText: val });
 				},
 				setFlicker: val => set({ flicker: val }),
-				setVolume: val => set({ volume: clamp(0, 100, val) }),
+				setVolume: val => set({ volume: clamp(val, 0, 100) }),
 				setSkipLoader: val => set({ skipLoader: val }),
 				setFullscreen: val => {
 					if (!screenfull.isEnabled) return;

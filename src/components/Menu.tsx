@@ -113,7 +113,6 @@ const Menu = ({ windows, deleteWindows }: MenuProps) => {
 								/>
 								<Window
 									windowData={window}
-									disableInteraction
 									disableNavCompensation
 								/>
 							</motion.div>

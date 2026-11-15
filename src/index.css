@@ -91,7 +91,7 @@
 		@apply absolute -m-1 size-px overflow-hidden border-0 p-0 whitespace-nowrap;
 		clip: rect(0, 0, 0, 0);
 	}
-
+	
 	.tab-only:focus,
 	.tab-only:focus-visible {
 		@apply fixed top-4 left-4 z-999 m-0 size-auto overflow-visible bg-black-primary px-5 py-3 font-bold whitespace-normal text-white-primary outline-3 outline-pink-accent outline-solid;
@@ -320,9 +320,9 @@ html.no-blur *::after {
 
 @utility pixel-mask {
 	@media (min-width: 768px) {
-		mask: luminance url(assets/bg_imgs/fade_away_sheet.png);
+		mask: luminance url(assets/images/bg_imgs/fade_away_sheet.png);
 		mask-size: 100% 2600%;
-		-webkit-mask: luminance url(assets/bg_imgs/fade_away_sheet.png);
+		-webkit-mask: luminance url(assets/images/bg_imgs/fade_away_sheet.png);
 		-webkit-mask-size: 100% 2600%;
 	}
 }
@@ -414,6 +414,12 @@ html.no-blur *::after {
 }
 
 @layer utilities {
+	@media (prefers-reduced-motion: no-preference) {
+		.about-stars-background {
+			background-image: url(assets/images/bg_imgs/stars.gif);
+		}
+	}
+
 	.group:active .group-active\:glitch {
 		animation: glitch 0.15s steps(10) 2;
 	}

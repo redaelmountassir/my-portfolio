@@ -42,5 +42,3 @@ export const aboutWindow: WindowData | undefined = aboutFile
 export const contactWindow: WindowData | undefined = contactFile
 	? { id: 101, sysObj: contactFile, type: "Contact" }
 	: undefined;
-
-export const projectAnchor = (name: string) => `project-${name}`;

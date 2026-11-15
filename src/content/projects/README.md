@@ -7,6 +7,8 @@ This document explains how to format project YAML files. It is intended as a ref
 A complete project file can look like this:
 
 ```yaml
+order: 1
+
 loc:
   text: Philadelphia, PA
   link: https://example.com/locations/philadelphia
@@ -41,6 +43,17 @@ parent:
 ```
 
 ## Fields
+
+### `order`
+
+The project's position in the portfolio and project listings.
+
+This is required and must be a unique positive integer. Projects are shown in
+ascending order; the first three are featured in the Projects section.
+
+```yaml
+order: 1
+```
 
 ### `loc`
 
@@ -232,6 +245,7 @@ If there is no parent, leave out `parent` entirely.
 
 | Field | Required | Format |
 |---|---|---|
+| `order` | Yes | Unique positive integer |
 | `loc` | No | Object containing `text` and `link` |
 | `org` | No | Text |
 | `roles` | Yes | List of text values |
@@ -297,6 +311,8 @@ org:
 The smallest valid project file contains all required fields:
 
 ```yaml
+order: 1
+
 roles:
   - Software Engineer
 

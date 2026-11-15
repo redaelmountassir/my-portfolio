@@ -1,8 +1,9 @@
 import { useContext, useEffect } from "react";
-import bonziBuddyImg from "../../../assets/images/bonzi_buddy.gif";
-import { useSystemKeys } from "../../../store";
-import { pickRand, randomChar } from "../../../utils";
-import { InternalWindowDataContext } from "../../window/context";
+import bonziBuddyImg from "../../assets/images/bonzi_buddy.gif";
+import rainbowImg from "../../assets/images/bg_imgs/rainbow.png";
+import { useSystemKeys } from "../../store";
+import { pickRand, randomChar } from "../../utils";
+import { InternalWindowDataContext } from "../window/windowContext";
 
 const TITLES = [
 	"Uh oh",
@@ -43,7 +44,8 @@ const Virus = () => {
 		<img
 			src={bonziBuddyImg}
 			alt="Loser"
-			className="h-full bg-[url('/bg_imgs/rainbow.png')] bg-contain bg-repeat object-contain"
+			className="h-full bg-contain bg-repeat object-contain"
+			style={{ backgroundImage: `url("${rainbowImg.src}")` }}
 		/>
 	);
 };

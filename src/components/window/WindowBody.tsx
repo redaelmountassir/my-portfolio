@@ -3,7 +3,7 @@ import Console from "../apps/Console";
 import FileExplorer from "../apps/FileExplorer";
 import PDFReader from "../apps/PDFReader";
 import Virus from "../apps/Virus";
-import { InternalWindowDataContext } from "./context";
+import { InternalWindowDataContext } from "./windowContext";
 
 const Mail = lazy(() => import("../apps/Mail"));
 const MediaViewer = lazy(() => import("../apps/MediaViewer"));

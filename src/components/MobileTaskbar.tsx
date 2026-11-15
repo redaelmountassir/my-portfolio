@@ -5,7 +5,7 @@ import homeImg from "../assets/images/home.png";
 import menuImg from "../assets/images/menu.png";
 import { useMobileStore, useSystemStore } from "../store";
 import { cn } from "../utils";
-import MobileTaskbarPanel from "./MobileTaskbarPanel";
+import MobilePanel from "./MobilePanel";
 import SmartImage from "./SmartImage";
 
 const MobileTaskbar = () => {
@@ -22,7 +22,7 @@ const MobileTaskbar = () => {
 
 	return (
 		<>
-			<MobileTaskbarPanel />
+			<MobilePanel />
 			<motion.nav
 				aria-label="Mobile navigation"
 				className="fixed bottom-0 w-full p-0 font-bold short:px-4 short:py-2"

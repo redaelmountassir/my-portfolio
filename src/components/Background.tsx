@@ -2,9 +2,11 @@ import { motion, useReducedMotion } from "motion/react";
 import React, { useState } from "react";
 import bg1Img from "../assets/images/background_1.jpg";
 import bg2Img from "../assets/images/background_2.jpg";
+import tileImg from "../assets/images/bg_imgs/tile.png";
 import palmImg from "../assets/images/palm.png";
 import pixelatedHeadGif from "../assets/images/pixelated_head.gif";
 import triangleImg from "../assets/images/triangle_outline_blue.png";
+import type { SymbolName } from "./3D/Symbols";
 import { useSettingsStore } from "../store";
 import { cn } from "../utils";
 import SmartImage from "./SmartImage";
@@ -13,7 +15,7 @@ const Background3D = React.lazy(() => import("./Background3D"));
 
 const PALM_CLIP =
 	"[clip-path:polygon(42%_100%,38%_70%,48%_37%,63%_54%,72%_46%,80%_43%,66%_30%,95%_30%,96%_25%,87%_23%,73%_16%,94%_18%,84%_4%,60%_5%,42%_0%,34%_1%,36%_9%,21%_7%,5%_13%,14%_19%,2%_25%,4%_31%,17%_31%,23%_34%,24%_44%,31%_46%,35%_52%,27%_69%,22%_100%)]";
-const Background = () => {
+const Background = ({ symbol }: { symbol?: SymbolName }) => {
 	const use3D = useSettingsStore(state => state.use3D);
 	const [odds] = useState(Math.random);
 	const reducedMotion = useReducedMotion();
@@ -44,7 +46,7 @@ const Background = () => {
 						</p>
 					}
 				>
-					<Background3D />
+					<Background3D symbol={symbol} />
 				</React.Suspense>
 			) : (
 				<>
@@ -60,7 +62,8 @@ const Background = () => {
 										ease: "linear",
 									}
 						}
-						className="absolute bottom-0 left-0 box-content h-36 w-full bg-[url('/bg_imgs/tile.png')] bg-contain pl-24"
+						className="absolute bottom-0 left-0 box-content h-36 w-full bg-contain pl-24"
+						style={{ backgroundImage: `url("${tileImg.src}")` }}
 					/>
 					<SmartImage
 						src={triangleImg}

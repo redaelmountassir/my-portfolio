@@ -43,20 +43,31 @@ const assertProjectLogo = (projectName: string) => {
 
 const loadProjects = (): Record<string, ProjectYaml> => {
 	const projects: Record<string, ProjectYaml> = {};
+	const orderNames = new Map<number, string>();
 	for (const [filePath, data] of Object.entries(yamlModules)) {
 		const name = yamlName(filePath);
 		if (name === undefined) continue;
 		assertProjectLogo(name);
-		projects[name] = parseProjectYaml(filePath, data);
+		const project = parseProjectYaml(filePath, data);
+		const existingName = orderNames.get(project.order);
+		if (existingName) {
+			throw new Error(
+				`Duplicate project order ${project.order} in "${existingName}" and "${name}"`,
+			);
+		}
+		orderNames.set(project.order, name);
+		projects[name] = project;
 	}
 	return projects;
 };
 
 const toProjectFiles = (projects: Record<string, ProjectYaml>): File[] =>
-	Object.entries(projects).map(([name, value]) => {
-		const isVid = /\.mp4$/i.test(value.showcases[0]?.src ?? "");
-		return { name, value, ext: isVid ? "mp4" : "png" };
-	});
+	Object.entries(projects)
+		.sort(([, a], [, b]) => a.order - b.order)
+		.map(([name, value]) => {
+			const isVid = /\.mp4$/i.test(value.showcases[0]?.src ?? "");
+			return { name, value, ext: isVid ? "mp4" : "png" };
+		});
 
 export const mediaSrc = (asset: ProjectAsset) =>
 	typeof asset === "string" ? asset : asset.src;

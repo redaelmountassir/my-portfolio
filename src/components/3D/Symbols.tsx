@@ -25,6 +25,8 @@ type GLTFResult = GLTF & {
 	};
 };
 
+export type SymbolName = keyof GLTFResult["nodes"];
+
 function checkVisibility(window: WindowData | undefined): string {
 	if (!window) return "logo";
 	switch (window.type) {
@@ -47,7 +49,11 @@ function checkVisibility(window: WindowData | undefined): string {
 const symbolMat = createGlitchMat();
 useGLTF.preload("/models/symbols.glb");
 
-const Symbols = (props: React.JSX.IntrinsicElements["group"]) => {
+type SymbolsProps = React.JSX.IntrinsicElements["group"] & {
+	symbol?: SymbolName;
+};
+
+const Symbols = ({ symbol, ...props }: SymbolsProps) => {
 	const gltf = useGLTF("/models/symbols.glb") as unknown as GLTFResult;
 	const { nodes } = gltf;
 	useLayoutEffect(() => {
@@ -83,8 +89,8 @@ const Symbols = (props: React.JSX.IntrinsicElements["group"]) => {
 	const currentWindow = useSystemStore(
 		({ windows }) => windows[windows.length - 1],
 	);
+	const shouldBeVisible = symbol ?? checkVisibility(currentWindow);
 	useEffect(() => {
-		const shouldBeVisible = checkVisibility(currentWindow);
 		// If symbol is returned to the current one
 		if (currentNode === shouldBeVisible) {
 			if (data.current.timeout !== -1) {
@@ -112,7 +118,7 @@ const Symbols = (props: React.JSX.IntrinsicElements["group"]) => {
 			},
 			randRange(500, 1250),
 		);
-	}, [currentWindow]);
+	}, [currentNode, shouldBeVisible]);
 
 	return (
 		<Float rotationIntensity={2}>

@@ -1,4 +1,4 @@
-import { useReducedMotion } from "motion/react";
+import { resize, useReducedMotion } from "motion/react";
 import React, { useEffect } from "react";
 import { MobileContext } from "../store/MobileContext";
 import {
@@ -49,7 +49,7 @@ though you didn't hear that from me...
 				"--vh-full",
 				`${window.innerHeight}px`,
 			);
-		window.addEventListener("resize", updateVH);
+		const stop = resize(updateVH);
 		window.addEventListener("orientationchange", updateVH);
 		updateVH();
 
@@ -60,7 +60,7 @@ though you didn't hear that from me...
 				: mainRef.current.classList.add("use-scrollbar");
 
 		return () => {
-			window.removeEventListener("resize", updateVH);
+			stop();
 			window.removeEventListener("orientationchange", updateVH);
 			document.documentElement.style.removeProperty("--vh-full");
 		};

@@ -24,7 +24,7 @@ import GlitchText from "../../GlitchText";
 import PixelDissolveMedia from "../../PixelDissolveMedia";
 import ScrollMarquee from "../../ScrollMarquee";
 import SmartImage from "../../SmartImage";
-import { InternalWindowDataContext } from "../../window/context";
+import { InternalWindowDataContext } from "../../window/windowContext";
 import ContentEditable from "./ContentEditable";
 import NameCard from "./NameCard";
 
@@ -91,7 +91,7 @@ const TextEditor = () => {
 
 	return (
 		<>
-			<div className="absolute size-full bg-black bg-cover bg-center motion-safe:bg-[url('/bg_imgs/stars.gif')] md:-z-1" />
+			<div className="about-stars-background absolute z-0 size-full bg-black bg-cover bg-center" />
 			<p className="bottom-0 z-1 block w-full overflow-hidden bg-white-primary p-1 text-center whitespace-pre text-black-primary md:fixed">
 				{[
 					`${wordCount} word${wordCount > 1 ? "s" : ""}`,
@@ -100,7 +100,7 @@ const TextEditor = () => {
 				].join("    ")}
 			</p>
 			<div
-				className="relative flex-1 overflow-x-hidden overflow-y-auto md:mb-8"
+				className="relative z-1 flex-1 overflow-x-hidden overflow-y-auto md:mb-8"
 				ref={scrollContainer}
 			>
 				<NameCard />

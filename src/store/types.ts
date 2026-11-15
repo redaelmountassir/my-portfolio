@@ -30,6 +30,7 @@ const showcaseItemSchema = z
 
 // Essentially media === projects
 export const mediaSchema = z.object({
+	order: z.number().int().positive(),
 	loc: z
 		.object({
 			text: z.string(),

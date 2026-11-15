@@ -1,6 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import { animate, useMotionValue, useReducedMotion } from "motion/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useRef, useState } from "react";
 import * as THREE from "three";
 import { cn } from "../utils";
 import { silenceContextLoss } from "../utils/3D";
@@ -162,7 +162,7 @@ const PixelDissolveMedia = ({
 		};
 	}, [shownMedia]);
 
-	const handleAnimationComplete = useCallback(() => {
+	const handleAnimationComplete = useEffectEvent(() => {
 		setSeed(Math.random());
 		const next = swapTarget.current;
 		if (!controlled && next && internalDissolvedRef.current) {
@@ -173,7 +173,7 @@ const PixelDissolveMedia = ({
 			return;
 		}
 		onCompleteRef.current?.();
-	}, [controlled]);
+	});
 
 	useEffect(() => {
 		if (!texture) return;
@@ -204,7 +204,6 @@ const PixelDissolveMedia = ({
 		dissolveDuration,
 		progress,
 		disolveFactor,
-		handleAnimationComplete,
 	]);
 
 	return (
@@ -250,7 +249,7 @@ const PixelDissolveMedia = ({
 				</Canvas>
 			)}
 			{!ready && (
-				<div className="absolute inset-0 z-1 bg-black-primary">
+				<div className="absolute outline-2 inset-0 z-1 bg-black-primary">
 					<Throbber />
 				</div>
 			)}

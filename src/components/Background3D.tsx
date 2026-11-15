@@ -14,8 +14,12 @@ import { silenceContextLoss } from "../utils/3D";
 import CameraEffects from "./3D/CameraEffects";
 import Plane from "./3D/Plane";
 import Sky from "./3D/Sky";
-import Symbols from "./3D/Symbols";
+import Symbols, { type SymbolName } from "./3D/Symbols";
 import Throbber from "./3D/Throbber";
+
+type Background3DProps = {
+	symbol?: SymbolName;
+};
 
 const SEED = Math.round((Math.random() * 2 - 1) * 1000);
 const TRIANGLE_COLOR = new Color(Colors.BlueAccent).multiplyScalar(20);
@@ -82,7 +86,7 @@ const onCreated = ({ gl }: RootState) => {
 	silenceContextLoss({ gl });
 };
 
-const Background3D = () => {
+const Background3D = ({ symbol }: Background3DProps) => {
 	const isMobile = useContext(MobileContext);
 	const windowCovering =
 		useMobileStore(
@@ -122,7 +126,7 @@ const Background3D = () => {
 			<Sky seed={SEED} />
 			<Plane seed={SEED} />
 			<Suspense fallback={<Throbber />}>
-				<Symbols />
+				<Symbols symbol={symbol} />
 			</Suspense>
 			<mesh position={[0, -0.2, 0.2]} rotation={[0.2, 0.2, 0]}>
 				<ringGeometry args={[3, 3.25, 3]} />

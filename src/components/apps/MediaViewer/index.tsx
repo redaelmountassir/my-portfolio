@@ -9,7 +9,7 @@ import {
 	Suspense,
 	useContext,
 	useEffect,
-	useLayoutEffect,
+	useEffectEvent,
 	useRef,
 	useState,
 } from "react";
@@ -18,7 +18,8 @@ import { useSystemKeys } from "../../../store";
 import { MobileContext } from "../../../store/MobileContext";
 import { isMediaFile, type MediaFile } from "../../../store/types";
 import Throbber from "../../Throbber";
-import { InternalWindowDataContext } from "../../window/context";
+import { InternalWindowDataContext } from "../../window/windowContext";
+import { ExternalWindowDataContext } from "../../window/externalWindowContext";
 import About from "./About";
 import MainShowcase from "./MainShowcase";
 import MediaFrame from "./MediaFrame";
@@ -28,15 +29,12 @@ import ShowcasePair from "./ShowcasePair";
 
 interface MediaViewerProps {
 	file?: MediaFile;
-	onNext?: (next: MediaFile) => void;
 }
 
-const MediaViewer = ({
-	file: fileProp,
-	onNext: onNextProp,
-}: MediaViewerProps = {}) => {
+const MediaViewer = ({ file: fileProp }: MediaViewerProps = {}) => {
 	const windowData = useContext(InternalWindowDataContext);
-	const onNext = onNextProp ?? windowData?.onNext;
+	const disableAdvance =
+		useContext(ExternalWindowDataContext)?.disableAdvance ?? false;
 	const isMobile = useContext(MobileContext);
 	const { traverse, replaceWindow } = useSystemKeys(
 		"traverse",
@@ -92,87 +90,94 @@ const MediaViewer = ({
 	);
 
 	const loadingRef = useRef<HTMLDivElement>(null);
-	// "watch" accepts the end-of-scroll trigger. "loading" is the throbber.
-	// "settle" is after the swap, until scrollTop is actually 0 — progress can
-	// still read as 1 here and must not start another load.
+	// Block repeat advances until the swapped project is pinned at the top.
 	const phase = useRef<"watch" | "loading" | "settle">("watch");
-	const nextRef = useRef(nextProject);
-	nextRef.current = nextProject;
-	const onNextRef = useRef(onNext);
-	onNextRef.current = onNext;
-	const swapTimer = useRef<number>(undefined);
 
-	const gotoNext = () => {
-		const upcoming = nextRef.current;
-		const advance = onNextRef.current;
-		if (
-			phase.current === "loading" ||
-			!upcoming ||
-			(!advance && id === undefined) ||
-			!loadingRef.current ||
-			!scrollContainer.current
-		)
-			return;
-		phase.current = "loading";
-		const controls = animate(
-			loadingRef.current,
-			{ opacity: [0, 1, 1, 0] },
-			{
-				type: "tween",
-				duration: 3,
-				times: [0, 0.2, 0.8, 1],
-				ease: steps(5),
-			},
-		);
-		void Promise.resolve(controls).then(() => {
-			if (loadingRef.current) loadingRef.current.style.opacity = "0";
-		});
-		setInTop(true);
-		window.clearTimeout(swapTimer.current);
-		swapTimer.current = window.setTimeout(() => {
-			if (advance) advance(upcoming);
-			else if (id !== undefined) replaceWindow(id, upcoming);
-		}, 2000);
-	};
-
-	useEffect(() => () => window.clearTimeout(swapTimer.current), []);
-
-	useLayoutEffect(() => {
-		if (phase.current === "watch") return;
-		const el = scrollContainer.current;
-		if (!el) return;
-		phase.current = "settle";
-		el.scrollTop = 0;
-		let frames = 0;
-		let raf = 0;
-		const pinTop = () => {
-			el.scrollTop = 0;
-			frames += 1;
-			if (frames < 6) {
-				raf = requestAnimationFrame(pinTop);
+	const pinTop = () =>
+		new Promise<void>(resolve => {
+			const el = scrollContainer.current;
+			if (!el) {
+				resolve();
 				return;
 			}
-			if (el.scrollTop < 2) phase.current = "watch";
-		};
-		raf = requestAnimationFrame(pinTop);
-		return () => cancelAnimationFrame(raf);
-	}, [file?.name]);
+
+			el.scrollTop = 0;
+			let frames = 0;
+			const pinFrame = () => {
+				el.scrollTop = 0;
+				frames += 1;
+				if (frames < 6) {
+					requestAnimationFrame(pinFrame);
+					return;
+				}
+				if (el.scrollTop < 2) phase.current = "watch";
+				resolve();
+			};
+			requestAnimationFrame(pinFrame);
+		});
+
+	const advance = async () => {
+		const upcoming = nextProject;
+
+		if (
+			phase.current !== "watch" ||
+			!upcoming ||
+			!scrollContainer.current ||
+			!loadingRef.current ||
+			id === undefined
+		)
+			return;
+
+		phase.current = "loading";
+		await animate(
+			loadingRef.current,
+			{ opacity: [0, 1] },
+			{
+				type: "tween",
+				duration: 0.6,
+				ease: steps(3),
+			},
+		);
+
+		setInTop(true);
+		phase.current = "settle";
+		replaceWindow(id, upcoming);
+		await pinTop();
+
+		await animate(
+			loadingRef.current,
+			{ opacity: [1, 0] },
+			{
+				type: "tween",
+				delay: 1.8,
+				duration: 0.6,
+				ease: steps(3),
+			},
+		);
+	};
+
+	const onScrollToAdvance = useEffectEvent(() => {
+		if (phase.current !== "watch") return;
+		const el = scrollContainer.current;
+		if (!el) return;
+		const remaining = el.scrollHeight - el.scrollTop - el.clientHeight;
+		if (remaining < 8 && el.scrollTop > 2) advance();
+	});
 
 	useEffect(() => {
 		const el = scrollContainer.current;
-		if (!el) return;
+		if (!el || disableAdvance) return;
 		// Arm only after the scroller has been away from the end, so a swap
 		// that lands on the bottom cannot immediately start another load.
 		let armed = false;
 		const onScroll = () => {
-			if (phase.current !== "watch") return;
 			const remaining = el.scrollHeight - el.scrollTop - el.clientHeight;
 			if (remaining > 48) armed = true;
-			if (armed && remaining < 8 && el.scrollTop > 2) gotoNext();
+			if (armed) onScrollToAdvance();
 		};
 		el.addEventListener("scroll", onScroll, { passive: true });
 		return () => el.removeEventListener("scroll", onScroll);
-	}, [file?.name]);
+	}, [disableAdvance, scrollContainer]);
 
 	if (!file || !projectData || !nextProject) return;
 	if (!fileProp && id === undefined) return;
@@ -198,7 +203,7 @@ const MediaViewer = ({
 				className="relative min-h-0 flex-1 overflow-x-hidden overflow-y-auto text-white-primary [overflow-anchor:none]"
 			>
 				<div
-					className="mx-4 h-[150%] min-h-250 text-white-primary md:mt-12"
+					className="mx-4 h-[150%] min-h-250 text-white-primary mt-6 md:mt-12"
 					ref={scrollTarget}
 				>
 					<MainShowcase
@@ -254,28 +259,31 @@ const MediaViewer = ({
 						/>
 					</div>
 				))}
-				<Suspense
-					fallback={
-						<div className="relative mt-12 h-40">
-							<Throbber />
-						</div>
-					}
-				>
-					<button
-						type="button"
-						className="tab-only relative"
-						onClick={gotoNext}
+				{!disableAdvance && (
+					<Suspense
+						fallback={
+							<div className="relative mt-12 h-40">
+								<Throbber />
+							</div>
+						}
 					>
-						Next project: {nextProject.name.replaceAll("_", " ")}
-					</button>
-					<NextProject
-						project={nextProject}
-						scrollContainer={scrollContainer}
-						clipPath={clipPath}
-						targetRef={scrollTarget2}
-						onClick={gotoNext}
-					/>
-				</Suspense>
+						<button
+							type="button"
+							className="tab-only relative"
+							onClick={advance}
+						>
+							Next project:{" "}
+							{nextProject.name.replaceAll("_", " ")}
+						</button>
+						<NextProject
+							project={nextProject}
+							scrollContainer={scrollContainer}
+							clipPath={clipPath}
+							targetRef={scrollTarget2}
+							onClick={advance}
+						/>
+					</Suspense>
+				)}
 			</div>
 		</>
 	);

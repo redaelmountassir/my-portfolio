@@ -1,7 +1,7 @@
 import GlitchText from "../../components/GlitchText";
 import { HERO } from "./data";
 
-const HeroSection = () => (
+const Hero = () => (
 	<section
 		id="top"
 		className="flex min-h-(--vh-full,100dvh) items-end px-4 pt-16 pb-16 md:px-10 md:pb-24"
@@ -21,4 +21,4 @@ const HeroSection = () => (
 	</section>
 );
 
-export default HeroSection;
+export default Hero;
