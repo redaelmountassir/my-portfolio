@@ -7,11 +7,12 @@ const targetDpr = () => Math.min(window.devicePixelRatio || 1, 2);
 
 const bufferMatchesLayout = (gl: THREE.WebGLRenderer) => {
 	const canvas = gl.domElement;
-	const rect = canvas.getBoundingClientRect();
-	if (rect.width < 2 || rect.height < 2) return false;
+	const width = canvas.clientWidth;
+	const height = canvas.clientHeight;
+	if (width < 2 || height < 2) return false;
 	if (gl.getPixelRatio() + 0.01 < targetDpr()) return false;
-	const expectedW = Math.floor(rect.width * gl.getPixelRatio());
-	const expectedH = Math.floor(rect.height * gl.getPixelRatio());
+	const expectedW = Math.floor(width * gl.getPixelRatio());
+	const expectedH = Math.floor(height * gl.getPixelRatio());
 	return canvas.width >= expectedW - 2 && canvas.height >= expectedH - 2;
 };
 
@@ -56,8 +57,21 @@ const FixCanvas = ({
 		return () => cancelAnimationFrame(revealFrame.current);
 	}, [texture]);
 
-	useFrame(() => {
+	useFrame(state => {
 		if (reported.current) return;
+		const canvas = gl.domElement;
+		const width = canvas.clientWidth;
+		const height = canvas.clientHeight;
+		if (
+			width >= 2 &&
+			height >= 2 &&
+			(state.size.width !== width || state.size.height !== height)
+		) {
+			state.setSize(width, height, state.size.top, state.size.left);
+			invalidate();
+			return;
+		}
+
 		const ready =
 			bufferMatchesLayout(gl) && mediaFrameReady(texture, isVideo);
 		stableFrames.current = ready ? stableFrames.current + 1 : 0;

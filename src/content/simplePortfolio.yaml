@@ -1,0 +1,13 @@
+hero:
+    kicker: Reda Elmountassir
+    title: Mechanical Engineer
+    line: With interests in all things artistic, development, or social work
+sections:
+    - id: top
+      label: Home
+    - id: projects
+      label: Projects
+    - id: about
+      label: About
+    - id: contact
+      label: Contact

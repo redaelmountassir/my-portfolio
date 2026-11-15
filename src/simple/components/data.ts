@@ -1,25 +1,20 @@
 import InitialSystem from "../../content/InitialSystem";
 import { projectFiles } from "../../content/projectsLoader";
+import content from "../../content/simplePortfolio.yaml";
 import {
 	isMediaFile,
 	type SystemObject,
 	type WindowData,
 } from "../../store/types";
 
-export const HERO = {
-	kicker: "Reda Elmountassir",
-	title: "Mechanical Engineer",
-	line: "With interests in all things artistic, development, or social work",
-};
+export const HERO = content.hero;
 
-export const SECTIONS = [
-	{ id: "top", label: "Home" },
-	{ id: "projects", label: "Projects" },
-	{ id: "about", label: "About" },
-	{ id: "contact", label: "Contact" },
-] as const;
+type SectionIdValue = "top" | "projects" | "about" | "contact";
+type Section = { id: SectionIdValue; label: string };
 
-export type SectionId = (typeof SECTIONS)[number]["id"];
+export const SECTIONS: readonly Section[] = content.sections;
+
+export type SectionId = Section["id"];
 
 const desktopItems = (() => {
 	const user = InitialSystem.children.find(

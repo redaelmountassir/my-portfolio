@@ -211,6 +211,7 @@ const PixelDissolveMedia = ({
 			{texture && (
 				<Canvas
 					frameloop="demand"
+					resize={{ offsetSize: true }}
 					orthographic
 					camera={{ position: [0, 0, 5], fov: 75 }}
 					gl={{
@@ -221,7 +222,24 @@ const PixelDissolveMedia = ({
 						toneMapping: THREE.NoToneMapping,
 					}}
 					dpr={[1, 2]}
-					onCreated={silenceContextLoss}
+					onCreated={state => {
+						silenceContextLoss(state);
+						const canvas = state.gl.domElement;
+						canvas.style.width = "100%";
+						canvas.style.height = "100%";
+						const parent = canvas.parentElement;
+						if (!parent) return;
+
+						const { clientWidth: width, clientHeight: height } =
+							parent;
+						if (width > 0 && height > 0)
+							state.setSize(
+								width,
+								height,
+								state.size.top,
+								state.size.left,
+							);
+					}}
 					className={cn(
 						"relative size-full overflow-hidden",
 						!ready && "opacity-0",
