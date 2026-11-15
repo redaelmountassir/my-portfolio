@@ -20,6 +20,7 @@ const selectIcon = (sysObj: SystemObject, isMobile: boolean) => {
 					? "empty_mobile_group.png"
 					: "empty_folder.png"; //Special folder
 	if (sysObj.ext === "mys") return "mystery.gif";
+	if (sysObj.name === "Simple Site") return "web.png";
 	if (!(sysObj.ext === "exe")) return `${sysObj.ext}.png`;
 	return `${sysObj.name.toLowerCase()}.png`;
 };

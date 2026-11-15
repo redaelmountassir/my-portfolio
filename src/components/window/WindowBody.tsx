@@ -2,6 +2,7 @@ import { lazy, useContext } from "react";
 import Console from "../apps/Console";
 import FileExplorer from "../apps/FileExplorer";
 import PDFReader from "../apps/PDFReader";
+import SimpleBrowser from "../apps/SimpleBrowser";
 import Virus from "../apps/Virus";
 import { InternalWindowDataContext } from "./windowContext";
 
@@ -18,6 +19,8 @@ const WindowBody = () => {
 			return <Console />;
 		case "Contact":
 			return <Mail />;
+		case "SimpleBrowser":
+			return <SimpleBrowser />;
 		case "PDFReader":
 			return <PDFReader />;
 		case "MediaViewer":

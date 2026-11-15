@@ -18,7 +18,7 @@ const OFFSET_ANCHOR = "top right";
 const OFFSET_ROT = "auto 45deg";
 
 const Mail = () => {
-	const embedded = useContext(InternalWindowDataContext)?.embedded;
+	const hasTaskbar = useContext(InternalWindowDataContext)?.hasTaskbar;
 	const rootRef = useRef<HTMLDivElement>(null);
 	const [width, setWidth] = useState(0);
 
@@ -48,7 +48,7 @@ const Mail = () => {
 			ref={rootRef}
 			className={cn(
 				"flex flex-1 flex-col overflow-hidden text-white-primary md:flex-row md:pb-0",
-				!embedded && "pb-16",
+				hasTaskbar && "pb-16",
 			)}
 		>
 			<ul

@@ -10,7 +10,7 @@ const yamlModules = import.meta.glob("./projects/*.yaml", {
 });
 
 const projectAssets = import.meta.glob<ProjectAsset>(
-	"../assets/project_assets/**/*.{png,jpg,jpeg,gif,mp4,webp}",
+	"./project_assets/**/*.{png,jpg,jpeg,gif,mp4,webp}",
 	{
 		eager: false,
 		import: "default",
@@ -26,7 +26,7 @@ const yamlName = (path: string) =>
 		?.replace(/\.ya?ml$/, "");
 
 const projectAssetKey = (projectName: string, fileName: string) =>
-	`../assets/project_assets/${projectName}/${fileName}`;
+	`./project_assets/${projectName}/${fileName}`;
 
 const parseProjectYaml = (filePath: string, data: unknown): ProjectYaml => {
 	const result = mediaSchema.safeParse(data);

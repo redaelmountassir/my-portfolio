@@ -17,6 +17,7 @@ import quebecImg from "../../../assets/images/about/quebec.jpg";
 import rabatImg from "../../../assets/images/about/rabat.jpg";
 import soccerImg from "../../../assets/images/about/soccer.jpg";
 import camImg from "../../../assets/images/cam.png";
+import content from "../../../content/textEditor.yaml";
 import { isFile } from "../../../store/types";
 import { cn, useInterval } from "../../../utils";
 import Float from "../../Float";
@@ -41,24 +42,24 @@ const countSentences = (str: string) => {
 const countWords = (str: string) => str.trim().split(/\s+/).length;
 
 const photos = [
-	{ img: cenoteImg, alt: "Jumping into a Mexican cenote" },
+	{ img: cenoteImg, alt: content.photoAlt.cenote },
 	{
 		img: chichenItzaImg,
-		alt: "One of the wonders of the world: Chichén Itzá",
+		alt: content.photoAlt.chichenItza,
 	},
-	{ img: cupcakesImg, alt: "My cupcakes" },
-	{ img: donkeyImg, alt: "Me riding a donkey" },
-	{ img: istanbulImg, alt: "Istanbul, Turkey" },
-	{ img: marrakeshImg, alt: "My favorite Moroccan city: Marrakesh" },
-	{ img: muffinsImg, alt: "My muffins" },
-	{ img: newYorkImg, alt: "New York" },
-	{ img: parisImg, alt: "Paris, France" },
-	{ img: philly1Img, alt: "Just a bit of Philly" },
-	{ img: philly2Img, alt: "Some more Philly" },
-	{ img: philly3Img, alt: "I love Philly" },
-	{ img: quebecImg, alt: "Quebec, Canada" },
-	{ img: rabatImg, alt: "Rabat, Morocco" },
-	{ img: soccerImg, alt: "My favorite sport: soccer" },
+	{ img: cupcakesImg, alt: content.photoAlt.cupcakes },
+	{ img: donkeyImg, alt: content.photoAlt.donkey },
+	{ img: istanbulImg, alt: content.photoAlt.istanbul },
+	{ img: marrakeshImg, alt: content.photoAlt.marrakesh },
+	{ img: muffinsImg, alt: content.photoAlt.muffins },
+	{ img: newYorkImg, alt: content.photoAlt.newYork },
+	{ img: parisImg, alt: content.photoAlt.paris },
+	{ img: philly1Img, alt: content.photoAlt.philly1 },
+	{ img: philly2Img, alt: content.photoAlt.philly2 },
+	{ img: philly3Img, alt: content.photoAlt.philly3 },
+	{ img: quebecImg, alt: content.photoAlt.quebec },
+	{ img: rabatImg, alt: content.photoAlt.rabat },
+	{ img: soccerImg, alt: content.photoAlt.soccer },
 ];
 
 const TextEditor = () => {
@@ -94,10 +95,10 @@ const TextEditor = () => {
 			<div className="about-stars-background absolute z-0 size-full bg-black bg-cover bg-center" />
 			<p className="bottom-0 z-1 block w-full overflow-hidden bg-white-primary p-1 text-center whitespace-pre text-black-primary md:fixed">
 				{[
-					`${wordCount} word${wordCount > 1 ? "s" : ""}`,
-					`${text.length} character${text.length > 1 ? "s" : ""}`,
-					`${sentenceCount} sentence${sentenceCount > 1 ? "s" : ""}`,
-				].join("    ")}
+					`${wordCount} ${wordCount > 1 ? content.status.wordPlural : content.status.wordSingular}`,
+					`${text.length} ${text.length > 1 ? content.status.characterPlural : content.status.characterSingular}`,
+					`${sentenceCount} ${sentenceCount > 1 ? content.status.sentencePlural : content.status.sentenceSingular}`,
+				].join(content.status.separator)}
 			</p>
 			<div
 				className="relative z-1 flex-1 overflow-x-hidden overflow-y-auto md:mb-8"
@@ -109,9 +110,7 @@ const TextEditor = () => {
 					panSpeed={2}
 					className="w-full border-y-2 bg-yellow-accent py-1 font-bold whitespace-pre text-black-primary"
 				>
-					{
-						"Developer  ►  Hackerman  ►  UI/UX  ►  Design  ►  Vaporwave  ►  Gaming  ►  Since 2006  ►  "
-					}
+					{content.marquee}
 				</ScrollMarquee>
 				<div className="relative clearfix gap-6 bg-[repeating-linear-gradient(#1f0728,#1f0728_2em,#291632_2em,#291632_4em)] p-8 py-16 text-white-primary md:bg-[repeating-linear-gradient(#f5f9ff06,#f5f9ff06_2em,#f5f9ff10_2em,#f5f9ff10_4em)] md:py-32 md:pl-6">
 					<button
@@ -123,7 +122,10 @@ const TextEditor = () => {
 								: "group relative mb-7 ml-8 h-full w-2/5 flicker transition duration-1000 ease-steps-2 md:float-right md:block",
 						)}
 						onClick={updateImg}
-						aria-label={`Cycle photo. Currently showing: ${frame.alt}`}
+						aria-label={content.photoButtonLabel.replace(
+							"{alt}",
+							frame.alt,
+						)}
 					>
 						<Float className="group xs:inline-block">
 							<div
@@ -154,13 +156,15 @@ const TextEditor = () => {
 						/>
 					</button>
 					<h2 className="static top-16 z-1 mb-7 w-full origin-bottom-left font-display text-7xl leading-[0.95] whitespace-nowrap uppercase xs:absolute xs:rotate-90 xs:shadow-black-primary sm:static! sm:rotate-0! sm:shadow-none">
-						<span className="hidden xs:inline">† </span>
+						<span className="hidden xs:inline">
+							{content.headingDecoration}
+						</span>
 						<GlitchText
 							onScroll
 							scrollRoot={scrollContainer}
 							decayRate={0.5}
 						>
-							ABOUT
+							{content.aboutHeading}
 						</GlitchText>
 					</h2>
 					<ContentEditable

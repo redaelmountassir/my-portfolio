@@ -214,6 +214,10 @@
 	scrollbar-width: none;
 }
 
+@utility rendering-auto {
+  image-rendering: auto;
+}
+
 @utility slider {
 	@apply my-2 ml-4 grow cursor-pointer appearance-none bg-transparent bg-linear-to-r from-pink-accent via-blue-accent via-50% to-50% bg-double p-1 outline-2 outline-white-primary focus-visible:outline-pink-accent;
 	&::-webkit-slider-thumb {

@@ -7,7 +7,7 @@ import { cn } from "../../utils";
 import SmartImage from "../SmartImage";
 
 interface WindowHeaderProps {
-	onGrab: React.PointerEventHandler<Element>;
+	onGrab?: React.PointerEventHandler<Element>;
 	onClose: React.MouseEventHandler;
 	onMaximize: React.MouseEventHandler;
 	maximized: boolean;
@@ -44,7 +44,7 @@ const WindowHeader = ({
 								e.target.closest("button")
 							)
 								return;
-							onGrab(e);
+							onGrab?.(e);
 						}
 					: undefined
 			}

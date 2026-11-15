@@ -29,7 +29,7 @@ const Showcase = ({
 	decorativeCursor = false,
 }: ShowcaseProps) => {
 	const classes = cn(
-		"relative z-1 scale-by-height object-cover size-full!",
+		"relative z-1 rendering-auto scale-by-height object-cover size-full!",
 		autoHeight && "h-auto!",
 		className,
 	);

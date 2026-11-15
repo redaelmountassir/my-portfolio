@@ -18,6 +18,7 @@ const pickWindowType = (sysObj: SystemObject): WindowType => {
 		case "exe":
 			if (sysObj.name === "Console") return "Console";
 			if (sysObj.name === "Contact") return "Contact";
+			if (sysObj.name === "Simple Site") return "SimpleBrowser";
 			break;
 		case "png":
 		case "mp4":

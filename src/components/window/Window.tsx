@@ -1,6 +1,5 @@
 import {
 	motion,
-	resize,
 	steps,
 	useDragControls,
 	useMotionValue,
@@ -10,11 +9,10 @@ import React, {
 	Suspense,
 	useContext,
 	useEffect,
-	useLayoutEffect,
 	useRef,
 	useState,
 } from "react";
-import { createPortal, flushSync } from "react-dom";
+import { flushSync } from "react-dom";
 import { useShallow } from "zustand/react/shallow";
 import { useMobileStore, useSystemKeys } from "../../store";
 import { MobileContext } from "../../store/MobileContext";
@@ -37,9 +35,6 @@ interface WindowProps {
 	minDimensions?: Dimensions;
 	disableInteraction?: boolean;
 	disableNavCompensation?: boolean;
-	/** Flow layout for the scrolling portfolio page without drag, resize, or OS actions. */
-	embedded?: boolean;
-	onClose?: () => void;
 }
 
 const Window = ({
@@ -51,13 +46,10 @@ const Window = ({
 	minDimensions = { w: 200, h: 100 },
 	disableInteraction = false,
 	disableNavCompensation = false,
-	embedded = false,
-	onClose,
 }: WindowProps) => {
 	const { sysObj, id } = windowData;
 	const [isMoving, setIsMoving] = useState(false);
 	const [maximized, setMaximized] = useState(false);
-	const [closing, setClosing] = useState(false);
 	const width = useMotionValue(initialDimensions.w);
 	const height = useMotionValue(initialDimensions.h);
 	const x = useMotionValue(initialLocation.x);
@@ -92,23 +84,6 @@ const Window = ({
 		"setWindowMaximized",
 	);
 	const [windowTitle, setTitle] = useState(sysObj.name);
-	const [embeddedWidth, setEmbeddedWidth] = useState(() =>
-		typeof window === "undefined" ? initialDimensions.w : window.innerWidth,
-	);
-
-	useLayoutEffect(() => {
-		if (!embedded) return;
-		const el = windowRef.current;
-		if (!el) return;
-		const apply = (measured: number) => {
-			const next = Math.round(measured);
-			setEmbeddedWidth(current => (current === next ? current : next));
-		};
-		return resize(el, el => {
-			const next = el.clientWidth;
-			if (next != null) apply(next);
-		});
-	}, [embedded]);
 
 	const isMobile = useContext(MobileContext);
 	const [menuOpen, toggleMenu, showWindow] = useMobileStore(
@@ -139,18 +114,18 @@ const Window = ({
 		}, 500);
 		return () => clearTimeout(timeout);
 	}, []);
-	const locked = embedded ? false : disableInteraction || clickProtection;
-	const isFullscreen = !embedded && (isMobile || maximized);
+	const locked = disableInteraction || clickProtection;
+	const isFullscreen = isMobile || maximized;
 
 	useEffect(() => {
-		if (embedded || locked) return;
+		if (locked) return;
 		const frame = requestAnimationFrame(() => windowRef.current?.focus());
 		return () => {
 			cancelAnimationFrame(frame);
 			const restore = restoreFocus.current;
 			if (restore?.isConnected) restore.focus();
 		};
-	}, [embedded, locked, id]);
+	}, [locked, id]);
 
 	const enterMaximized = () => {
 		cancelAnimationFrame(constraintsFrame.current);
@@ -201,16 +176,12 @@ const Window = ({
 				...windowData,
 				setTitle,
 				getWidth: () =>
-					embedded
-						? embeddedWidth
-						: maximized
-							? window.innerWidth
-							: width.get(),
-				embedded,
+					maximized ? window.innerWidth : width.get(),
+				hasTaskbar: true,
 			}}
 		>
 			<motion.section
-				drag={!embedded && !isMobile}
+				drag={!isMobile}
 				dragListener={false}
 				dragControls={controls}
 				dragConstraints={dragConstraintsOn ? area : undefined}
@@ -226,18 +197,8 @@ const Window = ({
 					document.documentElement.classList.remove("cursor-grab");
 					document.body.classList.remove("pointer-events-none");
 				}}
-				initial={
-					embedded ? false : isMobile ? { opacity: 0 } : { scale: 0 }
-				}
-				animate={
-					embedded
-						? closing
-							? { scale: 0 }
-							: undefined
-						: isMobile
-							? { opacity: 1 }
-							: { scale: 1 }
-				}
+				initial={isMobile ? { opacity: 0 } : { scale: 0 }}
+				animate={isMobile ? { opacity: 1 } : { scale: 1 }}
 				exit={
 					isMobile
 						? { opacity: 0, pointerEvents: "none" }
@@ -247,9 +208,6 @@ const Window = ({
 					duration: 0.3,
 					type: "tween",
 					ease: steps(7),
-				}}
-				onAnimationComplete={() => {
-					if (closing) onClose?.();
 				}}
 				onClick={
 					locked
@@ -271,58 +229,32 @@ const Window = ({
 						: undefined
 				}
 				ref={windowRef}
-				className={
-					embedded
-						? cn(
-								"pointer-events-auto flex size-full min-h-0 flex-col overflow-hidden border-2 border-white-primary bg-linear-to-r from-black-primary/80 from-25% to-dark-primary/80 to-70%",
-								maximized
-									? cn(
-											"fixed inset-0 z-50",
-											!disableNavCompensation &&
-												"border-t-40 border-t-black-primary short:border-t-56",
-										)
-									: "relative",
-							)
-						: cn(
-								"pointer-events-auto absolute top-0 flex max-h-full max-w-full flex-col bg-black-primary from-black-primary/75 from-25% to-dark-primary/75 to-70% shadow-[10px_10px_0_0] shadow-black-primary/25 md:bg-transparent md:bg-linear-to-r",
-								isFullscreen
-									? "size-full! transform-none!"
-									: "touch-none",
-								isFullscreen &&
-									!disableNavCompensation &&
-									"border-t-40 border-t-black-primary short:border-t-56 short:md:border-0",
-								isMoving ? "invisible" : "md:backdrop-blur-sm",
-								locked && "disable-child-interaction",
-							)
-				}
-				inert={locked || undefined}
-				style={
-					embedded
-						? { transformOrigin: "center" }
-						: {
-								minWidth: minDimensions.w,
-								minHeight: minDimensions.h,
-								x,
-								y,
-								width,
-								height,
-								transformOrigin:
-									sysObj.htmlElement && windowRef.current
-										? calcOrigin(
-												windowRef.current,
-												sysObj.htmlElement,
-											)
-										: "",
-							}
-				}
-			>
-				{isMobile && !embedded && (
-					<h1 className="sr-only">{windowTitle}</h1>
+				className={cn(
+					"pointer-events-auto absolute top-0 flex max-h-full max-w-full flex-col bg-black-primary from-black-primary/75 from-25% to-dark-primary/75 to-70% shadow-[10px_10px_0_0] shadow-black-primary/25 md:bg-transparent md:bg-linear-to-r",
+					isFullscreen ? "size-full! transform-none!" : "touch-none",
+					isFullscreen &&
+						!disableNavCompensation &&
+						"border-t-40 border-t-black-primary short:border-t-56 short:md:border-0",
+					isMoving ? "invisible" : "md:backdrop-blur-sm",
+					locked && "disable-child-interaction",
 				)}
-				{(!isMobile || embedded) && (
+				inert={locked || undefined}
+				style={{
+					minWidth: minDimensions.w,
+					minHeight: minDimensions.h,
+					x,
+					y,
+					width,
+					height,
+					transformOrigin:
+						sysObj.htmlElement && windowRef.current
+							? calcOrigin(windowRef.current, sysObj.htmlElement)
+							: "",
+				}}
+			>
+				{isMobile && <h1 className="sr-only">{windowTitle}</h1>}
+				{!isMobile && (
 					<WindowHeader
-						draggable={!embedded}
-						immediate={embedded}
 						onGrab={e => {
 							// Default behavior
 							if (!maximized) return controls.start(e);
@@ -347,10 +279,6 @@ const Window = ({
 							);
 						}}
 						onClose={() => {
-							if (embedded) {
-								setClosing(true);
-								return;
-							}
 							// Fullscreen is pinned at the origin. Keep the
 							// close animation there instead of the restored spot.
 							if (maximized) {
@@ -362,10 +290,6 @@ const Window = ({
 							deleteReq(id);
 						}}
 						onMaximize={() => {
-							if (embedded) {
-								setMaximized(current => !current);
-								return;
-							}
 							maximized
 								? leaveMaximized(rememberedPosition.current)
 								: enterMaximized();
@@ -383,7 +307,7 @@ const Window = ({
 				>
 					<WindowBody />
 				</Suspense>
-				{!isMobile && !embedded && (
+				{!isMobile && (
 					<Resizers
 						onResizeStart={() => {
 							// Same rebase issue as maximize: size changes
@@ -468,14 +392,12 @@ const Window = ({
 						}}
 					/>
 				)}
-				{!embedded && !isMobile && <Outline ghost={isMoving} />}
+				{!isMobile && <Outline ghost={isMoving} />}
 			</motion.section>
 		</InternalWindowDataContext.Provider>
 	);
 
-	return embedded && maximized && typeof document !== "undefined"
-		? createPortal(content, document.body)
-		: content;
+	return content;
 };
 
 export default Window;

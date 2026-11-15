@@ -10,6 +10,7 @@ export type WindowType =
 	| "FileExplorer"
 	| "Console"
 	| "Contact"
+	| "SimpleBrowser"
 	| "PDFReader"
 	| "TextEditor"
 	| "MediaViewer"
