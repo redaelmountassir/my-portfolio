@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { SymbolName } from "../components/3D/Symbols";
 import Background from "../components/Background";
 import { MobileContext } from "../store/MobileContext";
@@ -10,12 +10,14 @@ import { SECTIONS, type SectionId } from "./components/data";
 import Hero from "./components/Hero";
 import Nav from "./components/Nav";
 import Projects from "./components/Projects";
+import Resume from "./components/Resume";
 import { resize } from "motion/react";
 
 const SECTION_SYMBOLS_MAP = {
 	top: "logo",
 	projects: "computer",
 	about: "bust",
+	resume: "pen",
 	contact: "phone",
 } satisfies Record<SectionId, SymbolName>;
 
@@ -24,6 +26,7 @@ const Portfolio = () => {
 	const tall = useBreakpointShort();
 	const isMobile = !wide || !tall;
 	const [active, setActive] = useState<SectionId>("top");
+	const mainContentRef = useRef<HTMLElement>(null);
 
 	useEffect(() => {
 		const updateVH = () =>
@@ -71,17 +74,33 @@ const Portfolio = () => {
 
 	return (
 		<MobileContext.Provider value={isMobile}>
+			<a
+				className="tab-only"
+				href="#main-content"
+				onClick={event => {
+					event.preventDefault();
+					mainContentRef.current?.focus();
+				}}
+			>
+				Skip to main content
+			</a>
 			<div
-				aria-hidden="true"
+				aria-hidden
 				className="pointer-events-none fixed inset-0 -z-10"
 			>
 				<Background symbol={SECTION_SYMBOLS_MAP[active]} />
 			</div>
 			<Nav active={active} />
-			<main className="text-white-primary overflow-x-hidden">
+			<main
+				ref={mainContentRef}
+				id="main-content"
+				tabIndex={-1}
+				className="overflow-x-hidden text-white-primary"
+			>
 				<Hero />
 				<Projects />
 				<About />
+				<Resume />
 				<Contact />
 			</main>
 			<Modifiers />

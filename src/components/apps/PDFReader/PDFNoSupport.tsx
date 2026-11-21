@@ -12,7 +12,7 @@ const PDFNoSupport = () => {
 	return (
 		<div className="relative size-full overflow-hidden bg-black-primary">
 			<p
-				aria-hidden="true"
+				aria-hidden
 				className="dlig ss02 pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-7xl text-white-primary"
 			>
 				{Array.from({ length: 11 }, (_, i) => (

@@ -21,7 +21,7 @@ const Background = ({ symbol }: { symbol?: SymbolName }) => {
 	const reducedMotion = useReducedMotion();
 
 	return (
-		<div aria-hidden="true" className="absolute inset-0">
+		<div aria-hidden className="absolute inset-0">
 			{odds < 0.001 ? (
 				<SmartImage
 					src={bg1Img}

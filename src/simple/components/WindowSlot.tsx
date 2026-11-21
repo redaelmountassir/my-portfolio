@@ -119,8 +119,9 @@ const WindowSlot = ({
 			}}
 			inert={maximized ? inert || undefined : undefined}
 			aria-hidden={maximized ? ariaHidden || undefined : undefined}
+			aria-label={windowData.sysObj.name.replaceAll("_", " ")}
 			className={cn(
-				"pointer-events-auto bg-black-primary flex size-full min-h-0 flex-col overflow-hidden border-2 border-white-primary  from-black-primary/80 from-25% to-dark-primary/80 to-70%",
+				"pointer-events-auto flex size-full min-h-0 flex-col overflow-hidden border-2 border-white-primary bg-black-primary from-black-primary/80 from-25% to-dark-primary/80 to-70%",
 				portalized ? "fixed z-50" : "relative bg-linear-to-r",
 			)}
 			style={{ transformOrigin: "center" }}
@@ -146,7 +147,8 @@ const WindowSlot = ({
 					setMaximized(true);
 				}}
 				maximized={maximized}
-				title=""
+				title={""}
+				headingLevel="h3"
 				draggable={false}
 				immediate
 			/>

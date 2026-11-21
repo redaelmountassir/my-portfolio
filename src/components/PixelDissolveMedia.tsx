@@ -151,7 +151,9 @@ const PixelDissolveMedia = ({
 			};
 		}
 
-		const textureLoader = new THREE.TextureLoader();
+		const textureLoader = new THREE.TextureLoader(
+			new THREE.LoadingManager(),
+		);
 		textureLoader.load(shownMedia.src, loaded => {
 			loaded.colorSpace = THREE.NoColorSpace;
 			adopt(loaded, loaded.image.width / loaded.image.height, false);

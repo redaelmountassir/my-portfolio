@@ -9,7 +9,7 @@ import {
 
 export const HERO = content.hero;
 
-type SectionIdValue = "top" | "projects" | "about" | "contact";
+type SectionIdValue = "top" | "projects" | "about" | "resume" | "contact";
 type Section = { id: SectionIdValue; label: string };
 
 export const SECTIONS: readonly Section[] = content.sections;

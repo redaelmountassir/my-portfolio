@@ -1,4 +1,5 @@
 import { useFrame } from "@react-three/fiber";
+import { useReducedMotion } from "motion/react";
 import { useEffect, useRef } from "react";
 import {
 	MathUtils,
@@ -74,6 +75,7 @@ const MAX = new Vector2(1, 1);
 
 export const useMouseControls = (degX = 0.075, degY = 0.05) => {
 	const targetPos = useRef(new Vector2(0, 0));
+	const reducedMotion = useReducedMotion();
 
 	useEffect(() => {
 		const updateTarget = (e: PointerEvent) => {
@@ -93,15 +95,16 @@ export const useMouseControls = (degX = 0.075, degY = 0.05) => {
 	}, [targetPos]);
 
 	useFrame(({ camera }, delta) => {
+		const motionScale = reducedMotion ? 0.2 : 1;
 		camera.rotation.x = MathUtils.damp(
 			camera.rotation.x,
-			targetPos.current.y * Math.PI * degY,
+			targetPos.current.y * Math.PI * degY * motionScale,
 			6,
 			delta,
 		);
 		camera.rotation.y = MathUtils.damp(
 			camera.rotation.y,
-			targetPos.current.x * Math.PI * degX,
+			targetPos.current.x * Math.PI * degX * motionScale,
 			2,
 			delta,
 		);

@@ -22,6 +22,7 @@ const PDFReader = () => {
 			className="flex-1"
 		>
 			<iframe
+				title="Resume of Reda Elmountassir"
 				src="./resume.pdf"
 				width="100%"
 				height="100%"

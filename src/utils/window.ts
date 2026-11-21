@@ -7,38 +7,46 @@ export interface Dimensions {
 	h: number;
 }
 
+const centeredBounds = (w: number, h: number): [Point, Dimensions] => {
+	const fittedWidth = Math.min(
+		w,
+		Math.min(1100, Math.max(320, window.innerWidth - 80)),
+	);
+	const fittedHeight = Math.min(
+		Math.max(360, h),
+		Math.min(760, Math.max(360, window.innerHeight - 150)),
+	);
+	const maxX = Math.max(0, window.innerWidth - fittedWidth);
+	const maxY = Math.max(0, window.innerHeight - 70 - fittedHeight);
+
+	return [
+		{
+			x: Math.min(maxX, Math.max(0, maxX / 2 + randRange(-28, 28))),
+			y: Math.min(maxY, Math.max(0, maxY / 2 + randRange(-28, 28))),
+		},
+		{ w: fittedWidth, h: fittedHeight },
+	];
+};
+
 export const getInitialBounds = (type: WindowType): [Point, Dimensions] => {
 	switch (type) {
 		case "FileExplorer":
-			return [
-				{ x: 50, y: 50 },
-				{ w: 700, h: 400 },
-			];
+			return centeredBounds(700, 400);
 		case "Console":
-			return [
-				{ x: 200, y: 10 },
-				{ w: 600, h: 400 },
-			];
+			return centeredBounds(600, 400);
 		case "Contact":
-			return [
-				{ x: 10, y: 10 },
-				{ w: 800, h: window.innerHeight - 300 },
-			];
+			return centeredBounds(800, window.innerHeight - 300);
+		case "SimpleBrowser":
+			return centeredBounds(
+				Math.min(1100, Math.max(320, window.innerWidth - 80)),
+				Math.min(760, Math.max(360, window.innerHeight - 150)),
+			);
 		case "PDFReader":
-			return [
-				{ x: 300, y: 30 },
-				{ w: 400, h: 600 },
-			];
+			return centeredBounds(400, 600);
 		case "MediaViewer":
-			return [
-				{ x: 0, y: 0 },
-				{ w: 900, h: window.innerHeight - 200 },
-			];
+			return centeredBounds(900, window.innerHeight - 200);
 		case "TextEditor":
-			return [
-				{ x: 500, y: 20 },
-				{ w: 800, h: window.innerHeight - 200 },
-			];
+			return centeredBounds(800, window.innerHeight - 200);
 		case "Virus":
 			return [
 				{ x: randRange(0, window.innerWidth), y: randRange(0, 100) },

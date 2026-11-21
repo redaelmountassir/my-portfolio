@@ -25,7 +25,7 @@ const TrashBtn = ({ onDelete }: { onDelete?: () => void }) => {
 				onDelete?.();
 			}}
 		>
-			<span className="hidden md:inline" aria-hidden="true">
+			<span className="hidden md:inline" aria-hidden>
 				Empty Trash
 			</span>
 			<SmartImage

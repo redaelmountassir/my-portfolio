@@ -90,7 +90,7 @@ const GlitchText = ({
 	);
 
 	return (
-		<span className={className} ref={text} aria-hidden="true">
+		<span className={className} ref={text} aria-hidden>
 			{children}
 		</span>
 	);

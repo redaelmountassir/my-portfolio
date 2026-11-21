@@ -24,10 +24,29 @@ export default defineConfig({
 		glsl(),
 		ViteYaml(),
 		imagetools({
-			defaultDirectives: new URLSearchParams({
-				kernel: "nearest",
-				as: "metadata:src;width;height",
-			}),
+			defaultDirectives: url => {
+				const path = url.pathname;
+				const isPng = /\.png$/i.test(path);
+				const isPixelArt =
+					isPng &&
+					(path.includes("/src/assets/images/") ||
+						/\/src\/content\/project_assets\/[^/]+\/logo\.png$/i.test(path));
+				const directives = new URLSearchParams({
+					as: "metadata:src;width;height",
+					effort: "max",
+				});
+
+				if (isPixelArt) {
+					directives.set("format", "png");
+					directives.set("kernel", "nearest");
+				} else {
+					directives.set("format", "webp");
+					if (isPng) directives.set("lossless", "true");
+					else directives.set("quality", "82");
+				}
+
+				return directives;
+			},
 			exclude: /\.gif(\?|$)/i,
 		}),
 	],

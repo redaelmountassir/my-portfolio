@@ -12,10 +12,26 @@ interface WindowHeaderProps {
 	onMaximize: React.MouseEventHandler;
 	maximized: boolean;
 	title: string;
+	headingLevel?: "h1" | "h2" | "h3";
 	showControls?: boolean;
 	draggable?: boolean;
 	immediate?: boolean;
 }
+
+const HeaderTitle = ({
+	level,
+	title,
+}: {
+	level: "h1" | "h2" | "h3";
+	title: string;
+}) => {
+	const Heading = level;
+	return (
+		<Heading className="grow overflow-hidden px-1 text-center text-lg text-ellipsis whitespace-nowrap select-none">
+			{title}
+		</Heading>
+	);
+};
 
 const WindowHeader = ({
 	onGrab,
@@ -23,6 +39,7 @@ const WindowHeader = ({
 	onMaximize,
 	maximized,
 	title,
+	headingLevel = "h1",
 	showControls = true,
 	draggable = true,
 	immediate = false,
@@ -53,14 +70,12 @@ const WindowHeader = ({
 				draggable && "cursor-grab touch-none",
 			)}
 		>
-			<h1 className="grow overflow-hidden px-1 text-center text-lg text-ellipsis whitespace-nowrap select-none">
-				{title}
-			</h1>
+			{title && <HeaderTitle level={headingLevel} title={title} />}
 			{showControls && (
 				<>
 					<button
 						type="button"
-						className="group h-full w-10 shrink-0 cursor-pointer border-l-2 p-1 hover:bg-white focus-visible:bg-white"
+						className="group h-full ml-auto w-10 shrink-0 cursor-pointer border-l-2 p-1 hover:bg-white focus-visible:bg-white"
 						onClick={onMaximize}
 						aria-label={maximized ? "Restore down" : "Maximize"}
 					>

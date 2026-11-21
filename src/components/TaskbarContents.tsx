@@ -16,6 +16,8 @@ import SmartImage from "./SmartImage";
 import TimeDropdown from "./TimeDropdown";
 import Toggle from "./Toggle";
 
+const CURRENT_YEAR =new Date().getFullYear()
+
 const TaskbarContents = () => {
 	const {
 		brightness,
@@ -94,7 +96,7 @@ const TaskbarContents = () => {
 					<>
 						<div
 							className="space-y-2 px-4 py-16"
-							aria-hidden="true"
+							aria-hidden
 						>
 							<p className="ss01 font-display text-8xl">RedaOS</p>
 							<p className="whitespace-nowrap">
@@ -102,7 +104,7 @@ const TaskbarContents = () => {
 							</p>
 							<p className="font-normal">
 								(c) Paradox Computers, Inc. 2022-
-								{new Date().getFullYear()}
+								{CURRENT_YEAR}
 							</p>
 						</div>
 						<a
@@ -186,7 +188,7 @@ const TaskbarContents = () => {
 								xmlns="http://www.w3.org/2000/svg"
 								viewBox="0 -0.5 16 16"
 								shapeRendering="crispEdges"
-								aria-hidden="true"
+								aria-hidden
 							>
 								<path
 									className="stroke-white-primary transition"
@@ -316,7 +318,7 @@ const TaskbarContents = () => {
 								xmlns="http://www.w3.org/2000/svg"
 								viewBox="0 -0.5 16 16"
 								shapeRendering="crispEdges"
-								aria-hidden="true"
+								aria-hidden
 								className="h-full w-auto"
 							>
 								<path

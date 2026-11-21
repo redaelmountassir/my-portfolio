@@ -22,7 +22,7 @@ const Toggle = ({ state, setter, children, title }: ToggleProps) => (
 	>
 		{children}
 		<div
-			aria-hidden="true"
+			aria-hidden
 			className={cn(
 				"ml-4 h-6 w-14 p-1 outline-2 outline-white-primary transition-colors ease-steps-2 motion-reduce:transition-none",
 				state && "bg-linear-to-r from-pink-accent to-blue-accent",

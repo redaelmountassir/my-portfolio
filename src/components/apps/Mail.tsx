@@ -72,7 +72,7 @@ const Mail = () => {
 						/>
 						<span
 							className="mr-4 hidden xs:inline"
-							aria-hidden="true"
+							aria-hidden
 						>
 							267-231-2928
 						</span>
@@ -92,7 +92,7 @@ const Mail = () => {
 						/>
 						<span
 							className="mr-4 hidden xs:inline"
-							aria-hidden="true"
+							aria-hidden
 						>
 							LinkedIn
 						</span>
@@ -112,7 +112,7 @@ const Mail = () => {
 						/>
 						<span
 							className="mr-4 hidden xs:inline"
-							aria-hidden="true"
+							aria-hidden
 						>
 							GitHub
 						</span>
@@ -124,7 +124,7 @@ const Mail = () => {
 					<h2 className="min-h-14.75 border-b-2 p-4 text-center font-bold">
 						Inbox
 					</h2>
-					<ul className="grow overflow-y-auto" aria-hidden="true">
+					<ul className="grow overflow-y-auto" aria-hidden>
 						{"Let's Build Something Together"
 							.split(" ")
 							.map((val, i) => (
@@ -141,7 +141,7 @@ const Mail = () => {
 											setInbox(newInbox);
 										}}
 										tabIndex={-1}
-										aria-hidden="true"
+										aria-hidden
 										className="size-3 shrink-0 cursor-pointer appearance-none border-2 border-burgundy-accent checked:bg-burgundy-accent"
 									/>
 									<span className="flex-1 overflow-hidden text-ellipsis">
@@ -321,7 +321,7 @@ const Mail = () => {
 					name="_honeypot"
 					placeholder="Your e-mail here"
 					tabIndex={-1}
-					aria-hidden="true"
+					aria-hidden
 				/>
 				<button
 					id="submit"
@@ -332,7 +332,7 @@ const Mail = () => {
 				>
 					<span
 						className="hidden pr-4 text-left font-bold md:block"
-						aria-hidden="true"
+						aria-hidden
 					>
 						Send Message
 					</span>

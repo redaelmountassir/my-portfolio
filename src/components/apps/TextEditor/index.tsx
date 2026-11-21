@@ -133,7 +133,7 @@ const TextEditor = () => {
 								style={{
 									aspectRatio: `${frame.img.width} / ${frame.img.height}`,
 								}}
-								aria-hidden="true"
+								aria-hidden
 							>
 								<PixelDissolveMedia
 									media={photos[currentImg].img}

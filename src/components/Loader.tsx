@@ -12,6 +12,7 @@ import { useSettingsStore } from "../store";
 import { cn } from "../utils";
 import GlitchWall from "./GlitchWall";
 import SmartImage from "./SmartImage";
+import { useProgress } from "@react-three/drei";
 
 const FRAMES = 36;
 const FRAME_WIDTH = 256;
@@ -71,20 +72,22 @@ interface LoaderProps extends HTMLMotionProps<"main"> {
 const Loader = ({ children, enable, ref, ...props }: LoaderProps) => {
 	const skipLoader = useSettingsStore(state => state.skipLoader);
 	const reducedMotion = useReducedMotion();
-	const [loaded, setLoaded] = useState(skipLoader && enable);
+	const { active: loading } = useProgress();
+	const [bootComplete, setBootComplete] = useState(false);
+	const loaded = enable && (skipLoader || (bootComplete && !loading));
 	// initial only applies on mount. A later visit already has enable=true,
 	// so start at idle or the boot transition never runs.
 	const playBoot = useRef(enable && !skipLoader).current;
 
 	useEffect(() => {
 		if (!enable) {
-			setLoaded(false);
+			setBootComplete(false);
 			return;
 		}
 
 		if (skipLoader) {
 			document.title = "RedaOS";
-			setLoaded(true);
+			setBootComplete(true);
 			return;
 		}
 
@@ -92,7 +95,7 @@ const Loader = ({ children, enable, ref, ...props }: LoaderProps) => {
 
 		(async () => {
 			await animate(0, 3.99, {
-				repeat: 5,
+				repeat: 2,
 				duration: 1,
 				type: "tween",
 				ease: "linear",
@@ -101,7 +104,7 @@ const Loader = ({ children, enable, ref, ...props }: LoaderProps) => {
 			});
 			document.title = "RedaOS";
 
-			if (!cancelled) setLoaded(true);
+			if (!cancelled) setBootComplete(true);
 		})();
 
 		return () => {

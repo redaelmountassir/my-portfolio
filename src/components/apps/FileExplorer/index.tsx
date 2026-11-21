@@ -104,7 +104,7 @@ const FileExplorer = () => {
 									onClick={() => replaceWindow(id, folder)}
 								>
 									<span
-										aria-hidden="true"
+										aria-hidden
 										className="absolute opacity-0 transition-opacity ease-steps-2 md:group-hover:opacity-100 md:group-focus-visible:opacity-100"
 									>
 										&gt;
@@ -120,7 +120,7 @@ const FileExplorer = () => {
 									</GlitchText>
 								</button>
 								<span
-									aria-hidden="true"
+									aria-hidden
 									className="inline-block -translate-x-2 md:hidden"
 								>
 									►
@@ -150,7 +150,7 @@ const FileExplorer = () => {
 						<SmartImage src={tileModeImg} className="m-2" alt="" />
 						<SmartImage src={listModeImg} className="m-2" alt="" />
 						<div
-							aria-hidden="true"
+							aria-hidden
 							className={cn(
 								"absolute -z-1 h-full w-1/2 bg-purple-watermark transition ease-out",
 								!tileMode && "translate-x-full",

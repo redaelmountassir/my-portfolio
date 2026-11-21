@@ -34,7 +34,7 @@ const Marquee = ({
 	return (
 		<div
 			{...rest}
-			aria-hidden="true"
+			aria-hidden
 			className={cn(
 				"group relative overflow-hidden whitespace-nowrap",
 				vertical
