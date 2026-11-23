@@ -22,22 +22,6 @@ const Background = ({ symbol }: { symbol?: SymbolName }) => {
 
 	return (
 		<div aria-hidden className="absolute inset-0">
-			{odds < 0.001 ? (
-				<SmartImage
-					src={bg1Img}
-					alt=""
-					className="pointer-events-none absolute size-full object-cover"
-					draggable="false"
-				/>
-			) : (
-				<SmartImage
-					src={bg2Img}
-					alt=""
-					className="pointer-events-none absolute size-full object-cover"
-					draggable="false"
-				/>
-			)}
-
 			{use3D ? (
 				<React.Suspense
 					fallback={
@@ -50,6 +34,27 @@ const Background = ({ symbol }: { symbol?: SymbolName }) => {
 				</React.Suspense>
 			) : (
 				<>
+					{odds < 0.001 ? (
+						<SmartImage
+							src={bg1Img}
+							alt=""
+							loading="eager"
+							fetchPriority="high"
+							decoding="async"
+							className="pointer-events-none absolute size-full object-cover"
+							draggable="false"
+						/>
+					) : (
+						<SmartImage
+							src={bg2Img}
+							alt=""
+							loading="eager"
+							fetchPriority="high"
+							decoding="async"
+							className="pointer-events-none absolute size-full object-cover"
+							draggable="false"
+						/>
+					)}
 					<motion.div
 						initial={{ x: 0 }}
 						animate={reducedMotion ? { x: 0 } : { x: -95 }}
