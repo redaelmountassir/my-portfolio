@@ -15,6 +15,7 @@ export default defineConfig({
 				simple: resolve(import.meta.dirname, "simple/index.html"),
 			},
 		},
+		sourcemap: true,
 	},
 	plugins: [
 		react({

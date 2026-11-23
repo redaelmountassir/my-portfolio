@@ -115,7 +115,7 @@ const TaskbarContents = () => {
 							<SmartImage
 								src={linkedInImg}
 								alt=""
-								className="mr-4 inline-block h-6 transition ease-steps-2 group-hover:invert group-focus-visible:invert"
+								className="mr-4 inline-block size-6 transition ease-steps-2 group-hover:invert group-focus-visible:invert"
 							/>
 							LinkedIn
 						</a>
@@ -127,7 +127,7 @@ const TaskbarContents = () => {
 							<SmartImage
 								src={gitHubImg}
 								alt=""
-								className="mr-4 inline-block h-6 transition ease-steps-2 group-hover:invert group-focus-visible:invert"
+								className="mr-4 inline-block size-6 transition ease-steps-2 group-hover:invert group-focus-visible:invert"
 							/>
 							GitHub
 						</a>
@@ -139,7 +139,7 @@ const TaskbarContents = () => {
 							<SmartImage
 								src={restartImg}
 								alt=""
-								className="mr-4 inline-block h-6 transition ease-steps-2 group-hover:invert group-focus-visible:invert"
+								className="mr-4 inline-block size-6 transition ease-steps-2 group-hover:invert group-focus-visible:invert"
 							/>
 							Restart
 						</button>
@@ -155,7 +155,7 @@ const TaskbarContents = () => {
 							<SmartImage
 								src={shutdownImg}
 								alt=""
-								className="mr-4 inline-block h-6 transition ease-steps-2 group-hover:invert group-focus-visible:invert"
+								className="mr-4 inline-block size-6 transition ease-steps-2 group-hover:invert group-focus-visible:invert"
 							/>
 							Shut down
 						</button>
@@ -366,6 +366,7 @@ const TaskbarContents = () => {
 			<Dropdown
 				className="h-full px-3 transition-colors ease-steps-2 hover:bg-white-primary hover:text-black-primary"
 				dClassName="whitespace-nowrap"
+				aria-label="Decorative Battery Indicator"
 				dContent={
 					<>
 						{Math.floor(battery * 100)}%
