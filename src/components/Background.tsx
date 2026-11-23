@@ -38,9 +38,7 @@ const Background = ({ symbol }: { symbol?: SymbolName }) => {
 						<SmartImage
 							src={bg1Img}
 							alt=""
-							loading="eager"
-							fetchPriority="high"
-							decoding="async"
+							lg
 							className="pointer-events-none absolute size-full object-cover"
 							draggable="false"
 						/>
@@ -48,9 +46,7 @@ const Background = ({ symbol }: { symbol?: SymbolName }) => {
 						<SmartImage
 							src={bg2Img}
 							alt=""
-							loading="eager"
-							fetchPriority="high"
-							decoding="async"
+							lg
 							className="pointer-events-none absolute size-full object-cover"
 							draggable="false"
 						/>

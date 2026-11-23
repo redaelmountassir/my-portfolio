@@ -6,11 +6,19 @@ type ImageProps = Omit<
 > & {
 	src: ImportedImage;
 	alt: string;
+	lg?: boolean;
 	ref?: React.RefObject<HTMLImageElement | null>;
 };
 
-const SmartImage = ({ src, ...props }: ImageProps) => (
-	<img {...src} {...props} className={cn("size-auto", props.className)} />
+const SmartImage = ({ src, lg, ...props }: ImageProps) => (
+	<img
+		{...src}
+		loading={lg == true ? "eager" : undefined}
+		fetchPriority={lg == true ? "high" : undefined}
+		decoding={lg == true ? "async" : undefined}
+		className={cn("size-auto", props.className)}
+		{...props}
+	/>
 );
 
 export default SmartImage;

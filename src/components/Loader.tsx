@@ -150,6 +150,7 @@ const Loader = ({ children, enable, ref, ...props }: LoaderProps) => {
 						<motion.div variants={spriteVariants}>
 							<SmartImage
 								src={logo_animated_img}
+								lg
 								alt=""
 								className="h-32 max-w-none"
 							/>
