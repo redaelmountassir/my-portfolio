@@ -12,7 +12,7 @@
 		},
 		{
 			"src": "/favicon.ico",
-			"sizes": "16x16 32x32",
+			"sizes": "32x32",
 			"type": "image/x-icon"
 		},
 		{
@@ -27,16 +27,31 @@
 		},
 		{
 			"src": "/logo/maskable_logo.png",
-			"sizes": "426x426",
+			"sizes": "512x512",
 			"type": "image/png",
 			"purpose": "maskable"
 		}
 	],
 	"name": "RedaOS",
 	"short_name": "RedaOS",
-	"description": "Philadelphia-based fullstack developer and engineer Reda Elmountassir offers bespoke software, graphic design, and full-stack development. Explore this OS-like portfolio experience!",
+	"description": "Philadelphia-based mechanical engineer and full-stack developer Reda Elmountassir offers bespoke software, CAD, graphic design, and full-stack development. Explore this OS-like portfolio experience or alternatively a more traditional experience!",
 	"start_url": "/",
 	"background_color": "#1f0728",
 	"theme_color": "#f9c80e",
-	"display": "standalone"
+	"display": "standalone",
+	"screenshots": [
+		{
+			"src": "/og_card.png",
+			"sizes": "1200x630",
+			"type": "image/png",
+			"form_factor": "wide",
+			"label": "RedaOS desktop experience"
+		},
+		{
+			"src": "/og_card.png",
+			"sizes": "1200x630",
+			"type": "image/png",
+			"label": "RedaOS portfolio experience"
+		}
+	]
 }
