@@ -49,13 +49,15 @@ const loadProjects = (): Record<string, ProjectYaml> => {
 		if (name === undefined) continue;
 		assertProjectLogo(name);
 		const project = parseProjectYaml(filePath, data);
-		const existingName = orderNames.get(project.order);
-		if (existingName) {
-			throw new Error(
-				`Duplicate project order ${project.order} in "${existingName}" and "${name}"`,
-			);
+		if (project.order !== undefined) {
+			const existingName = orderNames.get(project.order);
+			if (existingName) {
+				throw new Error(
+					`Duplicate project order ${project.order} in "${existingName}" and "${name}"`,
+				);
+			}
+			orderNames.set(project.order, name);
 		}
-		orderNames.set(project.order, name);
 		projects[name] = project;
 	}
 	return projects;
@@ -63,7 +65,17 @@ const loadProjects = (): Record<string, ProjectYaml> => {
 
 const toProjectFiles = (projects: Record<string, ProjectYaml>): File[] =>
 	Object.entries(projects)
-		.sort(([, a], [, b]) => a.order - b.order)
+		.sort(([nameA, a], [nameB, b]) => {
+			if (a.order !== undefined && b.order !== undefined) {
+				return a.order - b.order;
+			}
+			if (a.order !== undefined) return -1;
+			if (b.order !== undefined) return 1;
+			return nameA.localeCompare(nameB, undefined, {
+				numeric: true,
+				sensitivity: "base",
+			});
+		})
 		.map(([name, value]) => {
 			const isVid = /\.mp4$/i.test(value.showcases[0]?.src ?? "");
 			return { name, value, ext: isVid ? "mp4" : "png" };

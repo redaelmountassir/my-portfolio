@@ -3,6 +3,7 @@ import {
 	steps,
 	useDragControls,
 	useMotionValue,
+	useReducedMotion,
 	type Point,
 } from "motion/react";
 import React, {
@@ -54,6 +55,7 @@ const Window = ({
 	const height = useMotionValue(initialDimensions.h);
 	const x = useMotionValue(initialLocation.x);
 	const y = useMotionValue(initialLocation.y);
+	const reduceMotion = useReducedMotion();
 	const controls = useDragControls();
 	const windowRef = useRef<HTMLDivElement>(null);
 	// Drag constraints rebase x/y when the element resizes. That fires on
@@ -185,7 +187,8 @@ const Window = ({
 				dragListener={false}
 				dragControls={controls}
 				dragConstraints={dragConstraintsOn ? area : undefined}
-				dragElastic={0.2}
+				dragElastic={reduceMotion ? 0 : 0.2}
+				dragMomentum={!reduceMotion}
 				dragTransition={{ power: 0.2, timeConstant: 200 }}
 				onDragStart={() => {
 					setIsMoving(true);

@@ -1,9 +1,9 @@
 ---
-order: 2
+order: 3
 org: University of Pennsylvania
 roles:
     - Designer
-date: "2026-04-23"
+date: '2026-04-23'
 tags:
     - SolidWorks
     - Laser Cutting
@@ -12,13 +12,29 @@ tags:
     - CAD
 categories:
     - Mechanical Design
-description:
-    A ballista built for an introductory course to Computer Aided Design at the University of Pennsylvania.
-    The ballista uses rubber bands to launch projectiles, small balls, at the opposing team's wall. Solidworks was
-    used to design the ballista, and majority of the parts were laser cut acrylic. The ball carriage was 3D printed
-    for its unique design. I worked in a team of 3, but designed most of the parts myself.
+description: >-
+    For the MEAM 1010 class project, our team designed and fabricated a siege
+    machine to launch 1″ bouncy balls over a 6″ wall and toward a target 6 ft
+    away. The machine was developed under strict design constraints: it had to
+    fit within a 12″ x 12″ x 12″ volume at the start of competition, remain on
+    the floor during operation, include at least one moving part and one
+    3D-printed part, and be manufactured primarily in MEAM labs using laser
+    cutting and 3D printing without adhesives or tape, instead using
+    alternative joining methods like press fits.
+
+    I worked in a team of three and designed most of the mechanical components
+    in SolidWorks. The structure was primarily fabricated from laser-cut
+    acrylic, while a custom 3D-printed projectile carriage was used to achieve
+    geometry better suited to additive manufacturing. This project highlights
+    mechanical design under constraints, design-for-manufacture thinking, and
+    prototype development using both subtractive and additive fabrication
+    methods.
 showcases:
-    - 360.mp4
-    - shooting.jpg
-    - cad.png
-    - shooting.mp4
+    - src: 360.mp4
+      alt: The siege machine rotates on its aiming platform to show the full design.
+    - src: shooting.jpg
+      alt: The siege machine launches a bouncy ball toward a target made of blocks.
+    - src: cad.png
+      alt: The CAD drawing of the siege machine's mechanical components.
+    - src: shooting.mp4
+      alt: The siege machine launches a test ball a few inches.

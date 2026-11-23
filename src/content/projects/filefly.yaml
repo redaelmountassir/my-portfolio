@@ -1,22 +1,31 @@
 ---
-order: 4
 loc:
-  text: Not Yet Available
-  link: "#"
+    text: Not Yet Available
+    link: "#"
 roles:
-  - Sole Developer
-date: "2024-08-01"
+    - Sole Developer
+date: '2024-08-01'
 tags:
-  - Go
-  - Rust
-  - Tauri
+    - Go
+    - Rust
+    - Tauri
 categories:
-  - Desktop App
-description:
-  A fast and efficient file system organizer and manager, with the goal of
-  saving the end user significant time. Built to be highly customizable and
-  powerful.
+    - Desktop App
+description: >-
+    FileFly is an in-progress desktop application for automating repetitive
+    file-management tasks. Inspired by my experience at Zero Vector Ventures
+    and my own storage-management frustrations, I explored the problem through
+    desk research and surveys of dozens of people. I built a working interface
+    for composing automation rules as node graphs, including the ability to
+    save and reload those graphs. The planned automation engine will use Rust
+    to execute configurable workflows such as event-triggered batch renaming,
+    moving files into folders, and scheduled deletion. The interface and graph
+    persistence work today; actual file automation is still under development.
 showcases:
-  - showcase_1.jpg
-  - showcase_2.jpg
-  - showcase_3.jpg
+    - src: showcase_1.jpg
+      alt: Node interface for FileFly, shown with an All Files node and a Store node.
+    - src: showcase_2.jpg
+      alt: Dashboard view of FileFly, with statistics for space saved, quick actions, and more.
+    - src: showcase_3.jpg
+      alt: FileFly's Flick feature uses a card-based interface to keep or delete files based on a preview.
+      caption: FileFly's Flick feature uses a Tinder-like interface to quickly keep or delete files based on a preview.

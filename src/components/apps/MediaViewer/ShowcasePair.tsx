@@ -22,6 +22,7 @@ const ShowcasePair = ({
 			<MediaFrame
 				project={project}
 				src={showcases[1].src}
+				alt={showcases[1].alt}
 				caption={showcases[1].caption}
 				scrollContainer={scrollContainer}
 				decorativeCursor={decorativeCursor}
@@ -51,6 +52,7 @@ const ShowcasePair = ({
 			<MediaFrame
 				project={project}
 				src={showcases[0].src}
+				alt={showcases[0].alt}
 				caption={showcases[0].caption}
 				scrollContainer={scrollContainer}
 				decorativeCursor={decorativeCursor}

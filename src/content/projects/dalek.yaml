@@ -1,24 +1,41 @@
 ---
-order: 7
+order: 2
 org: Franklin Institute
 roles:
-  - Developer and Engineer
-date: "2020-02-08"
-categories:
-  - Web Development
+    - Developer and Engineer
+date: '2020-02-08'
 tags:
-  - C++
-  - Python
-  - TCP
-  - Arduino
-  - Raspberry PI
-  - Linux
-description:
-  A construction of the famous enemy in Doctor Who, this accurate-to-size
-  recreation built with my team at the Franklin Institute is driven by a universal
-  custom remote that also controls a WIP R2D2. Together, we also built other various robotics.
+    - C++
+    - Python
+    - TCP
+    - Arduino
+    - Raspberry PI
+    - Linux
+categories:
+    - Web Development
+description: >-
+    Collaborated with a team at The Franklin Institute to build a life-size,
+    remotely controlled Dalek replica. I developed its ESP32-based wireless
+    controller, contributed substantially to the Python control software, and
+    was responsible for implementing communication-loss failsafes (having had
+    2 somewhat funny incidents without them...). The robot used two
+    independently driven wheels and a passive caster, with motors, swappable
+    rechargeable battery packs, and body control electronics mounted on a flat
+    base beneath a stacked frame and outer shell. A rotating head rested on a
+    circular turntable and used separate onboard electronics and a second
+    control server. The ESP32 remote converted analog inputs into JSON
+    commands sent over Wi-Fi using UDP; the body Raspberry Pi handled drive
+    control and forwarded commands to the head. The completed system
+    successfully demonstrated wireless driving, independent head rotation,
+    and automatic drive-stop behavior when communication timed out.
 showcases:
-  - dalek.mp4
-  - on_dalek.jpeg
-  - christmas_dalek.jpg
-  - misc.jpg
+    - src: dalek.mp4
+      alt: Dalek is tested in a tight corridor; the failsafes stop it before it hits anyone.
+    - src: on_dalek.jpeg
+      alt: A technician operates the Dalek in the museum.
+    - src: christmas_dalek.jpg
+      alt: The Dalek is displayed on the museum floor during the holiday season.
+      caption: Dalek on the museum floor during the holiday season
+    - src: misc.jpg
+      alt: The reigning champion battlebot and an R2-D2 frame are shown side by side.
+      caption: The reigning champion battlebot (left) and R2-D2 frame (right)

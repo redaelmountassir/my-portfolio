@@ -137,6 +137,7 @@ const TextEditor = () => {
 							>
 								<PixelDissolveMedia
 									media={photos[currentImg].img}
+									alt={photos[currentImg].alt}
 									duration={0.5}
 									objectFit="contain"
 									onDisplay={next => {

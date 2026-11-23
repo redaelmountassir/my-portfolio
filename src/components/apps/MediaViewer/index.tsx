@@ -253,6 +253,7 @@ const MediaViewer = ({ file: fileProp }: MediaViewerProps = {}) => {
 						<MediaFrame
 							project={file.name}
 							src={showcase.src}
+							alt={showcase.alt}
 							caption={showcase.caption}
 							scrollContainer={scrollContainer}
 							decorativeCursor={!isMobile}

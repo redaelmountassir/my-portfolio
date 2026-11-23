@@ -16,6 +16,7 @@ const mediaKey = (media: MediaSource) =>
 
 interface PixelDissolveProps {
 	media: MediaSource;
+	alt?: string;
 	duration?: number;
 	onComplete?: () => void;
 	onDisplay?: (media: MediaSource) => void;
@@ -30,6 +31,7 @@ interface PixelDissolveProps {
 // Omit it and a new `media` dissolves out, swaps, then dissolves back in.
 const PixelDissolveMedia = ({
 	media,
+	alt,
 	duration = 2,
 	onComplete,
 	onDisplay,
@@ -209,7 +211,11 @@ const PixelDissolveMedia = ({
 	]);
 
 	return (
-		<div className="relative size-full">
+		<div
+			className="relative size-full"
+			role={alt ? "img" : undefined}
+			aria-label={alt}
+		>
 			{texture && (
 				<Canvas
 					frameloop="demand"

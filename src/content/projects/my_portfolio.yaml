@@ -1,8 +1,7 @@
 ---
-order: 3
 loc:
     text: Here!
-    link: '#'
+    link: "#"
 roles:
     - Sole Developer
 date: '2024-08-10'
@@ -19,13 +18,25 @@ tags:
     - React
 categories:
     - Web Development
-description:
-    A portfolio site built to showcase my frontend abilities, resembling
-    an early operating system. Originally built on a Flask backend (which still can
-    be found on my github!), but upgraded to Gatsby in order to allow for reactivity.
+description: >-
+    Designed and developed my personal portfolio around the visual language of
+    early Macintosh and Windows desktop operating systems. The project evolved
+    from a Flask-based website (can be found on my GitHub!) to Gatsby and React,
+    then to a Vite-based build managed with pnpm. Each migration was an
+    opportunity to learn a different stack and make the site more extensible;
+    the move to Vite and pnpm also noticeably improved development and build
+    iteration speed. The greatest technical challenge was carrying the
+    interface through several major refactors without losing its character.
+    The result is both a personal showcase and an ongoing experiment in
+    frontend architecture and interaction design.
 showcases:
-    - showcase_1.jpg
-    - showcase_2.jpg
-    - showcase_3.jpg
-    - showcase_4.jpg
-    - showcase_5.jpg
+    - src: showcase_1.jpg
+      alt: Intro animation of a Macintosh booting up RedaOS.
+    - src: showcase_2.jpg
+      alt: Mobile quick panel with visual settings.
+    - src: showcase_3.jpg
+      alt: Desktop view with a contact window open on the left.
+    - src: showcase_4.jpg
+      alt: Mobile view of active windows.
+    - src: showcase_5.jpg
+      alt: Using the text editing features in the About window.

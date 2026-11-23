@@ -8,11 +8,13 @@ const HALF_DURATION = TOTAL_DURATION / 2;
 const MainShowcaseMedia = ({
 	project,
 	src,
+	alt,
 	dissolved,
 	onDissolveComplete,
 }: {
 	project: string;
 	src: string;
+	alt: string;
 	dissolved: boolean;
 	onDissolveComplete: () => void;
 }) => {
@@ -22,6 +24,7 @@ const MainShowcaseMedia = ({
 		<div className="relative z-1 size-full">
 			<PixelDissolveMedia
 				media={asset}
+				alt={alt}
 				dissolved={dissolved}
 				duration={HALF_DURATION}
 				onComplete={onDissolveComplete}

@@ -2,18 +2,33 @@
 order: 1
 roles:
     - Designer
-date: "2026-10-08"
+date: '2026-10-08'
 tags:
     - SolidWorks
     - CAD
 categories:
     - Mechanical Design
-description: "Here are several CAD models never physically realized, but representative of various skills and tools."
+description: >-
+    Two SolidWorks studies exploring mechanical assembly reconstruction and
+    structural analysis. For the first, I recreated a disassembled wind-up toy
+    of a crab, working out how its components fit and move together before
+    building an assembly with accurate gear mates, an animated multi-angle
+    view, and an exploded view. The main challenge was reconstructing the
+    mechanism without an intact reference assembly. In a separate MEAM 2470
+    study, I designed and analyzed an acrylic tension strap intended to carry
+    a tensile load around an obstacle. I used stress and displacement
+    simulations to examine the proposed strap against laboratory design
+    targets: a 200 N nominal load, a 0.15 in elongation limit, a predicted
+    failure-load range of 400-900 N, and minimum part weight.
 showcases:
-    - showcase_1.mp4
+    - src: showcase_1.mp4
+      alt: An animation shows the crab toy assembly's plastic shell, shafts, and gears coming apart.
     - src: displacement.png
-      caption: FEA displacement analysis
+      alt: Finite element analysis shows displacement in the acrylic tension strap.
+      caption: FEA URES displacement analysis for the tension strap
     - src: stress.png
-      caption: FEA stress analysis
+      alt: A heatmap shows vertical stress in the tension strap and highlights the minimum and maximum values.
+      caption: FEA vertical stress analysis with the points of min and max stress highlighted and heatmap legend
     - src: assembly_drawing.png
-      caption: Assembly drawing
+      alt: The crab assembly drawing includes an exploded view, multi-angle views, and a bill of materials.
+      caption: Crab assembly drawing with exploded view, multi-angle view, and bill of materials

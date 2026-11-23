@@ -1,23 +1,37 @@
 ---
-order: 5
-org: Philadelphia Academies Inc
 loc:
     text: academiesinc.org
-    link: "https://www.academiesinc.org/"
+    link: https://www.academiesinc.org/
+org: Philadelphia Academies Inc
 roles:
     - Developer Intern
-date: "August 2023"
+date: '2023-08'
 tags:
     - DecapCMS
     - HTML
     - CSS
 categories:
     - Web Development
-description: As a part of the Draft Studios team, I was tasked with adding CMS support to the existing UI and well as fixing some of the components of the site for our client.
+description: >-
+    As a developer intern with the Draft Studios team, I helped update the
+    Philadelphia Academies, Inc. website by integrating Decap CMS into its
+    existing interface and fixing frontend components. I participated in a
+    meeting with the client to hear their goals and better understand the
+    intended changes. My work was deployed to the live website, giving me
+    experience modifying an established codebase, responding to client needs,
+    and delivering production updates as part of a team.
 showcases:
-    - showcase_1.jpg
-    - showcase_2.jpg
-    - showcase_3.jpg
-    - showcase_4.jpg
-    - showcase_5.jpg
-    - showcase_6.jpg
+    - src: showcase_1.jpg
+      alt: Hero section of the PAI website with the main navigation, a large image of students, and a call-to-action button.
+    - src: showcase_2.jpg
+      caption: Dropdown contents and quantity can be controlled from the admin page
+      alt: Mobile view showing PAI's supporters and drop-down navigation menu.
+    - src: showcase_3.jpg
+      alt: Donation page with an embedded form.
+    - src: showcase_4.jpg
+      alt: The website displayed on an iPad.
+    - src: showcase_5.jpg
+      alt: PAI initiatives for different age groups, including middle and high school.
+    - src: showcase_6.jpg
+      alt: Cards for Our Values that can be edited in the CMS without changing HTML.
+      caption: Here, the cards for "our values" is entirely modifiable from the CMS without needing to touch any HTML

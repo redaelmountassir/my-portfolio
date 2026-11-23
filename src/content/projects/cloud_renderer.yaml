@@ -1,8 +1,7 @@
 ---
-order: 8
 loc:
     text: github.com/redaelmountassir/cloud-renderer
-    link: 'https://github.com/redaelmountassir/cloud-renderer'
+    link: https://github.com/redaelmountassir/cloud-renderer
 roles:
     - Sole Developer
 date: '2020'
@@ -15,13 +14,22 @@ tags:
     - Noise Generation
 categories:
     - Graphics Development
-description:
-    Based on the industry-famous paper on "The Real time Volumetric Cloudscapes of Horizon Zero Dawn",
-    I've attempted to re-create this realistic approximation of light's interaction with clouds
-    in Unity with custom HLSL shader code. Additionally, the Perlin and Worley 3D noise textures used
-    in rendering the clouds were generated with compute shaders and a wrapper of C# UI to make setting
-    parameters and generation easier.
+description: >-
+    Built a custom volumetric cloud renderer in Unity for use in my
+    game-development projects, with performance-sensitive applications such as
+    VR in mind. Drawing on published cloud-rendering techniques, including
+    those described for Horizon Zero Dawn, I implemented the shader algorithms
+    from their mathematical principles using HLSL. A separate compute-shader
+    pipeline generates configurable 3D noise textures, including Perlin and
+    Worley noise, that can be supplied to the cloud raymarcher instead of being
+    coupled to its rendering logic. I also built a C# interface for adjusting
+    generation parameters.
 showcases:
-    - cloud_sim.mp4
-    - noise_gen.mp4
-    - ui.jpg
+    - src: cloud_sim.mp4
+      alt: A demonstration of volumetric cloud rendering in action with a full day-night cycle.
+      caption: The cloud simulation video showing the renderer in action.
+    - src: noise_gen.mp4
+      alt: Texture noise generation controls for resolution, frequency, and octaves, with a slider showing slices of the 3D noise volume.
+      caption: Texture noise generation with parameter adjustments such as resolution, frequency, and octaves. Plus a convenient slider for seeing the slices of the 3D noise volume.
+    - src: ui.jpg
+      alt: Unity inspector showing the cloud rendering options, including world lighting response and texture selection.

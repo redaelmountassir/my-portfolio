@@ -19,19 +19,15 @@ export type WindowType =
 export type Path = string[];
 export type SystemState = WindowSlice & DirectorySlice;
 
-const showcaseItemSchema = z
-	.union([
-		z.string(),
-		z.object({
-			src: z.string(),
-			caption: z.string().optional(),
-		}),
-	])
-	.transform(item => (typeof item === "string" ? { src: item } : item));
+const showcaseItemSchema = z.object({
+	src: z.string(),
+	alt: z.string().trim().min(1),
+	caption: z.string().optional(),
+});
 
 // Essentially media === projects
 export const mediaSchema = z.object({
-	order: z.number().int().positive(),
+	order: z.number().int().positive().optional(),
 	loc: z
 		.object({
 			text: z.string(),

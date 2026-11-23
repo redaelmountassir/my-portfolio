@@ -1,5 +1,4 @@
 ---
-order: 6
 loc:
     text: redaelmountassir.github.io/ArtistryMachine
     link: https://redaelmountassir.github.io/ArtistryMachine
@@ -18,15 +17,27 @@ tags:
     - GLSL
 categories:
     - Web Development
-description:
-    'Created for the Coded By: Kids Ctrl+Shift Competition, this site was
-    awarded first place for its use of 3D and its goal in educating those about art.
-    While coding-wise the site is relatively simple (it is a static frontend), the complexity
-    comes from the 3D used throughout such as raymarching, and shader algorithm that
-    is an alternative to rasterized rendering.'
+description: >-
+    Created for the Coded By: Kids Ctrl+Shift Competitionn, a Philadelphia-based
+    web development competition challenging high school students to build
+    creative, technically ambitious websites with a social development focus,
+    this site was awarded first place. With a deadline of about a months time,
+    heavy pre-planning via Figma and asset creation took a decent portion of the
+    development time. While programming-wise the site is relatively simple,
+    being a static frontend, the complexity comes from the 3D used throughout
+    such as raymarching, and shader algorithm that is an alternative to
+    rasterized rendering. By combining graphics programming, interactive
+    design, and educational content, the project demonstrates how web
+    technologies can make art more engaging and accessible.
 showcases:
-    - showcase_1.jpg
-    - showcase_2.jpg
-    - showcase_3.jpg
-    - showcase_4.jpg
-    - showcase_5.jpg
+    - src: showcase_1.jpg
+      alt: Woman on a computer viewing the project timeline with a 3D artwork example from the era on a rotating platform.
+    - src: showcase_2.jpg
+      alt: Mobile view of the landing page with a touch interface that moves a brush.
+    - src: showcase_3.jpg
+      alt: The drawing tool with the ability to export PNGs!
+      caption: The drawing tool with the ability to export pngs!
+    - src: showcase_4.jpg
+      alt: A comparison between period pieces and my recreations using the custom drawing tool.
+    - src: showcase_5.jpg
+      alt: Girl with a Pearl Earring in a 3D museum scene.

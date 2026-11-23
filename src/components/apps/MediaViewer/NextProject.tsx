@@ -26,6 +26,7 @@ const NextProject = ({
 				key={`${project.name}:${project.value.showcases[0].src}`}
 				project={project.name}
 				src={project.value.showcases[0].src}
+				alt={project.value.showcases[0].alt}
 				animation={{ style: { clipPath } }}
 			/>
 			<div className="absolute top-0 flex size-full flex-col justify-center gap-4 bg-black-primary/45 px-8 pb-12">

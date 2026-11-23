@@ -38,7 +38,7 @@ const About = ({
 			>
 				ABOUT
 			</GlitchText>
-			<p className="relative mb-2 w-full">{description}</p>
+			<p className="relative mb-2 w-full select-text">{description}</p>
 			{tags.map(tag => (
 				<Tag bg="random" key={tag} className="relative">
 					{tag}

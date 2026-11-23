@@ -8,6 +8,7 @@ import SmartImage from "../../SmartImage";
 interface ShowcaseProps {
 	project: string;
 	src: string;
+	alt: string;
 	caption?: string;
 	className?: string;
 	autoHeight?: boolean;
@@ -22,6 +23,7 @@ interface ShowcaseProps {
 const Showcase = ({
 	project,
 	src,
+	alt,
 	caption,
 	className,
 	autoHeight = false,
@@ -81,13 +83,13 @@ const Showcase = ({
 					autoPlay
 					playsInline
 					loop
-					aria-label={`Showcase for ${project.replaceAll("_", " ")}`}
+					aria-label={alt}
 					className={classes}
 				/>
 			) : (
 				<SmartImage
 					src={asset}
-					alt={`Showcase for ${project.replaceAll("_", " ")}`}
+					alt={alt}
 					className={classes}
 				/>
 			)}
