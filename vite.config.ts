@@ -13,6 +13,7 @@ export default defineConfig({
 			input: {
 				main: resolve(import.meta.dirname, "index.html"),
 				simple: resolve(import.meta.dirname, "simple/index.html"),
+				notFound: resolve(import.meta.dirname, "404.html"),
 			},
 		},
 		sourcemap: true,

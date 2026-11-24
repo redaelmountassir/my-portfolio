@@ -8,7 +8,7 @@ const APPROX_CHAR_H = 35;
 const GlitchWall = ({ duration = 6000, enable = false }) => {
 	const textRef = useRef<HTMLParagraphElement>(null);
 	const reducedMotion = useReducedMotion();
-
+	
 	const charCount = Math.ceil(
 		(window.innerWidth / APPROX_CHAR_W) *
 			(window.innerHeight / APPROX_CHAR_H) +
