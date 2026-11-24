@@ -1,7 +1,6 @@
 import { motion, useReducedMotion } from "motion/react";
 import React, { useState } from "react";
 import bg1Img from "../assets/images/background_1.jpg";
-import bg2Img from "../assets/images/background_2.jpg";
 import tileImg from "../assets/images/bg_imgs/tile.png";
 import palmImg from "../assets/images/palm.png";
 import pixelatedHeadGif from "../assets/images/pixelated_head.gif";
@@ -43,10 +42,10 @@ const Background = ({ symbol }: { symbol?: SymbolName }) => {
 							draggable="false"
 						/>
 					) : (
-						<SmartImage
-							src={bg2Img}
+						<img
+							src="/background_2.jpg"
 							alt=""
-							lg
+							fetchPriority="high"
 							className="pointer-events-none absolute size-full object-cover"
 							draggable="false"
 						/>
