@@ -10,13 +10,13 @@ type ImageProps = Omit<
 	ref?: React.RefObject<HTMLImageElement | null>;
 };
 
-const SmartImage = ({ src, lg, ...props }: ImageProps) => (
+const SmartImage = ({ src, lg, className, ...props }: ImageProps) => (
 	<img
 		{...src}
 		loading={lg == true ? "eager" : undefined}
 		fetchPriority={lg == true ? "high" : undefined}
+		className={cn("size-auto", className)}
 		decoding={lg == true ? "async" : undefined}
-		className={cn("size-auto", props.className)}
 		{...props}
 	/>
 );

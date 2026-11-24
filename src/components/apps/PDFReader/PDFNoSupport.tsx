@@ -43,7 +43,7 @@ const PDFNoSupport = () => {
 				}
 				aria-busy={dowloaded}
 				className={cn(
-					"absolute top-1/2 left-1/2 z-1 flex h-16 w-44 -translate-x-1/2 -translate-y-1/2 items-center justify-center border-2 bg-black-primary text-lg text-white-primary transition-all ease-out hover:bg-white-primary hover:text-black-primary focus-visible:bg-white-primary focus-visible:text-black-primary",
+					"absolute top-1/2 left-1/2 z-1 flex h-16 w-44 -translate-x-1/2 -translate-y-1/2 items-center justify-center border-2 bg-black-primary text-lg text-white-primary transition-[width,height,background-color,color] ease-out hover:bg-white-primary hover:text-black-primary focus-visible:bg-white-primary focus-visible:text-black-primary",
 					dowloaded && "size-28",
 				)}
 				onClick={() => !dowloaded && setDowloaded(true)}

@@ -16,7 +16,7 @@ const TrashBtn = ({ onDelete }: { onDelete?: () => void }) => {
 		<button
 			type="button"
 			aria-label="Empty Trash"
-			className="fixed right-10 bottom-20 z-1 m-4 bg-linear-to-r from-blue-accent to-pink-accent bg-double bg-left px-4 py-2 text-white-primary outline-2 outline-white-primary transition-all ease-steps-2 hover:bg-right focus-visible:bg-right active:scale-95 md:bottom-0"
+			className="fixed right-10 bottom-20 z-1 m-4 bg-linear-to-r from-blue-accent to-pink-accent bg-double bg-left px-4 py-2 text-white-primary outline-2 outline-white-primary transition-[background-position,transform] ease-steps-2 hover:bg-right focus-visible:bg-right active:scale-95 md:bottom-0"
 			disabled={!parents}
 			onClick={() => {
 				if (!parents) return;

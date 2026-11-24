@@ -1,12 +1,12 @@
 import { AnimatePresence, motion, useAnimationFrame } from "motion/react";
-import { useEffect, useRef } from "react";
+import { lazy, Suspense, useEffect, useRef } from "react";
 import { clamp } from "three/src/math/MathUtils.js";
 import { useMobileStore } from "../store";
 import type { WindowData } from "../store/types";
 import { cn } from "../utils";
 import { trapTab } from "../utils/a11y";
 import Icon from "./Icon";
-import Window from "./window/Window";
+const Window = lazy(() => import("./window/Window"));
 
 interface MenuProps {
 	windows: WindowData[];
@@ -111,10 +111,12 @@ const Menu = ({ windows, deleteWindows }: MenuProps) => {
 									sysObj={window.sysObj}
 									className="absolute left-1/2 z-2 size-16 -translate-x-1/2 -translate-y-1/2"
 								/>
-								<Window
-									windowData={window}
-									disableNavCompensation
-								/>
+								<Suspense fallback={null}>
+									<Window
+										windowData={window}
+										disableNavCompensation
+									/>
+								</Suspense>
 							</motion.div>
 						))
 					)}

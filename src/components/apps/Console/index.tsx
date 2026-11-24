@@ -408,7 +408,7 @@ In the interim, enjoy this cat!
 			/>
 			<LocationText location={location} />
 			{input.replaceAll("\n", "\n$ ")}
-			<span className="invisible hidden animate-blink font-bold peer-focus:visible motion-reduce:animate-none md:inline">
+			<span className="hidden animate-blink font-bold opacity-0 peer-focus:opacity-100 motion-reduce:animate-none md:inline">
 				_
 			</span>
 			<span className="md:hidden">Not supported on mobile ☹</span>

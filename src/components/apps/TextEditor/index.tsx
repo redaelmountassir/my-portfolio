@@ -122,7 +122,7 @@ const TextEditor = () => {
 								: "group relative mb-7 ml-8 h-full w-2/5 flicker transition duration-1000 ease-steps-2 md:float-right md:block",
 						)}
 						onClick={updateImg}
-						aria-label={content.photoButtonLabel.replace(
+						aria-label={content.photoButtonLabel?.replace(
 							"{alt}",
 							frame.alt,
 						)}

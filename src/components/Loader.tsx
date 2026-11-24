@@ -7,11 +7,9 @@ import {
 	type Variants,
 } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import logo_animated_img from "../assets/images/logo/logo_lg_animated.png";
 import { useSettingsStore } from "../store";
 import { cn } from "../utils";
 import GlitchWall from "./GlitchWall";
-import SmartImage from "./SmartImage";
 import { useProgress } from "@react-three/drei";
 
 const FRAMES = 36;
@@ -148,11 +146,14 @@ const Loader = ({ children, enable, ref, ...props }: LoaderProps) => {
 						variants={logoVariants}
 					>
 						<motion.div variants={spriteVariants}>
-							<SmartImage
-								src={logo_animated_img}
-								lg
+							<img
+								src="/logo/logo_lg_animated.png"
 								alt=""
-								className="h-32 max-w-none"
+								width={9472}
+								height={128}
+								fetchPriority="high"
+								decoding="async"
+								className="size-auto h-32 max-w-none"
 							/>
 						</motion.div>
 					</motion.div>

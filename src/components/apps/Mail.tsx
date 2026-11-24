@@ -53,7 +53,7 @@ const Mail = () => {
 		>
 			<ul
 				className={cn(
-					"flex shrink-0 overflow-hidden transition-all ease-steps-2 md:block md:max-w-14 md:border-r-2 md:hover:max-w-60 md:hover:bg-black-primary",
+					"flex shrink-0 overflow-hidden transition-[max-width,background-color] ease-steps-2 md:block md:max-w-14 md:border-r-2 md:hover:max-w-60 md:hover:bg-black-primary",
 					width > 1200 && "md:max-w-60! md:bg-black-primary!",
 					width < 400 && "md:hidden",
 				)}
@@ -68,7 +68,7 @@ const Mail = () => {
 						<SmartImage
 							src={phoneImg}
 							alt=""
-							className="inline-block h-6 transition-all ease-steps-2 group-hover:invert group-focus-visible:invert xs:mr-4"
+							className="inline-block h-6 transition ease-steps-2 group-hover:invert group-focus-visible:invert xs:mr-4"
 						/>
 						<span
 							className="mr-4 hidden xs:inline"
@@ -88,7 +88,7 @@ const Mail = () => {
 						<SmartImage
 							src={linkedInImg}
 							alt=""
-							className="inline-block h-6 transition-all ease-steps-2 group-hover:invert group-focus-visible:invert xs:mr-4"
+							className="inline-block h-6 transition-[filter] ease-steps-2 group-hover:invert group-focus-visible:invert xs:mr-4"
 						/>
 						<span
 							className="mr-4 hidden xs:inline"
@@ -108,7 +108,7 @@ const Mail = () => {
 						<SmartImage
 							src={gitHubImg}
 							alt=""
-							className="inline-block h-6 transition-all ease-steps-2 group-hover:invert group-focus-visible:invert xs:mr-4"
+							className="inline-block h-6 transition-[filter] ease-steps-2 group-hover:invert group-focus-visible:invert xs:mr-4"
 						/>
 						<span
 							className="mr-4 hidden xs:inline"
@@ -328,7 +328,7 @@ const Mail = () => {
 					type="submit"
 					value="send"
 					aria-label="Send Message"
-					className="flex items-center justify-center bg-white-primary p-2 text-black-primary shadow-[0px_2px] shadow-light-primary transition-all ease-steps-2 hover:translate-y-0.5 hover:shadow-[0_0]"
+					className="flex items-center justify-center bg-white-primary p-2 text-black-primary shadow-[0px_2px] shadow-light-primary transition-[transform,box-shadow] ease-steps-2 hover:translate-y-0.5 hover:shadow-[0_0]"
 				>
 					<span
 						className="hidden pr-4 text-left font-bold md:block"
